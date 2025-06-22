@@ -8,7 +8,7 @@ export default class Rocket {
 
   setMesh() {
     const geometry = new THREE.CylinderGeometry(0.2, 0.5, 3, 32)
-    const material = new THREE.MeshStandardMaterial({
+    const material = new THREE.MeshBasicMaterial({
       color: 0xff2222
     })
 

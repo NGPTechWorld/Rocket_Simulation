@@ -23,8 +23,8 @@ export default class Earth {
     this.scene.add(mesh);
 
 
-    const axesHelper = new THREE.AxesHelper(7);
-    this.scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(7);
+    // this.scene.add(axesHelper);
 
     // ضوء نقطة قوي مع ظلال
     const pointLight = new THREE.PointLight(0xffffff, 2); // زودت شدة الضوء 2 بدل 1
@@ -39,7 +39,7 @@ export default class Earth {
     this.scene.add(directionalLight);
 
     // ضروري تفعيل الظلال في الرندر
-    this.app.renderer.shadowMap.enabled = true;
-    this.app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // this.app.renderer.shadowMap.enabled = true;
+    // this.app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   }
 }
