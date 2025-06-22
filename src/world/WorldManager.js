@@ -1,6 +1,7 @@
 import Earth from './Earth.js'
 import Rocket from './Rocket.js'
 import TextureLoader from '../core/TextureLoader.js'
+import ModelLoader from '../core/ModelLoader.js'
 
 export default class WorldManager {
   constructor(app) {
@@ -8,6 +9,17 @@ export default class WorldManager {
     this.scene = app.scene
     this.textureLoader = new TextureLoader()
     this.init()
+    this.modelLoader = new ModelLoader()
+
+    // this.modelLoader.load(
+    //   'rocket',
+    //   '/models/rocket/scene.gltf',
+    //   this.scene,
+    //   (model, animations) => {
+    //     model.position.set(0, 0, 0)
+    //     // لاحقًا فينا نستخدم animations
+    //   }
+    // )
   }
 
   async init() {
