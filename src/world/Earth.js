@@ -1,19 +1,23 @@
 import * as THREE from "three";
+import AtomsphereLayer from "./AtomshpereLayer";
 
 export default class Earth {
-  constructor(scene, textures) {
-    this.scene = scene;
+  constructor(world, textures) {
+    this.world=world
+    this.scene = world.scene;
     this.textures = textures;
     this.setMesh();
+    this.addAtomshpereLayer();
   }
 
   setMesh() {
-    const geometry = new THREE.SphereGeometry(5, 64, 64);
+    const geometry = new THREE.SphereGeometry(52, 64, 64);
 
     const material = new THREE.MeshStandardMaterial({
       ...this.textures,
       roughness: 0.6, 
       metalness: 0.5, 
+      side: 2,
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -41,5 +45,9 @@ export default class Earth {
     // ضروري تفعيل الظلال في الرندر
     // this.app.renderer.shadowMap.enabled = true;
     // this.app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  }
+
+  addAtomshpereLayer(){
+    new AtomsphereLayer(this.scene,'textures/puresky.exr',50);
   }
 }
