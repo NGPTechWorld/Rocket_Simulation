@@ -6,6 +6,13 @@ export default class GuiController {
     this.folders = {}
   }
 
+    /**
+   * إضافة تحكم عادي مثل: this.gui.add(obj, 'prop', [...])
+   */
+  add(...args) {
+    return this.gui.add(...args)
+  }
+  
   /**
    * إضافة تحكم لمجسم (position, scale, rotation)
    * @param {string} name - اسم القسم داخل الواجهة

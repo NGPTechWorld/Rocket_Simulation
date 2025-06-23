@@ -4,7 +4,7 @@ import RocketLaucherPad from "./RocketLaucherPad.js";
 import TextureLoader from "../core/TextureLoader.js";
 import ModelLoader from "../core/ModelLoader.js";
 import GuiController from './ui/GuiController.js'
-
+import AtmosphereLayer from "./AtomshpereLayer.js";
 export default class WorldManager {
   constructor(app) {
     this.app = app;
@@ -57,11 +57,13 @@ export default class WorldManager {
     this.earth = new Earth(this, this.textureLoader.get("earth"));
     this.rocket = new Rocket(this,rocket);
     this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
+    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
     this.setGUI()
   }
 
   update() {}
   setGUI() {
      this.rocket_lancher.setGUI()
+     this.atmosphere.setGUI()
   }
 }
