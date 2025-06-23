@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
 export default class Earth {
-  constructor(scene, textures) {
-    this.scene = scene;
+  constructor(world, textures) {
+    this.world=world
+    this.scene = world.scene;
     this.textures = textures;
     this.setMesh();
   }
