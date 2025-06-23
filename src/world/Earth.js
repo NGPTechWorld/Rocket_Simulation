@@ -7,7 +7,6 @@ export default class Earth {
     this.scene = world.scene;
     this.textures = textures;
     this.setMesh();
-    // this.addAtomshpereLayer();
   }
 
   setMesh() {
@@ -47,8 +46,4 @@ export default class Earth {
     // this.app.renderer.shadowMap.enabled = true;
     // this.app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   }
-
-  // addAtomshpereLayer(){
-  //   new AtomsphereLayer(this.scene,'textures/puresky.exr',50);
-  // }
 }
