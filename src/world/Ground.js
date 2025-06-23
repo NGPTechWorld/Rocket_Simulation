@@ -66,26 +66,26 @@ export default class Ground {
     const treeGroup = new THREE.Group();
 
     for (let i = 0; i < count; i++) {
-      // زاوية عشوائية
+
       const angle = Math.random() * Math.PI * 2;
-      // مسافة عشوائية من المركز (نأخذ الجذر لتوزيع متوازن)
+    
       const distance = Math.sqrt(Math.random()) * (this.radius - 1);
 
       const x = Math.cos(angle) * distance;
       const z = Math.sin(angle) * distance;
 
-      // استنساخ نموذج الشجرة
+      
       const tree = this.tree.clone();
       tree.position.set(x, this.positionY + this.thickness / 2, z);
 
-      // تدوير عشوائي
+      
       tree.rotation.y = Math.random() * Math.PI * 2;
 
-      // مقياس عشوائي
+    
       const scale = 0.8 + Math.random() * 0.4;
       tree.scale.set(scale, scale, scale);
 
-      // إضافة إلى المجموعة
+     
       treeGroup.add(tree);
     }
 
