@@ -14,7 +14,6 @@ export default class WorldManager {
     this.gui = new GuiController()
     this.init();
 
-
     // this.modelLoader.load(
     //   'rocket',
     //   '/models/rocket+laucher+pad.glb',
@@ -24,7 +23,6 @@ export default class WorldManager {
     //     // لاحقًا فينا نستخدم animations
     //   }
     // )
-
   }
 
   async init() {

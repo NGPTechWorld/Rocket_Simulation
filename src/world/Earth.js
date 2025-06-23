@@ -18,6 +18,7 @@ export default class Earth {
       roughness: 0.6, 
       metalness: 0.5, 
       side: 2,
+
     });
 
     const mesh = new THREE.Mesh(geometry, material);
