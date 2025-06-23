@@ -11,15 +11,15 @@ export default class WorldManager {
     this.init()
     this.modelLoader = new ModelLoader()
 
-    // this.modelLoader.load(
-    //   'rocket',
-    //   '/models/rocket/scene.gltf',
-    //   this.scene,
-    //   (model, animations) => {
-    //     model.position.set(0, 0, 0)
-    //     // لاحقًا فينا نستخدم animations
-    //   }
-    // )
+    this.modelLoader.load(
+      'rocket',
+      '/models/rocket+laucher+pad.glb',
+      this.scene,
+      (model, animations) => {
+        model.position.set(0, 0, 0)
+        // لاحقًا فينا نستخدم animations
+      }
+    )
   }
 
   async init() {
