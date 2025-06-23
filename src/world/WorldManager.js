@@ -5,6 +5,8 @@ import TextureLoader from "../core/TextureLoader.js";
 import ModelLoader from "../core/ModelLoader.js";
 import GuiController from './ui/GuiController.js'
 
+
+//World Mangager
 export default class WorldManager {
   constructor(app) {
     this.app = app;
