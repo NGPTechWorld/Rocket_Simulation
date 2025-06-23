@@ -1,5 +1,3 @@
-
-
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export default class ModelLoader {
@@ -9,43 +7,47 @@ export default class ModelLoader {
   }
 
   /**
-   * تحميل موديل GLB/GLTF
+   * تحميل موديل GLB/GLTF باستخدام Promise
    * @param {string} name - اسم الموديل
    * @param {string} path - مسار الملف
    * @param {THREE.Scene} scene - المشهد لإضافة الموديل إليه (اختياري)
-   * @param {function} callback - يُنفذ عند نجاح التحميل (اختياري)
+   * @returns {Promise<THREE.Object3D>} - الموديل عند اكتمال التحميل
    */
-  load(name, path, scene = null, callback = null) {
-    this.loader.load(
-      path,
+  async load(name, path, scene = null) {
+    if (this.models[name]) {
+      console.warn(`[ModelLoader] "${name}" already loaded`)
+      return this.models[name]
+    }
 
-      // ✅ onLoad
-      (gltf) => {
-        console.log(`🟢 [ModelLoader] "${name}" loaded`)
-        const model = gltf.scene
-        this.models[name] = model
+    return new Promise((resolve, reject) => {
+      this.loader.load(
+        path,
 
-        if (scene) {
-          scene.add(model)
+        // ✅ onLoad
+        (gltf) => {
+          console.log(`🟢 [ModelLoader] "${name}" loaded`)
+          const model = gltf.scene
+          this.models[name] = model
+
+          if (scene) scene.add(model)
+
+          resolve(model)
+        },
+
+        // ⏳ onProgress
+        undefined,
+
+        // ❌ onError
+        (error) => {
+          console.error(`🔴 [ModelLoader] Failed to load "${name}"`, error)
+          reject(error)
         }
-
-        if (callback) {
-          callback(model)
-        }
-      },
-
-      // ⏳ onProgress (اختياري)
-      undefined,
-
-      // ❌ onError
-      (error) => {
-        console.error(`🔴 [ModelLoader] Failed to load "${name}"`, error)
-      }
-    )
+      )
+    })
   }
 
   /**
-   * استرجاع الموديل المحمّل
+   * استرجاع موديل محمّل سابقًا
    */
   get(name) {
     return this.models[name] || null
