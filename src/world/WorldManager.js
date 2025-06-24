@@ -12,9 +12,9 @@ export default class WorldManager {
   constructor(app) {
     this.app = app;
     this.scene = app.scene;
+    this.gui = app.gui;
     this.textureLoader = new TextureLoader()
     this.modelLoader = new ModelLoader()
-    this.gui = new GuiController()
     this.init();
 
     // this.modelLoader.load(
@@ -65,14 +65,14 @@ export default class WorldManager {
     );
 
     // init Models
-    const rocket = await this.modelLoader.load('rocket', '/models/saturn_V_syria.glb')
+    const rocket_model = await this.modelLoader.load('rocket', '/models/saturn_V_syria.glb')
     const rocket_lancher = await this.modelLoader.load('rocket_lancher', '/models/rocket_laucher_pad.glb')
     const tree = await this.modelLoader.load('tree','/models/birch_tree.glb')
 
     // World
     this.scene.background = this.textureLoader.get("space").map;
     this.earth = new Earth(this, this.textureLoader.get("earth"));
-    this.rocket = new Rocket(this,rocket);
+    this.rocket = new Rocket(this,rocket_model);
     this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
     this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
@@ -82,6 +82,10 @@ export default class WorldManager {
       positionY: -5.25     
     })
     this.setGUI()
+    this.app.camera.followTarget(this.rocket.model) // rocket.model هو المجسم داخل كلاس Rocket
+    console.log(this.app.camera.currentMode)
+    this.gui.gui.add(this.app.camera, 'currentMode', ['orbit', 'first', 'follow']).name('Camera Mode')
+    
   }
 
   update() {}
