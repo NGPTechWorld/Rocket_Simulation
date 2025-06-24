@@ -4,6 +4,8 @@ import Renderer from './Renderer.js'
 import SceneManager from './SceneManager.js'
 import Sizes from './utils/Size.js'
 import Time from './utils/Time.js'
+import EventEmitter from './utils/EventEmitter.js'
+import GuiController from './../world/ui/GuiController.js'
 
 export default class AppRun {
   static instance
@@ -15,7 +17,9 @@ export default class AppRun {
     this.canvas = canvas
     this.scene = new THREE.Scene()
 
+    this.gui = new GuiController()
     this.sizes = new Sizes()
+    this.eventEmitter = new EventEmitter()
     this.time = new Time()
     this.camera = new Camera(this)
     this.renderer = new Renderer(this)

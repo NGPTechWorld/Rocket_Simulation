@@ -1,7 +1,7 @@
-import * as THREE from 'three';
-import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import gsap from 'gsap';
+import * as THREE from "three";
+import { EXRLoader } from "three/examples/jsm/loaders/EXRLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import gsap from "gsap";
 
 export default class AtmosphereLayer {
   constructor(world, exrPath, radius = 4.8) {
@@ -19,12 +19,11 @@ export default class AtmosphereLayer {
     this.nightLight = null;
 
     this.settings = {
-      mode: 'day'
+      mode: "day",
     };
 
     this.setSphere();
     // this.loadCloudModel();
-
     this.initLight();
   }
 
@@ -45,6 +44,7 @@ export default class AtmosphereLayer {
       this.mesh = new THREE.Mesh(geometry, this.material);
       this.mesh.position.set(0, -5, 0);
       this.scene.add(this.mesh);
+      this.updateModeTransition()
     });
   }
 
@@ -78,37 +78,37 @@ export default class AtmosphereLayer {
   updateModeTransition() {
     if (!this.material) return;
 
-    const isNight = this.settings.mode === 'night';
+    const isNight = this.settings.mode === "night";
     const nightColor = new THREE.Color(0x0c0c1a);
     const targetColor = isNight
       ? { r: nightColor.r, g: nightColor.g, b: nightColor.b }
-      : { r: 0.85, g: 0.85, b: 0.9 };
-    const targetOpacity = isNight ? 1 : 1;
+      : { r: 0.65, g: 0.65, b: 0.75 };
+    const targetOpacity = isNight ? 1 : 0.8;
     const targetLightIntensity = isNight ? 0.5 : 0;
 
     gsap.to(this.material.color, {
       ...targetColor,
       duration: 2,
-      ease: 'power2.inOut'
+      ease: "power2.inOut",
     });
 
     gsap.to(this.material, {
       opacity: targetOpacity,
       duration: 2,
-      ease: 'power2.inOut'
+      ease: "power2.inOut",
     });
 
     if (this.nightLight) {
       gsap.to(this.nightLight, {
         intensity: targetLightIntensity,
         duration: 2,
-        ease: 'power2.inOut'
+        ease: "power2.inOut",
       });
     }
   }
 
   setGUI() {
-    this.world.gui.add(this.settings, 'mode', ['day', 'night']).onChange(() => {
+    this.world.gui.add(this.settings, "mode", ["day", "night"]).onChange(() => {
       this.updateModeTransition();
     });
   }

@@ -35,7 +35,7 @@ export default class Ground {
 
     let materialOptions = {
       color: this.color,
-      roughness: 1,     // عشب غير لامع
+      roughness: 1,   
       metalness: 0.0,
       aoMapIntensity: 4,
       normalScale: new THREE.Vector2(0, 0),

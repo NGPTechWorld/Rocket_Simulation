@@ -5,7 +5,7 @@ export default class SceneManager {
   constructor(app) {
     this.app = app
     this.scene = app.scene
-
+    
     this.setLights()
     this.setWorld()
     // لاحقًا: this.setWorld(), this.setPhysics()
@@ -24,7 +24,7 @@ export default class SceneManager {
   }
 
   update() {
-    // كل شي بدو يتحدث كل Frame بتحطو هون
+   
   }
   
 }

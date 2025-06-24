@@ -3,13 +3,16 @@ export default class Rocket {
   constructor(world, model) {
     this.world=world
     this.scene = world.scene
-    this.rocket = model
+    this.model = model
     this.setMesh()
   }
 
   setMesh() {
-    this.rocket.position.set(0, 1, 0)
-    this.rocket.scale.set(0.25, 0.25, 0.25)
-    this.scene.add(this.rocket)
+    this.model.position.set(1, -4, 0)
+    this.model.scale.set(0.3,0.3,0.3)
+    this.scene.add(this.model)
+  }
+  setGUI() {
+    this.world.gui.addObjectControls('Rocket',this.model)
   }
 }
