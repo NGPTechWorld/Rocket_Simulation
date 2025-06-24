@@ -3,7 +3,8 @@ import Rocket from "./Rocket.js";
 import RocketLaucherPad from "./RocketLaucherPad.js";
 import TextureLoader from "../core/TextureLoader.js";
 import ModelLoader from "../core/ModelLoader.js";
-import GuiController from './ui/GuiController.js'
+import GuiController from "./ui/GuiController.js";
+import SoundManager from "./../core/SoundManager.js";
 
 import AtmosphereLayer from "./AtomshpereLayer.js";
 import Ground from "./Ground.js";
@@ -13,8 +14,10 @@ export default class WorldManager {
     this.app = app;
     this.scene = app.scene;
     this.gui = app.gui;
-    this.textureLoader = new TextureLoader()
-    this.modelLoader = new ModelLoader()
+    this.textureLoader = new TextureLoader();
+    this.modelLoader = new ModelLoader();
+    this.sound = new SoundManager(this.app.camera.instance);
+
     this.init();
 
     // this.modelLoader.load(
@@ -44,7 +47,13 @@ export default class WorldManager {
     //     repeat: { x: 50, y: 50 }
     //   }
     // );
-
+    await this.sound.load(
+      "explosion",
+      "/sounds/explosion.mp3",
+      false,
+      1
+    );
+    this.sound.play("explosion");
     await this.textureLoader.load(
       "earth",
       {
@@ -65,34 +74,41 @@ export default class WorldManager {
     );
 
     // init Models
-    const rocket_model = await this.modelLoader.load('rocket', '/models/saturn_V_syria.glb')
-    const rocket_lancher = await this.modelLoader.load('rocket_lancher', '/models/rocket_laucher_pad.glb')
-    const tree = await this.modelLoader.load('tree','/models/birch_tree.glb')
+    const rocket_model = await this.modelLoader.load(
+      "rocket",
+      "/models/saturn_V_syria.glb"
+    );
+    const rocket_lancher = await this.modelLoader.load(
+      "rocket_lancher",
+      "/models/rocket_laucher_pad.glb"
+    );
+    const tree = await this.modelLoader.load("tree", "/models/birch_tree.glb");
 
     // World
     this.scene.background = this.textureLoader.get("space").map;
     this.earth = new Earth(this, this.textureLoader.get("earth"));
-    this.rocket = new Rocket(this,rocket_model);
-    this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
-    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
-    this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
+    this.rocket = new Rocket(this, rocket_model);
+    this.rocket_lancher = new RocketLaucherPad(this, rocket_lancher);
+    this.atmosphere = new AtmosphereLayer(this, "/textures/puresky.exr", 50);
+    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, {
       radius: this.atmosphere.radius - 0.5,
-      thickness: 0.5,     
+      thickness: 0.5,
       color: 0x555555,
-      positionY: -5.25     
-    })
-    this.setGUI()
-    this.app.camera.followTarget(this.rocket.model) // rocket.model هو المجسم داخل كلاس Rocket
-    console.log(this.app.camera.currentMode)
-    this.gui.gui.add(this.app.camera, 'currentMode', ['orbit', 'first', 'follow']).name('Camera Mode')
-    
+      positionY: -5.25,
+    });
+    this.setGUI();
+    this.app.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
+    console.log(this.app.camera.currentMode);
+    this.gui.gui
+      .add(this.app.camera, "currentMode", ["orbit", "first", "follow"])
+      .name("Camera Mode");
   }
 
   update() {}
   setGUI() {
-     this.rocket_lancher.setGUI()
-     this.rocket.setGUI()
-     this.atmosphere.setGUI()
+    this.rocket_lancher.setGUI();
+    this.rocket.setGUI();
+    this.atmosphere.setGUI();
     //  this.ground.setGUI()
   }
 }

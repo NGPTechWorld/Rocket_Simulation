@@ -25,11 +25,12 @@ export default class AppRun {
     this.camera = new Camera(this)
     this.renderer = new Renderer(this)
     this.sceneManager = new SceneManager(this)
-    this.sound = new SoundManager(this.camera.instance) 
+
 
     this.sizes.on('resize', () => this.resize())
     this.time.on('tick', () => this.update())
   }
+
 
   resize() {
     this.camera.resize()
