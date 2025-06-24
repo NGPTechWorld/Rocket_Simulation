@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import AtomsphereLayer from "./AtomshpereLayer";
 
 export default class Earth {
   constructor(world, textures) {
@@ -9,13 +10,14 @@ export default class Earth {
   }
 
   setMesh() {
-    const geometry = new THREE.SphereGeometry(5, 64, 64);
+    const geometry = new THREE.SphereGeometry(52, 64, 64);
 
     const material = new THREE.MeshStandardMaterial({
       ...this.textures,
       roughness: 0.6, 
       metalness: 0.5, 
-      side:2
+      side: 2,
+
     });
 
     const mesh = new THREE.Mesh(geometry, material);
