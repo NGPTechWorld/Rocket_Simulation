@@ -6,6 +6,7 @@ import Sizes from './utils/Size.js'
 import Time from './utils/Time.js'
 import EventEmitter from './utils/EventEmitter.js'
 import GuiController from './../world/ui/GuiController.js'
+import SoundManager from './SoundManager.js'
 
 export default class AppRun {
   static instance
@@ -24,6 +25,7 @@ export default class AppRun {
     this.camera = new Camera(this)
     this.renderer = new Renderer(this)
     this.sceneManager = new SceneManager(this)
+    this.sound = new SoundManager(this.camera.instance) 
 
     this.sizes.on('resize', () => this.resize())
     this.time.on('tick', () => this.update())
