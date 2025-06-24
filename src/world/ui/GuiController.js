@@ -42,6 +42,33 @@ export default class GuiController {
   }
 
   /**
+  * إضافة أزرار تحكم الإطلاق والإيقاف للـ rocket
+  * @param {object} rocket - الكائن الذي يحتوي على دوال launch و stop
+  */
+  addLaunchStopControls(rocket) {
+    this.gui.add({ launch: () => rocket.launch() }, 'launch')
+    this.gui.add({ stop: () => rocket.stop() }, 'stop')
+  }
+
+  /**
+   * إضافة مراقبة نصية لقيمة معينة (مثل ارتفاع)
+   * @param {string} label الاسم الظاهر في الواجهة
+   * @param {() => any} getValue دالة لإرجاع القيمة
+   */
+  addTextMonitor(label, getValue) {
+    const obj = { [label]: getValue() }
+
+    const controller = this.gui.add(obj, label)
+
+    function update() {
+      controller.setValue(getValue())
+      requestAnimationFrame(update)
+    }
+
+    update()
+  }
+
+  /**
    * إزالة مجلد تحكم
    */
   remove(name) {

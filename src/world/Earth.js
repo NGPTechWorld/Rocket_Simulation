@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import AtomsphereLayer from "./AtomshpereLayer";
+import AtomsphereLayer from "./AtmoshpereLayer";
 
 export default class Earth {
   constructor(world, textures) {

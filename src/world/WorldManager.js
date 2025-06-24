@@ -3,10 +3,10 @@ import Rocket from "./Rocket.js";
 import RocketLaucherPad from "./RocketLaucherPad.js";
 import TextureLoader from "../core/TextureLoader.js";
 import ModelLoader from "../core/ModelLoader.js";
-import GuiController from "./ui/GuiController.js";
+import GuiController from './ui/GuiController.js'
+import AtmoshpereLayerTracker from "./AtmoshpereLayerTracker.js";
 import SoundManager from "./../core/SoundManager.js";
-
-import AtmosphereLayer from "./AtomshpereLayer.js";
+import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
 
 export default class WorldManager {
@@ -87,10 +87,10 @@ export default class WorldManager {
     // World
     this.scene.background = this.textureLoader.get("space").map;
     this.earth = new Earth(this, this.textureLoader.get("earth"));
-    this.rocket = new Rocket(this, rocket_model);
-    this.rocket_lancher = new RocketLaucherPad(this, rocket_lancher);
-    this.atmosphere = new AtmosphereLayer(this, "/textures/puresky.exr", 50);
-    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, {
+    this.rocket = new Rocket(this,rocket_model);
+    this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
+    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
+    this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
       color: 0x555555,
@@ -104,11 +104,13 @@ export default class WorldManager {
       .name("Camera Mode");
   }
 
-  update() {}
+  update() {
+    this.atmosphereTracker?.update();
+  }
   setGUI() {
-    this.rocket_lancher.setGUI();
-    this.rocket.setGUI();
-    this.atmosphere.setGUI();
+     this.rocket_lancher.setGUI()
+     this.rocket.setGUI()
+     this.atmosphere.setGUI()
     //  this.ground.setGUI()
   }
 }
