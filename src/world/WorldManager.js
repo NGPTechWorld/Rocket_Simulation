@@ -4,8 +4,9 @@ import RocketLaucherPad from "./RocketLaucherPad.js";
 import TextureLoader from "../core/TextureLoader.js";
 import ModelLoader from "../core/ModelLoader.js";
 import GuiController from './ui/GuiController.js'
+import AtmoshpereLayerTracker from "./AtmoshpereLayerTracker.js";
 
-import AtmosphereLayer from "./AtomshpereLayer.js";
+import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
 
 export default class WorldManager {
@@ -75,6 +76,7 @@ export default class WorldManager {
     this.rocket = new Rocket(this,rocket_model);
     this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
+    this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
     this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,     
@@ -88,11 +90,14 @@ export default class WorldManager {
     
   }
 
-  update() {}
+  update() {
+    this.atmosphereTracker?.update();
+  }
   setGUI() {
      this.rocket_lancher.setGUI()
      this.rocket.setGUI()
      this.atmosphere.setGUI()
+     this.atmosphereTracker.setGUI()
     //  this.ground.setGUI()
   }
 }
