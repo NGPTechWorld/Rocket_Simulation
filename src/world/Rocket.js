@@ -8,8 +8,11 @@ export default class Rocket {
   }
 
   setMesh() {
-    this.model.position.set(0, 1, 0)
-    this.model.scale.set(0.25, 0.25, 0.25)
+    this.model.position.set(1, -4, 0)
+    this.model.scale.set(0.3,0.3,0.3)
     this.scene.add(this.model)
+  }
+  setGUI() {
+    this.world.gui.addObjectControls('Rocket',this.model)
   }
 }

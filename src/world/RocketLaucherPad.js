@@ -10,7 +10,7 @@ export default class RocketLaucherPad {
   }
 
   setMesh() {
-    // this.rocket_lancher.position.set(0, 1, 0)
+    this.rocket_lancher.position.set(0, -4.5, 0)
     this.rocket_lancher.scale.set(0.25, 0.25, 0.25)
     this.scene.add(this.rocket_lancher)
   }

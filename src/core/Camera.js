@@ -59,7 +59,6 @@ export default class Camera {
         if (this.firstPerson) {
           this.canvas.removeEventListener("click",this.firstPerson._onClickToLock);
         }
-        
         this.orbit?.update();
         break;
 

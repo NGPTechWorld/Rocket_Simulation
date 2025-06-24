@@ -91,7 +91,8 @@ export default class WorldManager {
   update() {}
   setGUI() {
      this.rocket_lancher.setGUI()
+     this.rocket.setGUI()
      this.atmosphere.setGUI()
-     this.ground.setGUI()
+    //  this.ground.setGUI()
   }
 }
