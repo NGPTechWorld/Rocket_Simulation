@@ -8,6 +8,7 @@ import AtmoshpereLayerTracker from "./AtmoshpereLayerTracker.js";
 
 import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
+import BuildingPlacer from "./BuildingPlacer.js";
 
 export default class WorldManager {
   constructor(app) {
@@ -69,13 +70,16 @@ export default class WorldManager {
     const rocket_model = await this.modelLoader.load('rocket', '/models/saturn_V_syria.glb')
     const rocket_lancher = await this.modelLoader.load('rocket_lancher', '/models/rocket_laucher_pad.glb')
     const tree = await this.modelLoader.load('tree','/models/birch_tree.glb')
+    const building = await this.modelLoader.load('house','models/build.glb')
+    const apartment = await this.modelLoader.load('apartment','models/EEB_015.glb')
+    const bunker = await this.modelLoader.load('bunker','models/Bunker.glb')
 
     // World
     this.scene.background = this.textureLoader.get("space").map;
     this.earth = new Earth(this, this.textureLoader.get("earth"));
     this.rocket = new Rocket(this,rocket_model);
     this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
-    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',50);
+    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',996);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
     this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
       radius: this.atmosphere.radius - 0.5,
@@ -83,6 +87,34 @@ export default class WorldManager {
       color: 0x555555,
       positionY: -5.25     
     })
+
+    const buildingRow = Array.from({ length: 4 }, (_, i) => ({
+      model: building,
+      scale: [0.6, 0.6, 0.6],
+      position: [i * 12 - 12, 0.1, -50],
+      rotation: [0, Math.PI / 2, 0], 
+    }));
+    
+    const apartmentRow = Array.from({ length: 4 }, (_, i) => ({
+      model: apartment,
+      scale: [0.4, 0.4, 0.4],
+      position: [i * 12 - 12, 0.1, 50], 
+      rotation: [0, Math.PI, 0],
+    }));
+
+    const bunkerRow = Array.from({ length: 2 }, (_, i) => ({
+      model: bunker,
+      scale: [0.5, 0.5, 0.5],               
+      position: [48, 0.1, i * 26 - 4],     
+      rotation: [0, - Math.PI / 8, 0],         
+    }));
+    
+    this.buildings = new BuildingPlacer(this, [
+      ...buildingRow,
+      ...apartmentRow,
+      ...bunkerRow
+    ]);
+
     this.setGUI()
     this.app.camera.followTarget(this.rocket.model) // rocket.model هو المجسم داخل كلاس Rocket
     console.log(this.app.camera.currentMode)

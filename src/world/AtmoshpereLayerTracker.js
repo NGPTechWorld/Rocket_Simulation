@@ -12,14 +12,14 @@ export default class AtmoshpereLayerTracker {
         { name: 'Thermosphere', maxHeight: 600000 },
         { name: 'Ionosphere', maxHeight: 985000 },
         { name: 'Exosphere', maxHeight: 1000000 },
-        { name: 'Outside the Atmosphere', maxHeight: Infinity },
+        { name: 'Space', maxHeight: Infinity },
       ];
 
       this.startTracking()
     }
 
     isOutsideAtmosphere() {
-      return this.layer === 'Outside the Atmosphere'
+      return this.layer === 'Space'
     }
 
     update() {

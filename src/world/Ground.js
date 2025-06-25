@@ -63,34 +63,34 @@ export default class Ground {
   }
 
   addTrees(count = 30) {
-    const treeGroup = new THREE.Group();
+  const treeGroup = new THREE.Group();
 
-    for (let i = 0; i < count; i++) {
+  const minDistanceFromCenter = this.radius * 0.6; 
+  const maxDistance = this.radius - 0.5;        
 
-      const angle = Math.random() * Math.PI * 2;
-    
-      const distance = Math.sqrt(Math.random()) * (this.radius - 1);
-
-      const x = Math.cos(angle) * distance;
-      const z = Math.sin(angle) * distance;
-
-      
-      const tree = this.tree.clone();
-      tree.position.set(x, this.positionY + this.thickness / 2, z);
-
-      
-      tree.rotation.y = Math.random() * Math.PI * 2;
+  for (let i = 0; i < count; i++) {
+   
+    const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.2 - 0.1); 
 
     
-      const scale = 0.8 + Math.random() * 0.4;
-      tree.scale.set(scale, scale, scale);
+    const distance = minDistanceFromCenter + Math.random() * (maxDistance - minDistanceFromCenter);
 
-     
-      treeGroup.add(tree);
-    }
+    const x = Math.cos(angle) * distance;
+    const z = Math.sin(angle) * distance;
 
-    this.scene.add(treeGroup);
+    const tree = this.tree.clone();
+    tree.position.set(x, this.positionY + this.thickness / 2, z);
+
+    tree.rotation.y = Math.random() * Math.PI * 2;
+
+    const scale = 0.8 + Math.random() * 0.4;
+    tree.scale.set(scale, scale, scale);
+
+    treeGroup.add(tree);
   }
+
+  this.scene.add(treeGroup);
+}
 
   setGUI() {
     if (this.world.gui) {
