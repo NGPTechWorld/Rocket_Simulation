@@ -1,4 +1,3 @@
-import { Vector3 } from "three";
 import Force from "./Force";
 import Rocket from "./Rocket";
 import Earth from "./Earth";
@@ -14,6 +13,7 @@ export default class WeightForce extends Force {
     super();
     this.earth = new Earth();
     this.rocket = new Rocket();
+    this.update();
   }
 
   computeGravityAcceleration() {
@@ -29,6 +29,11 @@ export default class WeightForce extends Force {
     const gravity = this.computeGravityAcceleration();
     const mass = this.rocket.fullMass();
 
-    this.force.set(0, -(gravity * mass), 0);
+    const directionToEarthCenter = this.rocket.position
+      .clone()
+      .negate()
+      .normalize(); // to earth center (0, 0, 0)
+
+    this.force.copy(directionToEarthCenter.multiplyScalar(gravity * mass));
   }
 }

@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 
 export default class Force {
   constructor() {
-    this.force = Vector3(0, 0, 0);
+    this.force = new Vector3(0, 0, 0);
   }
 
   update() {}
