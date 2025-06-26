@@ -2,8 +2,11 @@ import * as THREE from 'three'
 import WorldManager from '../world/WorldManager.js'
 
 export default class SceneManager {
+  /**
+   * @param {import('./AppRun.js').default} app
+   */
   constructor(app) {
-    this.app = app
+
     this.scene = app.scene
     
     this.setLights()

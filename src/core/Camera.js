@@ -3,8 +3,11 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import FirstPersonControls from "./FirstPersonControls.js";
 
 export default class Camera {
+    /**
+   * @param {import('./AppRun.js').default} app
+   */
   constructor(app) {
-    this.app = app;
+  
     this.sizes = app.sizes;
     this.scene = app.scene;
     this.canvas = app.canvas;

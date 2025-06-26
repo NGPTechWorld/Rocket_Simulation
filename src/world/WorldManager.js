@@ -10,13 +10,14 @@ import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
 
 export default class WorldManager {
+    /**
+   * @param {import('./../core/AppRun.js').default} app
+   */
   constructor(app) {
-    this.app = app;
     this.scene = app.scene;
     this.gui = app.gui;
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
-    this.sound = new SoundManager(this.app.camera.instance);
 
     this.init();
 
@@ -47,13 +48,13 @@ export default class WorldManager {
     //     repeat: { x: 50, y: 50 }
     //   }
     // );
-    await this.sound.load(
-      "explosion",
-      "/sounds/explosion.mp3",
-      false,
-      1
-    );
-    this.sound.play("explosion");
+    // await this.sound.load(
+    //   "explosion",
+    //   "/sounds/explosion.mp3",
+    //   false,
+    //   1
+    // );
+    // this.sound.play("explosion");
     await this.textureLoader.load(
       "earth",
       {
