@@ -7,7 +7,7 @@ export default class Earth {
   */
   constructor(world) {
     this.scene = world.scene;
-    this.textures = world.textureLoader.get("earth")
+    this.textures = world.assetsLoader.getTextures()['earth']
     this.setMesh();
   }
 
