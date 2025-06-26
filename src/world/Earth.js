@@ -10,7 +10,7 @@ export default class Earth {
   }
 
   setMesh() {
-    const geometry = new THREE.SphereGeometry(52, 64, 64);
+    const geometry = new THREE.SphereGeometry(998, 64, 64);
 
     const material = new THREE.MeshStandardMaterial({
       ...this.textures,
@@ -20,11 +20,13 @@ export default class Earth {
 
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, -5, 0);
-    mesh.castShadow = true; 
-    mesh.receiveShadow = true; 
-    this.scene.add(mesh);
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.position.set(0, -5, 0);
+    this.mesh.rotation.set(0.53,0.21,0.77);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+
+    this.scene.add(this.mesh);
 
 
     // const axesHelper = new THREE.AxesHelper(7);

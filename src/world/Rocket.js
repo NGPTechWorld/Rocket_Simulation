@@ -5,7 +5,7 @@ export default class Rocket {
     this.model = model
 
     this.groundLevel = -4.25
-    this.ascentSpeed = 0.01
+    this.ascentSpeed = 2
     this.setMesh()
   }
 
