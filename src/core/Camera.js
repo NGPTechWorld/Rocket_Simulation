@@ -11,7 +11,7 @@ export default class Camera {
     this.sizes = app.sizes;
     this.scene = app.scene;
     this.canvas = app.canvas;
-
+    this.eventEmitter=app.eventEmitter
     this.currentMode = "orbit";
     this.setInstance();
     this.setOrbitControls();
@@ -43,7 +43,7 @@ export default class Camera {
     this.firstPerson = new FirstPersonControls(
       this.instance,
       this.canvas,
-      this.app.eventEmitter
+      this.eventEmitter
     );
   }
 
