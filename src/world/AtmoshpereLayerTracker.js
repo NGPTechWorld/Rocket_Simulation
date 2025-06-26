@@ -1,7 +1,9 @@
 
 export default class AtmoshpereLayerTracker {
+   /**
+   * @param {import('./WorldManager').default} world
+  */
     constructor (world, rocket){
-      this.world = world
       this.rocket = rocket
       this.layer = 'Unknown'
 

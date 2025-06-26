@@ -11,9 +11,9 @@ import Ground from "./Ground.js";
 import BuildingPlacer from "./BuildingPlacer.js";
 
 export default class WorldManager {
-    /**
+  /**
    * @param {import('./../core/AppRun.js').default} app
-   */
+  */
   constructor(app) {
     this.scene = app.scene;
     this.gui = app.gui;

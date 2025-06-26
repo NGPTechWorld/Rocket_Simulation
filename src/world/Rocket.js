@@ -1,6 +1,8 @@
 export default class Rocket {
+     /**
+   * @param {import('./WorldManager').default} world
+  */
   constructor(world, model) {
-    this.world=world
     this.scene = world.scene
     this.model = model
 

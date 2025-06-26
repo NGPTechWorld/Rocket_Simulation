@@ -1,6 +1,8 @@
 export default class BuildingPlacer {
+     /**
+   * @param {import('./WorldManager').default} world
+  */
   constructor(world, buildings) {
-    this.world = world;
     this.scene = world.scene;
     this.buildings = buildings;
 
