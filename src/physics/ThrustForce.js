@@ -1,54 +1,37 @@
-// ThrustForce.js
 import Force from './Force.js';
-import Rocket from './Rocket.js';
-import Environment from './Environment.js';
-import { Vector3 } from 'three';
 
 let instance = null;
-
 export default class ThrustForce extends Force {
-  constructor() {
-    if (instance) return instance;
+  constructor(engine, env) {
     super();
+    if (instance) return instance;
     instance = this;
-
-    this.rocket = new Rocket();
-    this.env = new Environment();
-
-    this.A_throat = 8.0;
-    this.A_exit = 4.55;
-    this.chamberPressure = 6.8e5;
-
-    this.update();
+    this.engine = engine;
+    this.env = env;
   }
 
-  _computeMassFlowRate() {
-    const { specificHeatRatio: γ, gasConstant: Ru, chamberTemperature: Tt, molecularWeight: M } = this.rocket.fuel.type;
-    const R_spec = (Ru / M) * 1000;  
-    const Pt = this.chamberPressure;
-    const term1 = this.A_throat * Pt / Math.sqrt(Tt);
-    const term2 = Math.sqrt(γ / R_spec);
-    const term3 = Math.pow((γ + 1) / 2, - (γ + 1) / (2 * (γ - 1)));
-    return term1 * term2 * term3;
-  }
-
-  _computeIdealVe() {
-    const { specificHeatRatio: γ, gasConstant: Ru, chamberTemperature: Tt, molecularWeight: M } = this.rocket.fuel.type;
-    const R_spec = (Ru / M) * 1000;
-    const pe = this.env.pressure;
-    const Pt = this.chamberPressure;
-    const exp = (γ - 1) / γ;
-    return Math.sqrt((2 * γ) / (γ - 1) * R_spec * Tt * (1 - Math.pow(pe / Pt, exp)));
+  _computeExhaustVelocity(pe) {
+    const ft = this.engine.fuel.type;
+    const { gamma: γ, R_spec, Tt } = ft;
+    const Pt = ft.Pc || 6.8e6;
+    const pr = pe / Pt;
+    const prCrit = Math.pow(2 / (γ + 1), γ / (γ - 1));
+    const expFac = (γ - 1) / γ;
+    const factor = (2 * γ) / (γ - 1) * R_spec * Tt;
+    if (pr > prCrit) {
+      return Math.sqrt(factor * (1 - Math.pow(prCrit, expFac)));
+    }
+    return Math.sqrt(factor * (1 - Math.pow(pr, expFac)));
   }
 
   update() {
-    const mDot = this._computeMassFlowRate();
-    const veIdeal = this._computeIdealVe();
-    const pe = this.env.pressure;
-    const p0 = this.env.seaLevelpressure;
-    const veEff = veIdeal + ((p0 - pe) * this.A_exit) / mDot;
-
-    const thrust = mDot * veEff;
-    this.force.copy(new Vector3(0, thrust, 0));
+    this.reset(); 
+    const dm = this.engine.updateFuel(this.env.deltaTime || 0);
+    if (dm <= 0) return; 
+    const mDot = this.engine.getMassFlowRate();
+    const { pressure: pe } = this.env.atAltitude(this.engine.rocket.position.y);
+    const ve = this._computeExhaustVelocity(pe); 
+    const thrust = this.engine.computeThrust(mDot, ve);
+    this.force.set(0, thrust, 0);
   }
 }
