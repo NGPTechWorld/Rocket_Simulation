@@ -2,9 +2,12 @@
 import * as THREE from 'three'
 
 export default class SoundManager {
-  constructor(camera) {
+    /**
+   * @param {import('./AppRun.js').default} app
+   */
+  constructor(app) {
     this.listener = new THREE.AudioListener()
-    camera.add(this.listener)
+    app.camera.add(this.listener)
 
     this.loader = new THREE.AudioLoader()
     this.sounds = {}

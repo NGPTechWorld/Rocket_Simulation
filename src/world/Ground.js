@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 
 export default class Ground {
+     /**
+   * @param {import('./WorldManager').default} world
+  */
+  constructor(world,textures,tree,options = {}) {
   constructor(world,textures,tree,buildings,options = {}) {
     this.world = world;
     this.scene = world.scene;

@@ -1,8 +1,10 @@
 import GuiController from './ui/GuiController.js'
 
 export default class RocketLaucherPad {
+  /**
+   * @param {import('./WorldManager').default} world
+  */
   constructor(world, model) {
-    this.world=world
     this.scene = world.scene
     this.rocket_lancher = model
     this.setMesh()

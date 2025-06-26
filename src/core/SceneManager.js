@@ -2,12 +2,15 @@ import * as THREE from 'three'
 import WorldManager from '../world/WorldManager.js'
 
 export default class SceneManager {
+  /**
+   * @param {import('./AppRun.js').default} app
+   */
   constructor(app) {
-    this.app = app
+
     this.scene = app.scene
     
     this.setLights()
-    this.setWorld()
+    this.setWorld(app)
     // لاحقًا: this.setWorld(), this.setPhysics()
   }
 
@@ -19,8 +22,8 @@ export default class SceneManager {
     this.scene.add(ambient, directional)
   }
 
-  setWorld(){
-    this.world = new WorldManager(this.app)
+  setWorld(app){
+    this.world = new WorldManager(app)
   }
 
   update() {

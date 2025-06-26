@@ -2,8 +2,10 @@ import * as THREE from "three";
 import AtomsphereLayer from "./AtmoshpereLayer";
 
 export default class Earth {
+  /**
+   * @param {import('./WorldManager').default} world
+  */
   constructor(world, textures) {
-    this.world=world
     this.scene = world.scene;
     this.textures = textures;
     this.setMesh();

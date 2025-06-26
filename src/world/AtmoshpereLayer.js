@@ -4,8 +4,10 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import gsap from "gsap";
 
 export default class AtmosphereLayer {
+   /**
+   * @param {import('./WorldManager').default} world
+  */
   constructor(world, exrPath, radius = 4.8) {
-    this.world = world;
     this.scene = world.scene;
     this.exrPath = exrPath;
     // this.glbPath = glbPath;
