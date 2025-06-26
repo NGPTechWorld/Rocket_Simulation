@@ -5,9 +5,9 @@ export default class Earth {
   /**
    * @param {import('./WorldManager').default} world
   */
-  constructor(world, textures) {
+  constructor(world) {
     this.scene = world.scene;
-    this.textures = textures;
+    this.textures = world.textureLoader.get("earth")
     this.setMesh();
   }
 
