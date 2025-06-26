@@ -25,7 +25,7 @@ export default class AtmoshpereLayerTracker {
     update() {
       const height = this.rocket.height
   
-      const foundLayer = this.layers.find(layer => height < layer.maxHeight)
+      const foundLayer = this.layers.find(layer => height <= layer.maxHeight)
       this.layer = foundLayer ? foundLayer.name : 'Unknown'
     }
 

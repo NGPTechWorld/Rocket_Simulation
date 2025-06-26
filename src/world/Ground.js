@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 export default class Ground {
-  constructor(world,textures,tree,options = {}) {
+  constructor(world,textures,tree,buildings,options = {}) {
     this.world = world;
     this.scene = world.scene;
+    this.buildings = buildings
     this.textures = textures;
     this.tree = tree;
 
@@ -15,7 +16,6 @@ export default class Ground {
     this.mesh = null;
 
     this.setGround();
-    this.addTrees();
   }
 
   setGround() {
@@ -62,32 +62,28 @@ export default class Ground {
     this.scene.add(this.mesh);
   }
 
-  addTrees(count = 30) {
+  addTreesNearBuildings(buildings) {
   const treeGroup = new THREE.Group();
 
-  const minDistanceFromCenter = this.radius * 0.6; 
-  const maxDistance = this.radius - 0.5;        
+  buildings.forEach((building) => {
+    const [x, y, z] = building.position;
+    const [sx, , sz] = building.scale;
 
-  for (let i = 0; i < count; i++) {
-   
-    const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.2 - 0.1); 
+    const offsetX = sx * 10;
+    const offsetZ = sz * 3;  
 
-    
-    const distance = minDistanceFromCenter + Math.random() * (maxDistance - minDistanceFromCenter);
+    const rightTree = this.tree.clone();
+    rightTree.position.set(x + offsetX, this.positionY + this.thickness / 2, z + offsetZ);
+    rightTree.rotation.y = Math.random() * Math.PI * 2;
+    rightTree.scale.set(6, 6, 6);
+    treeGroup.add(rightTree);
 
-    const x = Math.cos(angle) * distance;
-    const z = Math.sin(angle) * distance;
-
-    const tree = this.tree.clone();
-    tree.position.set(x, this.positionY + this.thickness / 2, z);
-
-    tree.rotation.y = Math.random() * Math.PI * 2;
-
-    const scale = 0.8 + Math.random() * 0.4;
-    tree.scale.set(scale, scale, scale);
-
-    treeGroup.add(tree);
-  }
+    const leftTree = this.tree.clone();
+    leftTree.position.set(x - offsetX, this.positionY + this.thickness / 2, z - offsetZ);
+    leftTree.rotation.y = Math.random() * Math.PI * 2;
+    leftTree.scale.set(6, 6, 6);
+    treeGroup.add(leftTree);
+  });
 
   this.scene.add(treeGroup);
 }

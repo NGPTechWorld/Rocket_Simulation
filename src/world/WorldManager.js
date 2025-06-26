@@ -97,32 +97,32 @@ export default class WorldManager {
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',996);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
 
-    this.ground = new Ground(this,this.textureLoader.get("grass"),tree,{
+    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, [], {
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
       color: 0x555555,
-      positionY: -5.25     
-    })
+      positionY: -5.25
+    });
 
     const buildingRow = Array.from({ length: 4 }, (_, i) => ({
       model: building,
-      scale: [0.6, 0.6, 0.6],
-      position: [i * 12 - 12, 0.1, -50],
-      rotation: [0, Math.PI / 2, 0], 
+      scale: [8,8, 8],
+      position: [i * 180 - 180, 0.1, -400],
+      rotation: [0, -Math.PI / 2, 0], 
     }));
     
     const apartmentRow = Array.from({ length: 4 }, (_, i) => ({
       model: apartment,
-      scale: [0.4, 0.4, 0.4],
-      position: [i * 12 - 12, 0.1, 50], 
+      scale: [5, 5, 5],
+      position: [i * 180 - 180, 0.1, 400], 
       rotation: [0, Math.PI, 0],
     }));
 
     const bunkerRow = Array.from({ length: 2 }, (_, i) => ({
       model: bunker,
-      scale: [0.5, 0.5, 0.5],               
-      position: [48, 0.1, i * 26 - 4],     
-      rotation: [0, Math.PI * 2, 0],         
+      scale: [4,4, 4],               
+      position: [450, 0.1, i * 180 - 40],     
+      rotation: [0, 0, 0],         
     }));
     
     this.buildings = new BuildingPlacer(this, [
@@ -130,6 +130,8 @@ export default class WorldManager {
       ...apartmentRow,
       ...bunkerRow
     ]);
+
+    // this.ground.buildings = this.buildings;
 
     this.setGUI();
     this.app.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket

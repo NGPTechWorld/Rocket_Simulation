@@ -72,7 +72,7 @@ export default class Camera {
 
       case "follow":
         if (this.followTargetObj) {
-          const offset = new THREE.Vector3(0, 2, -8);
+          const offset = new THREE.Vector3(0, 2, -25);
           const targetPos = this.followTargetObj.position.clone().add(offset);
 
           this.instance.position.lerp(targetPos, 0.1);
