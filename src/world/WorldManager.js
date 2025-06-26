@@ -122,7 +122,7 @@ export default class WorldManager {
       model: bunker,
       scale: [0.5, 0.5, 0.5],               
       position: [48, 0.1, i * 26 - 4],     
-      rotation: [0, - Math.PI / 8, 0],         
+      rotation: [0, Math.PI * 2, 0],         
     }));
     
     this.buildings = new BuildingPlacer(this, [
@@ -130,12 +130,6 @@ export default class WorldManager {
       ...apartmentRow,
       ...bunkerRow
     ]);
-
-    this.setGUI()
-    this.app.camera.followTarget(this.rocket.model) // rocket.model هو المجسم داخل كلاس Rocket
-    console.log(this.app.camera.currentMode)
-    this.gui.gui.add(this.app.camera, 'currentMode', ['orbit', 'first', 'follow']).name('Camera Mode')
-    
 
     this.setGUI();
     this.app.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
@@ -152,6 +146,7 @@ export default class WorldManager {
      this.rocket_lancher.setGUI()
      this.rocket.setGUI()
      this.atmosphere.setGUI()
+     this.atmosphereTracker.setGUI()
     //  this.ground.setGUI()
   }
 }
