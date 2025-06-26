@@ -3,6 +3,7 @@ export default class BuildingPlacer {
    * @param {import('./WorldManager').default} world
   */
   constructor(world, buildings) {
+    this.world = world;
     this.scene = world.scene;
     this.buildings = buildings;
 
@@ -14,6 +15,7 @@ export default class BuildingPlacer {
       const building = entry.model.clone();
 
       const [x, yOffset, z] = entry.position || [0, 0, 0];
+
       const y = this.world.ground.positionY + this.world.ground.thickness / 2 + yOffset;
 
       building.position.set(x, y, z);

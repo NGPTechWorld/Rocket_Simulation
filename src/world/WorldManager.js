@@ -98,7 +98,7 @@ export default class WorldManager {
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',996);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
 
-    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, [], {
+    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, {
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
       color: 0x555555,

@@ -5,10 +5,7 @@ export default class Ground {
    * @param {import('./WorldManager').default} world
   */
   constructor(world,textures,tree,options = {}) {
-  constructor(world,textures,tree,buildings,options = {}) {
-    this.world = world;
     this.scene = world.scene;
-    this.buildings = buildings
     this.textures = textures;
     this.tree = tree;
 
@@ -66,31 +63,31 @@ export default class Ground {
     this.scene.add(this.mesh);
   }
 
-  addTreesNearBuildings(buildings) {
-  const treeGroup = new THREE.Group();
+//   addTreesNearBuildings(buildings) {
+//   const treeGroup = new THREE.Group();
 
-  buildings.forEach((building) => {
-    const [x, y, z] = building.position;
-    const [sx, , sz] = building.scale;
+//   buildings.forEach((building) => {
+//     const [x, y, z] = building.position;
+//     const [sx, , sz] = building.scale;
 
-    const offsetX = sx * 10;
-    const offsetZ = sz * 3;  
+//     const offsetX = sx * 10;
+//     const offsetZ = sz * 3;  
 
-    const rightTree = this.tree.clone();
-    rightTree.position.set(x + offsetX, this.positionY + this.thickness / 2, z + offsetZ);
-    rightTree.rotation.y = Math.random() * Math.PI * 2;
-    rightTree.scale.set(6, 6, 6);
-    treeGroup.add(rightTree);
+//     const rightTree = this.tree.clone();
+//     rightTree.position.set(x + offsetX, this.positionY + this.thickness / 2, z + offsetZ);
+//     rightTree.rotation.y = Math.random() * Math.PI * 2;
+//     rightTree.scale.set(6, 6, 6);
+//     treeGroup.add(rightTree);
 
-    const leftTree = this.tree.clone();
-    leftTree.position.set(x - offsetX, this.positionY + this.thickness / 2, z - offsetZ);
-    leftTree.rotation.y = Math.random() * Math.PI * 2;
-    leftTree.scale.set(6, 6, 6);
-    treeGroup.add(leftTree);
-  });
+//     const leftTree = this.tree.clone();
+//     leftTree.position.set(x - offsetX, this.positionY + this.thickness / 2, z - offsetZ);
+//     leftTree.rotation.y = Math.random() * Math.PI * 2;
+//     leftTree.scale.set(6, 6, 6);
+//     treeGroup.add(leftTree);
+//   });
 
-  this.scene.add(treeGroup);
-}
+//   this.scene.add(treeGroup);
+// }
 
   setGUI() {
     if (this.world.gui) {
