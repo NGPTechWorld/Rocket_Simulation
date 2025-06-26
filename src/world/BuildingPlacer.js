@@ -6,15 +6,15 @@ export default class BuildingPlacer {
     this.scene = world.scene;
     this.buildings = buildings;
 
-    this.placeBuildings();
+    this.placeBuildings(world);
   }
 
-  placeBuildings() {
+  placeBuildings(world) {
     this.buildings.forEach((entry) => {
       const building = entry.model.clone();
 
       const [x, yOffset, z] = entry.position || [0, 0, 0];
-      const y = this.world.ground.positionY + this.world.ground.thickness / 2 + yOffset;
+      const y = world.ground.positionY + world.ground.thickness / 2 + yOffset;
 
       building.position.set(x, y, z);
 

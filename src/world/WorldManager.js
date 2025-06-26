@@ -13,9 +13,10 @@ import BuildingPlacer from "./BuildingPlacer.js";
 export default class WorldManager {
   /**
    * @param {import('./../core/AppRun.js').default} app
-  */
+   */
   constructor(app) {
     this.scene = app.scene;
+    this.camera=app.camera
     this.gui = app.gui;
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
@@ -91,7 +92,7 @@ export default class WorldManager {
 
     // World
     this.scene.background = this.textureLoader.get("space").map;
-    this.earth = new Earth(this, this.textureLoader.get("earth"));
+    this.earth = new Earth(this);
     this.rocket = new Rocket(this,rocket_model);
     this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
 
@@ -133,10 +134,10 @@ export default class WorldManager {
     ]);
 
     this.setGUI();
-    this.app.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
-    console.log(this.app.camera.currentMode);
+    this.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
+    console.log(this.camera.currentMode);
     this.gui.gui
-      .add(this.app.camera, "currentMode", ["orbit", "first", "follow"])
+      .add(this.camera, "currentMode", ["orbit", "first", "follow"])
       .name("Camera Mode");
   }
 

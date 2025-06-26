@@ -8,7 +8,7 @@ export default class Ground {
     this.scene = world.scene;
     this.textures = textures;
     this.tree = tree;
-
+      this.gui =world.gui
     this.radius = options.radius || 25;
     this.thickness = options.thickness || 0.5;
     this.color = options.color || 0xffffffff;
@@ -95,8 +95,8 @@ export default class Ground {
 }
 
   setGUI() {
-    if (this.world.gui) {
-      this.world.gui.addObjectControls('Ground', this.mesh);
+    if (this.gui) {
+      this.gui.addObjectControls('Ground', this.mesh);
     }
   }
 }

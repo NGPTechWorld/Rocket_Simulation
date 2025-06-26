@@ -12,7 +12,7 @@ export default class AtmosphereLayer {
     this.exrPath = exrPath;
     // this.glbPath = glbPath;
     this.radius = radius;
-
+      this.gui =world.gui
     this.exrLoader = new EXRLoader();
     // this.gltfLoader = new GLTFLoader();
 
@@ -110,7 +110,7 @@ export default class AtmosphereLayer {
   }
 
   setGUI() {
-    this.world.gui.add(this.settings, "mode", ["day", "night"]).onChange(() => {
+    this.gui.add(this.settings, "mode", ["day", "night"]).onChange(() => {
       this.updateModeTransition();
     });
   }

@@ -5,7 +5,7 @@ export default class Rocket {
   constructor(world, model) {
     this.scene = world.scene
     this.model = model
-
+    this.gui =world.gui
     this.groundLevel = -4.25
     this.ascentSpeed = 2
     this.setMesh()
@@ -23,9 +23,9 @@ export default class Rocket {
   }
 
   setGUI() {
-    this.world.gui.addObjectControls('Rocket',this.model)
-    this.world.gui.addTextMonitor('Rocket Height', () => this.height + ' m')
-    this.world.gui.addLaunchStopControls(this)
+    this.gui.addObjectControls('Rocket',this.model)
+    this.gui.addTextMonitor('Rocket Height', () => this.height + ' m')
+    this.gui.addLaunchStopControls(this)
   }
 
   launch() {
