@@ -15,7 +15,7 @@ export default class AtmosphereLayer {
       this.gui =world.gui
     this.exrLoader = new EXRLoader();
     // this.gltfLoader = new GLTFLoader();
-
+    this.skytexture= world.assetsLoader.getTextures()['sky'].map
     this.material = null;
     this.mesh = null;
     this.nightLight = null;
@@ -30,24 +30,42 @@ export default class AtmosphereLayer {
   }
 
   setSphere() {
-    this.exrLoader.load(this.exrPath, (texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
+    // this.exrLoader.load(this.exrPath, (texture) => {
+    //   texture.mapping = THREE.EquirectangularReflectionMapping;
 
-      const geometry = new THREE.SphereGeometry(this.radius, 64, 64);
-      this.material = new THREE.MeshBasicMaterial({
-        map: texture,
-        color: new THREE.Color(0xffffff),
-        side: THREE.BackSide,
-        transparent: true,
-        opacity: 1,
-        depthWrite: false,
-      });
+    //   const geometry = new THREE.SphereGeometry(this.radius, 64, 64);
+    //   this.material = new THREE.MeshBasicMaterial({
+    //     map: texture,
+    //     color: new THREE.Color(0xffffff),
+    //     side: THREE.BackSide,
+    //     transparent: true,
+    //     opacity: 1,
+    //     depthWrite: false,
+    //   });
 
-      this.mesh = new THREE.Mesh(geometry, this.material);
-      this.mesh.position.set(0, -5, 0);
-      this.scene.add(this.mesh);
-      this.updateModeTransition()
-    });
+    //   this.mesh = new THREE.Mesh(geometry, this.material);
+    //   this.mesh.position.set(0, -5, 0);
+    //   this.scene.add(this.mesh);
+    //   this.updateModeTransition()
+    // });
+    this.skytexture.mapping = THREE.EquirectangularReflectionMapping
+
+    const geometry = new THREE.SphereGeometry(this.radius, 64, 64)
+
+    this.material = new THREE.MeshBasicMaterial({
+      map: this.skytexture,
+      color: new THREE.Color(0xffffff),
+      side: THREE.BackSide,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false
+    })
+
+    this.mesh = new THREE.Mesh(geometry, this.material)
+    this.mesh.position.set(0, -5, 0)
+    this.scene.add(this.mesh)
+
+    this.updateModeTransition()
   }
 
   // loadCloudModel() {

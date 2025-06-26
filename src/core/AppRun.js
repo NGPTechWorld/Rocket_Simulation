@@ -44,6 +44,12 @@ export default class AppRun {
     await this.assetsLoader.loadAll({
       textures: [
         {
+          name: "sky",
+          maps: {
+            map: "/textures/puresky.exr",
+          },
+        },
+        {
           name: "earth",
           maps: { map: "/textures/earth_daymap.jpg" },
           repeat: { x: 1, y: 1 },
