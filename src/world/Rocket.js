@@ -2,9 +2,9 @@ export default class Rocket {
      /**
    * @param {import('./WorldManager').default} world
   */
-  constructor(world, model) {
+  constructor(world) {
     this.scene = world.scene
-    this.model = model
+    this.model = world.assetsLoader.getModels().rocket
     this.gui =world.gui
     this.groundLevel = -4.25
     this.ascentSpeed = 2
