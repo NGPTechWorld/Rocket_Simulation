@@ -67,6 +67,7 @@ export default class AppRun {
         house: "models/build.glb",
         apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
+        city: 'models/NEW+CİTY.1blend.glb',
       },
       sounds: {
         launch: "/sounds/explosion.mp3",

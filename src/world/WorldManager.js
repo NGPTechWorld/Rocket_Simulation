@@ -47,7 +47,15 @@ export default class WorldManager {
     const building =this.assetsLoader.getModels().house;
     const apartment =this.assetsLoader.getModels().apartment;
     const bunker =this.assetsLoader.getModels().bunker;
-    
+    const city = this.assetsLoader.getModels().city;
+
+    const cityRow = Array.from({ length: 1 }, (_, i) => ({
+      model: city,
+      scale: [16,16, 16],
+      position: [-750 + i * 180, 0.3, 150],
+      rotation: [0, Math.PI / 2, 0], 
+    }));
+
     const buildingRow = Array.from({ length: 4 }, (_, i) => ({
       model: building,
       scale: [8,8, 8],
@@ -72,7 +80,8 @@ export default class WorldManager {
     this.buildings = new BuildingPlacer(this, [
       ...buildingRow,
       ...apartmentRow,
-      ...bunkerRow
+      ...bunkerRow,
+      ...cityRow
     ]);
 
     // this.ground.buildings = this.buildings;
