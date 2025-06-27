@@ -77,17 +77,21 @@ export default class Rocket {
     }, 6000);
   }
 
+  explosion() {
+    if (this.isExplosion) return;
+    this.isExplosion = true;
+    this.exploded = true;
+    new ExplosionEffect(this.world, this.model.position);
+    this.world.scene.remove(this.model);
+  }
   update() {
     if (this.isLaunching) {
-      const elapsed = (performance.now() - this.launchStartTime) / 1000;
       if (this.startLiftOff) {
         this.model.position.y += 0.5;
       }
     } else {
       if (this.model.position.y <= this.ground) {
-        this.exploded = true;
-        new ExplosionEffect(this.world, this.model.position);
-        this.world.scene.remove(this.model);
+        this.explosion()
       }
     }
   }

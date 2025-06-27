@@ -6,26 +6,24 @@ export default class ExplosionEffect {
     this.position = position.clone()
 
     this.createFlash()
-    this.createSmokeParticles()
+    // this.createSmokeParticles()
     //this.shakeCamera()
     this.playSound()
   }
 
   createFlash() {
     const flash = new THREE.PointLight(0xff5500, 50000, 100000)
-    flash.position.copy(this.position).add(new THREE.Vector3(0, 10, 0)) // رفع الضوء شوي للأعلى
+    flash.position.copy(this.position).add(new THREE.Vector3(0, 10, 0))
     flash.castShadow = true
-
     this.world.scene.add(flash)
 
-    // إضافة ضوء عام يغمر العالم مؤقتاً
     const ambientFlash = new THREE.AmbientLight(0xff2200, 3)
     this.world.scene.add(ambientFlash)
 
     setTimeout(() => {
       this.world.scene.remove(flash)
       this.world.scene.remove(ambientFlash)
-    }, 500)
+    }, 15000)
   }
 
   createSmokeParticles() {

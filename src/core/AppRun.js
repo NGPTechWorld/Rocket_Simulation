@@ -11,6 +11,7 @@ import Time from "./utils/Time.js";
 import EventEmitter from "./utils/EventEmitter.js";
 import GuiController from "./../world/ui/GuiController.js";
 import LoadingScreen from "./../world/ui/LoadingScreen.js";
+import MainMenu from './../world/ui/MainMenu.js'
 
 export default class AppRun {
   static instance;
@@ -22,6 +23,7 @@ export default class AppRun {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
 
+   // this.mainMenu = new MainMenu();
     this.gui = new GuiController();
     this.sizes = new Sizes();
     this.eventEmitter = new EventEmitter();
@@ -75,6 +77,7 @@ export default class AppRun {
     });
 
     this.loadingScreen.hide();
+    //this.mainMenu.show();
     this.sceneManager = new SceneManager(this);
   }
 
