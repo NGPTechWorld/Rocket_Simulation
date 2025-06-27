@@ -38,8 +38,8 @@ export default class RocketSmoke {
       sprite,
       //   velocity: new THREE.Vector3(0, -0.01 + Math.random() * 0.01, 0),
       velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.003, // حركة جانبية بطيئة
-        -0.005 + Math.random() * -0.002, // أبطأ نزول
+        (Math.random() - 0.5) * 0.003, 
+        -0.005 + Math.random() * -0.002, 
         (Math.random() - 0.5) * 0.003
       ),
       life: 1.2,
@@ -57,7 +57,7 @@ export default class RocketSmoke {
       p.sprite.position.add(p.velocity);
       p.life -= 0.01;
       p.sprite.material.opacity = p.life * 0.5;
-      p.sprite.scale.multiplyScalar(1.02); // يتوسع
+      p.sprite.scale.multiplyScalar(1.02);
 
       if (p.life <= 0) {
         this.scene.remove(p.sprite);

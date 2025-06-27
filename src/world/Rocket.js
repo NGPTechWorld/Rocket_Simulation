@@ -51,6 +51,7 @@ export default class Rocket {
   launch() {
     if (this.isLaunching) return;
     this.isLaunching = true;
+    this.world.camera.switchMode('follow')
 
     this.world.assetsLoader.soundManager.play("launch");
 
@@ -64,14 +65,17 @@ export default class Rocket {
     this.world.scene.add(flash);
     setTimeout(() => {
       this.world.scene.remove(flash);
-    }, 3000); 
+    }, 4000); 
   }
 
   update() {
     if (this.isLaunching) {
       const elapsed = (performance.now() - this.launchStartTime) / 1000;
-
-      this.model.position.y += 0.05;
+      if (elapsed > 1) {
+        // this.stopCameraShake();
+        this.model.position.y += 0.05;
+      }
+      
 
       if (elapsed > 2) {
         this.stopCameraShake();
