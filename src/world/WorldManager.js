@@ -9,6 +9,7 @@ import SoundManager from "./../core/SoundManager.js";
 import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
 import BuildingPlacer from "./BuildingPlacer.js";
+import RocketFire from './effects/RocketFire.js'
 
 export default class WorldManager {
   /**
@@ -73,7 +74,8 @@ export default class WorldManager {
     ]);
 
     this.setGUI();
-    this.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
+    this.camera.followTarget(this.rocket.model); 
+    this.rocketFire = new RocketFire(this.scene, this.rocket.model)
     console.log(this.camera.currentMode);
     this.gui.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])
@@ -82,6 +84,7 @@ export default class WorldManager {
 
   update() {
     this.atmosphereTracker?.update();
+    this.rocketFire?.update()
   }
   setGUI() {
     // this.rocket_lancher.setGUI()

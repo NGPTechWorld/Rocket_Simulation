@@ -30,24 +30,6 @@ export default class AtmosphereLayer {
   }
 
   setSphere() {
-    // this.exrLoader.load(this.exrPath, (texture) => {
-    //   texture.mapping = THREE.EquirectangularReflectionMapping;
-
-    //   const geometry = new THREE.SphereGeometry(this.radius, 64, 64);
-    //   this.material = new THREE.MeshBasicMaterial({
-    //     map: texture,
-    //     color: new THREE.Color(0xffffff),
-    //     side: THREE.BackSide,
-    //     transparent: true,
-    //     opacity: 1,
-    //     depthWrite: false,
-    //   });
-
-    //   this.mesh = new THREE.Mesh(geometry, this.material);
-    //   this.mesh.position.set(0, -5, 0);
-    //   this.scene.add(this.mesh);
-    //   this.updateModeTransition()
-    // });
     this.skytexture.mapping = THREE.EquirectangularReflectionMapping
 
     const geometry = new THREE.SphereGeometry(this.radius, 64, 64)
