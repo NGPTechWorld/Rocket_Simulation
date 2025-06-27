@@ -2,11 +2,16 @@
 import { Vector3 } from "three";
 import Engine from "./Engine.js";
 
+let instance = null;
 export default class Rocket {
   constructor(
     initialFuelMass = 2_162_000, // kg
     fuelTypeName = "RP-1/LOX"
   ) {
+    if (instance) {
+      return instance;
+    }
+    instance = this;
     this.position = new Vector3(0, 0, 0);
     this.velocity = new Vector3(0, 0, 0);
     this.acceleration = new Vector3(0, 0, 0);

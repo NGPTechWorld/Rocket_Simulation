@@ -1,13 +1,14 @@
+import Environment from "./Environment.js";
 import Force from "./Force.js";
 
 let instance = null;
 export default class ThrustForce extends Force {
-  constructor(engine, env) {
+  constructor(engine) {
     super();
     if (instance) return instance;
     instance = this;
     this.engine = engine;
-    this.env = env;
+    this.env = new Environment();
   }
 
   _computeExhaustVelocity(pe) {
@@ -23,9 +24,9 @@ export default class ThrustForce extends Force {
     return Math.sqrt(factor * (1 - Math.pow(pr, expFac)));
   }
 
-  update() {
+  update(deltaTime) {
     this.reset();
-    const dm = this.engine.updateFuel(this.env.deltaTime || 0);
+    const dm = this.engine.updateFuel(deltaTime || 0);
     if (dm <= 0) return;
     const mDot = this.engine.getMassFlowRate();
     const { pressure: pe } = this.env.atAltitude(this.engine.rocket.position.y);

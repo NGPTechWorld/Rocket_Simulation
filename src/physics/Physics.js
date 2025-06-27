@@ -22,7 +22,7 @@ export default class Physics {
       weight: new WeightForce(),
       drag: new DragForce(),
       lift: new LiftForce(),
-      thrust: new ThrustForce(),
+      thrust: new ThrustForce(this.rocket.engine),
     };
   }
 
@@ -63,7 +63,7 @@ export default class Physics {
     this.forces.weight.update();
     this.forces.drag.update();
     this.forces.lift.update();
-    this.forces.thrust.update();
+    this.forces.thrust.update(this.deltaTime);
     this.environment.update();
   }
 
