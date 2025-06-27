@@ -24,23 +24,22 @@ export default class RocketSmoke {
 
     const sprite = new THREE.Sprite(material);
     const offset = new THREE.Vector3(
-      (Math.random() - 0.5) * 1.5,
-      -1.5,
-      (Math.random() - 0.5) * 1.5
+      (Math.random() - 0.5) * 4.5, // توسيع النطاق
+      -6.0,
+      (Math.random() - 0.5) * 4.5
     );
 
-    sprite.position.copy(this.rocket.position).add(offset);
-    sprite.scale.set(1.9, 1.5, 1.9);
+    sprite.position.add(offset);
+    sprite.scale.set(3.8, 3.0, 3.8);
 
-    this.scene.add(sprite);
+    this.rocket.add(sprite);
 
     this.particles.push({
       sprite,
-      //   velocity: new THREE.Vector3(0, -0.01 + Math.random() * 0.01, 0),
       velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.003, 
-        -0.005 + Math.random() * -0.002, 
-        (Math.random() - 0.5) * 0.003
+        (Math.random() - 0.5) * 0.01, // أوسع حركة أفقية
+        -0.002 + Math.random() * -0.002, // نزول أبطأ
+        (Math.random() - 0.5) * 0.01
       ),
       life: 1.2,
     });
@@ -60,7 +59,7 @@ export default class RocketSmoke {
       p.sprite.scale.multiplyScalar(1.02);
 
       if (p.life <= 0) {
-        this.scene.remove(p.sprite);
+        this.rocket.remove(p.sprite);
         this.particles.splice(i, 1);
       }
     });
