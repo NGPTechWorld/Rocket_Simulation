@@ -4,9 +4,10 @@ export default class RocketLaucherPad {
   /**
    * @param {import('./WorldManager').default} world
   */
-  constructor(world, model) {
+  constructor(world) {
     this.scene = world.scene
-    this.rocket_lancher = model
+    this.rocket_lancher = world.assetsLoader.getModels().rocket_lancher
+
     this.gui =world.gui
     this.setMesh()
 

@@ -9,12 +9,15 @@ import SoundManager from "./../core/SoundManager.js";
 import AtmosphereLayer from "./AtmoshpereLayer.js";
 import Ground from "./Ground.js";
 import BuildingPlacer from "./BuildingPlacer.js";
+import RocketFire from './effects/RocketFire.js'
+import RocketSmoke from './effects/RocketSmoke.js'
 
 export default class WorldManager {
   /**
    * @param {import('./../core/AppRun.js').default} app
    */
   constructor(app) {
+    this.assetsLoader=app.assetsLoader
     this.scene = app.scene;
     this.camera=app.camera
     this.gui = app.gui;
@@ -22,90 +25,29 @@ export default class WorldManager {
     this.modelLoader = new ModelLoader();
 
     this.init();
-
-    // this.modelLoader.load(
-    //   'rocket',
-    //   '/models/rocket+laucher+pad.glb',
-    //   this.scene,
-    //   (model, animations) => {
-    //     model.position.set(0, 0, 0)
-    //     // لاحقًا فينا نستخدم animations
-    //   }
-    // )
   }
 
   async init() {
-    // init Textuers
-    const basePath = "/textures/";
-
-    // await this.textureLoader.load(
-    //   "grass",
-    //   {
-    //     map: basePath + "Grass003_1K-JPG_Color.jpg",
-    //     normalMap: basePath + "Grass003_1K-JPG_NormalGL.jpg",
-    //     roughnessMap: basePath + "Grass003_1K-JPG_Roughness.jpg",
-    //     aoMap: basePath + "Grass003_1K-JPG_AmbientOcclusion.jpg",
-    //   },
-    //   {
-    //     repeat: { x: 50, y: 50 }
-    //   }
-    // );
-    // await this.sound.load(
-    //   "explosion",
-    //   "/sounds/explosion.mp3",
-    //   false,
-    //   1
-    // );
-    // this.sound.play("explosion");
-    await this.textureLoader.load(
-      "earth",
-      {
-        map: basePath + "earth_daymap.jpg",
-      },
-      {
-        repeat: { x: 1, y: 1 },
-      }
-    );
-    await this.textureLoader.load(
-      "space",
-      {
-        map: basePath + "outer-space-background.jpg",
-      },
-      {
-        repeat: { x: 1, y: 1 },
-      }
-    );
-
-    // init Models
-    const building = await this.modelLoader.load('house','models/build.glb')
-    const apartment = await this.modelLoader.load('apartment','models/EEB_015.glb')
-    const bunker = await this.modelLoader.load('bunker','models/Bunker.glb')
-    const rocket_model = await this.modelLoader.load(
-      "rocket",
-      "/models/saturn_V_syria.glb"
-    );
-    const rocket_lancher = await this.modelLoader.load(
-      "rocket_lancher",
-      "/models/rocket_laucher_pad.glb"
-    );
-    const tree = await this.modelLoader.load("tree", "/models/birch_tree.glb");
-
+    
     // World
-    this.scene.background = this.textureLoader.get("space").map;
+    this.scene.background = this.assetsLoader.getTextures()['space'].map;
     this.earth = new Earth(this);
-    this.rocket = new Rocket(this,rocket_model);
-    this.rocket_lancher = new RocketLaucherPad(this,rocket_lancher);
+    this.rocket = new Rocket(this);
+    this.rocket_lancher = new RocketLaucherPad(this);
 
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',996);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
 
-    this.ground = new Ground(this, this.textureLoader.get("grass"), tree, {
+    this.ground = new Ground(this,this.textureLoader.get("grass"),this.assetsLoader.getModels().tree,{
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
       color: 0x555555,
-      positionY: -5.25
-    });
-
+      positionY: -5.25     
+    })
+    const building =this.assetsLoader.getModels().house;
+    const apartment =this.assetsLoader.getModels().apartment;
+    const bunker =this.assetsLoader.getModels().bunker;
+    
     const buildingRow = Array.from({ length: 4 }, (_, i) => ({
       model: building,
       scale: [8,8, 8],
@@ -136,7 +78,9 @@ export default class WorldManager {
     // this.ground.buildings = this.buildings;
 
     this.setGUI();
-    this.camera.followTarget(this.rocket.model); // rocket.model هو المجسم داخل كلاس Rocket
+    this.camera.followTarget(this.rocket.model); 
+    this.rocketFire = new RocketFire(this.scene, this.rocket.model)
+    this.rocketSmoke = new RocketSmoke(this.scene, this.rocket.model)
     console.log(this.camera.currentMode);
     this.gui.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])
@@ -145,12 +89,16 @@ export default class WorldManager {
 
   update() {
     this.atmosphereTracker?.update();
+    this.rocketFire?.update()
+    this.rocketSmoke?.update()
+    this.rocket?.update()
+
   }
   setGUI() {
-     this.rocket_lancher.setGUI()
-     this.rocket.setGUI()
-     this.atmosphere.setGUI()
-     this.atmosphereTracker.setGUI()
+    // this.rocket_lancher.setGUI()
+    this.rocket.setGUI()
+    this.atmosphere.setGUI()
+    this.atmosphereTracker.setGUI()
     //  this.ground.setGUI()
   }
 }

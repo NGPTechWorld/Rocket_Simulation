@@ -1,49 +1,47 @@
 import * as THREE from 'three'
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js'
 
 export default class TextureLoader {
   constructor() {
     this.loader = new THREE.TextureLoader()
+    this.exrLoader = new EXRLoader()
     this.textures = {}
   }
 
-  /**
-   * تحميل خرائط خامات متعددة لمادة معينة
-   * @param {string} materialName
-   * @param {object} maps - { map: path, normalMap: path, ... }
-   * @param {object} options - مثل repeat و filters
-   * @returns {Promise<void>} - تنتظر تحميل كل الخرائط
-   */
-  load(materialName, maps, options = {}) {
+  async load(materialName, maps, options = {}) {
     this.textures[materialName] = {}
-
     const promises = []
 
     for (const type in maps) {
-      const promise = new Promise((resolve, reject) => {
-        this.loader.load(
-          maps[type],
+      const path = maps[type]
 
+      const promise = new Promise((resolve, reject) => {
+        const isEXR = path.endsWith('.exr')
+        const usedLoader = isEXR ? this.exrLoader : this.loader
+
+        usedLoader.load(
+          path,
           (texture) => {
             console.log(`🟢 [TextureLoader] ${materialName} - ${type} loaded ✅`)
-            texture.wrapS = THREE.RepeatWrapping
-            texture.wrapT = THREE.RepeatWrapping
-            texture.generateMipmaps = false
-            texture.minFilter = THREE.NearestFilter
-            texture.magFilter = THREE.NearestFilter
 
-            if (options.repeat) {
-              texture.repeat.set(options.repeat.x, options.repeat.y)
+            if (!isEXR) {
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.generateMipmaps = false
+              texture.minFilter = THREE.NearestFilter
+              texture.magFilter = THREE.NearestFilter
+              if (options.repeat) {
+                texture.repeat.set(options.repeat.x, options.repeat.y)
+              }
             }
 
             this.textures[materialName][type] = texture
             resolve()
           },
-
           undefined,
-
-          (error) => {
-            console.error(`🔴 [TextureLoader] Failed to load ${materialName} - ${type}`, error)
-            reject(error)
+          (err) => {
+            console.error(`🔴 Failed to load texture: ${path}`, err)
+            reject(err)
           }
         )
       })
@@ -51,10 +49,10 @@ export default class TextureLoader {
       promises.push(promise)
     }
 
-    return Promise.all(promises).then(() => {})
+    return Promise.all(promises)
   }
 
-  get(materialName) {
-    return this.textures[materialName]
+  get(name) {
+    return this.textures[name]
   }
 }
