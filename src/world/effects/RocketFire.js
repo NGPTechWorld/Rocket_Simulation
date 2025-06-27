@@ -25,7 +25,7 @@ export default class RocketFire {
     const sprite = new THREE.Sprite(material)
     const offset = new THREE.Vector3(
       (Math.random() - 0.5) * 0.4,
-      -1.8,
+      -1.5,
       (Math.random() - 0.5) * 0.4
     )
 
@@ -36,7 +36,7 @@ export default class RocketFire {
 
     this.particles.push({
       sprite,
-      velocity: new THREE.Vector3(0, 0.02 + Math.random() * 0.02, 0),
+      velocity: new THREE.Vector3(0, -0.02 + Math.random() * 0.02, 0),
       life: 1, 
     })
   }

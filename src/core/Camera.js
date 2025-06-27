@@ -3,15 +3,14 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import FirstPersonControls from "./FirstPersonControls.js";
 
 export default class Camera {
-    /**
+  /**
    * @param {import('./AppRun.js').default} app
    */
   constructor(app) {
-  
     this.sizes = app.sizes;
     this.scene = app.scene;
     this.canvas = app.canvas;
-    this.eventEmitter=app.eventEmitter
+    this.eventEmitter = app.eventEmitter;
     this.currentMode = "orbit";
     this.setInstance();
     this.setOrbitControls();
@@ -25,7 +24,7 @@ export default class Camera {
       75,
       this.sizes.width / this.sizes.height,
       1,
-      50000, 
+      50000
     );
     this.instance.position.set(0, 2, 10);
     this.scene.add(this.instance);
@@ -60,8 +59,12 @@ export default class Camera {
     switch (this.currentMode) {
       case "orbit":
         if (this.firstPerson) {
-          this.canvas.removeEventListener("click",this.firstPerson._onClickToLock);
+          this.canvas.removeEventListener(
+            "click",
+            this.firstPerson._onClickToLock
+          );
         }
+        this.orbit.enabled = true
         this.orbit?.update();
         break;
 
@@ -69,7 +72,7 @@ export default class Camera {
         if (!this.firstPerson) {
           this.setFirstPersonControls();
         }
-        
+
         this.firstPerson.update();
         break;
 
@@ -83,5 +86,21 @@ export default class Camera {
         }
         break;
     }
+  }
+  switchMode(mode) {
+    if (this.currentMode === "first" && this.firstPerson) {
+      this.firstPerson.controls.unlock();
+    }
+
+    this.currentMode = mode;
+
+    if (this.orbit) {
+      this.orbit.enabled = mode === "orbit";
+    }
+
+    if (mode === "first" && !this.firstPerson) {
+      this.setFirstPersonControls();
+    }
+    
   }
 }
