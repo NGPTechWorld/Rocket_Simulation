@@ -23,7 +23,7 @@ export default class DragForce extends Force {
 
     const dragMagnitude =
       this.rocket.dragCoefficient *
-      this.rocket.A *
+      this.rocket.crossSectionalArea *
       0.5 *
       this.environment.airDensity *
       Math.pow(speed, 2);

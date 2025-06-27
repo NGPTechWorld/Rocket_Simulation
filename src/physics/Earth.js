@@ -1,5 +1,3 @@
-import { Vector3 } from "three";
-
 let instance = null;
 export default class Earth {
   constructor() {

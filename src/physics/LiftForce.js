@@ -1,4 +1,6 @@
 import Force from "./Force";
+import Rocket from "./Rocket";
+import Environment from "./Environment";
 
 let instance = null;
 export default class LiftForce extends Force {
@@ -23,7 +25,7 @@ export default class LiftForce extends Force {
 
     const liftMagnitude =
       this.rocket.liftCoefficient *
-      this.rocket.A *
+      this.rocket.crossSectionalArea *
       0.5 *
       this.environment.airDensity *
       Math.pow(speed, 2);

@@ -27,7 +27,7 @@ export default class WeightForce extends Force {
 
   update() {
     const gravity = this.computeGravityAcceleration();
-    const mass = this.rocket.fullMass();
+    const mass = this.rocket.getTotalMass();
 
     const directionToEarthCenter = this.rocket.position
       .clone()

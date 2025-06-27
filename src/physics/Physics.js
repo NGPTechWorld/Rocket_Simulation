@@ -38,34 +38,33 @@ export default class Physics {
   }
 
   acceleration() {
-    let a = new Vector3();
-    a.copy(this.getTotalForce());
-    a.divideScalar(this.rocket.fullMass());
-    this.rocket.acceleration.copy(a);
+    this.rocket.acceleration
+      .copy(this.getTotalForce())
+      .divideScalar(this.rocket.getTotalMass());
   }
 
   velocity() {
-    let v = this.rocket.acceleration;
-    this.rocket.velocity.add(v.multiplyScalar(this.deltaTime));
+    this.rocket.velocity.addScaledVector(
+      this.rocket.acceleration,
+      this.deltaTime
+    );
   }
 
-  location() {
-    let displacement = new Vector3();
-    displacement.copy(this.rocket.velocity);
-    displacement.multiplyScalar(this.deltaTime);
-    this.rocket.position.add(displacement);
+  position() {
+    this.rocket.position.addScaledVector(this.rocket.velocity, this.deltaTime);
   }
 
   update() {
     this.time_update();
     this.acceleration();
     this.velocity();
+    this.position();
+    this.rocket.update();
     this.forces.weight.update();
     this.forces.drag.update();
     this.forces.lift.update();
     this.forces.thrust.update();
     this.environment.update();
-    this.rocket.update();
   }
 
   time_update() {

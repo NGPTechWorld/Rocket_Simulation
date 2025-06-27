@@ -1,12 +1,14 @@
+import FuelType from "./FuelType";
+
 export default class Fuel {
   /**
    * @param {number} initialMass – كتلة الوقود الابتدائية (kg)
-   * @param {string} typeName     
+   * @param {string} typeName
    */
   constructor(initialMass, typeName) {
     this._mass = initialMass;
-    this.type  = new FuelType(typeName);
-   // this.history = [];
+    this.type = new FuelType(typeName);
+    // this.history = [];
   }
 
   get mass() {
@@ -17,16 +19,16 @@ export default class Fuel {
     this._mass = Math.max(0, this._mass - dm);
   }
 
-  getBurnRate(nominalRate) { 
+  getBurnRate(nominalRate) {
     return nominalRate * this.type.getCombustionEfficiency();
   }
 
   update(deltaTime, nominalBurnRate, currentTime, engine) {
     const dm = this.getBurnRate(nominalBurnRate) * deltaTime;
     this._consume(dm);
- 
-   // this.history.push({ time: currentTime, mass: this._mass });
- 
+
+    // this.history.push({ time: currentTime, mass: this._mass });
+
     if (this._mass === 0 && engine.isBurning()) {
       engine.stop();
     }
