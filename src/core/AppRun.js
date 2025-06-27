@@ -69,7 +69,7 @@ export default class AppRun {
         bunker: "models/Bunker.glb",
       },
       sounds: {
-        bomb: "/sounds/explosion.mp3",
+        explosion: "/sounds/explosion.mp3",
         launch: "/sounds/rocket_lanch.mp3",
       },
     });

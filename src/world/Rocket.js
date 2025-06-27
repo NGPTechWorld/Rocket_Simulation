@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import ExplosionEffect from "./effects/ExplosionEffect.js";
 
 export default class Rocket {
   /**
@@ -10,8 +11,11 @@ export default class Rocket {
     this.model = world.assetsLoader.getModels().rocket;
     this.gui = world.gui;
     this.groundLevel = 11;
+    this.ground = 9;
+
     this.ascentSpeed = 2;
-    this.isLaunching = false
+    this.isLaunching = false;
+    this.isExplosion = false;
     this.setMesh();
   }
 
@@ -77,17 +81,20 @@ export default class Rocket {
     if (this.isLaunching) {
       const elapsed = (performance.now() - this.launchStartTime) / 1000;
       if (this.startLiftOff) {
-      this.model.position.y += 0.5;
-    }
-
-    
+        this.model.position.y += 0.5;
+      }
+    } else {
+      if (this.model.position.y <= this.ground) {
+        this.exploded = true;
+        new ExplosionEffect(this.world, this.model.position);
+        this.world.scene.remove(this.model);
+      }
     }
   }
 
   stop() {
     this.isLaunching = false;
     this.world.assetsLoader.soundManager.stop("launch");
-
   }
 
   startCameraShake() {
