@@ -1,64 +1,56 @@
-import Fuel from "./Fuel.js";
+import Fuel from './Fuel.js';
 
 export default class Engine {
-  constructor(initialFuelMass, fuelTypeName, rocket) {
-    this.rocket = rocket;
-    this.fuel = new Fuel(initialFuelMass, fuelTypeName);
-    this.nominalBurnRate = this.fuel.mass / 168; // kg/s based on exact burn time
-    this.thrustTime = 168; // s, S-IC burn duration
-    this.elapsedTime = 0;
-    this.isActive = false;
-  }
+    constructor(initialFuelMass, fuelTypeName, rocket, exitArea) {
+        this.rocket = rocket;
+        this.fuel = new Fuel(initialFuelMass, fuelTypeName);
+        this.nominalBurnRate = this.fuel.mass / 168;
+        this.burnDuration = 168;
+        this.elapsedTime = 0;
+        this.isActive = false;
+        this.exitArea = exitArea != null ? exitArea : rocket.exitArea;
+    }
 
-  start() {
-    this.isActive = true;
-    this.elapsedTime = 0;
-  }
+    start() {
+        this.isActive = true;
+        this.elapsedTime = 0;
+    }
 
-  stop() {
-    this.isActive = false;
-  }
+    stop() {
+        this.isActive = false;
+    }
 
-  isBurning() {
-    return (
-      this.isActive && this.elapsedTime < this.thrustTime && this.fuel.mass > 0
-    );
-  }
+    isBurning() {
+        return this.isActive && this.elapsedTime < this.burnDuration && this.fuel.mass > 0;
+    }
 
-  /**
-   * تحديث الوقود وكتلة الصاروخ، ثم زيادة العداد الزمني
-   */
-  updateFuel(deltaTime) {
-    if (!this.isBurning()) return 0;
-    const prevFuelMass = this.fuel.mass;
-    this.fuel.update(deltaTime, this.nominalBurnRate, this.elapsedTime, this);
-    const dm = prevFuelMass - this.fuel.mass;
-    this.rocket.mass -= dm;
-    this.elapsedTime += deltaTime;
-    if (this.fuel.mass <= 0) this.stop();
-    return dm;
-  }
+    updateFuel(deltaTime) {
+        if (!this.isBurning()) return 0;
+        const prev = this.fuel.mass;
+        this.fuel.update(deltaTime, this.nominalBurnRate, this);
+        const consumed = prev - this.fuel.mass;
+        this.rocket.mass -= consumed;
+        this.elapsedTime += deltaTime;
+        if (this.fuel.mass <= 0) this.stop();
+        return consumed;
+    }
 
-  /**
-   * يحسب الدفع من المحرك فقط (دون القوانين الأخرى)
-   */
-  computeThrust(mDot, ve) {
-    return mDot * ve * this.rocket.nozzleCount;
-  }
+    computeThrust(massFlowRate, exhaustVelocity, ambientPressure) {
+        const N = this.rocket.nozzleCount;
+        const momentum = massFlowRate * exhaustVelocity * N;
+        const ft = this.fuel.fuelType;
+        const critRatio = Math.pow(2 / (ft.gamma + 1), ft.gamma / (ft.gamma - 1));
+        const exitPressure = ft.chamberPressure * critRatio;
+        // pressure thrust
+        const pressureTerm = (exitPressure - ambientPressure) * this.exitArea * N;
+        return momentum + pressureTerm;
+    }
 
-  /**
-   * يعيد معدل تدفق الكتلة (kg/s)
-   */
-  getMassFlowRate() {
-    const ft = this.fuel.type;
-    const Pt = ft.Pc || 6.8e6;
-    const term1 = (this.rocket.A_throat * Pt) / Math.sqrt(ft.Tt);
-    const term2 = Math.sqrt(ft.gamma / ft.R_spec);
-    const term3 = Math.pow(
-      (ft.gamma + 1) / 2,
-      -(ft.gamma + 1) / (2 * (ft.gamma - 1))
-    );
-    const critical = Math.sqrt((2 * ft.gamma) / (ft.gamma + 1));
-    return term1 * term2 * term3 * critical * ft.efficiency;
-  }
+    getMassFlowRate() {
+        const ft = this.fuel.fuelType;
+        const {chamberPressure: Pt, chamberTemperature: Tt, gamma, specificGasConstant: R} = ft;
+        const term = Pt / Math.sqrt(Tt) * Math.sqrt(gamma / R)
+            * Math.pow((gamma + 1) / 2, -(gamma + 1) / (2 * (gamma - 1)));
+        return this.rocket.A_throat * term;
+    }
 }

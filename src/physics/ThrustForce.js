@@ -1,37 +1,32 @@
-import Environment from "./Environment.js";
-import Force from "./Force.js";
+import Environment from './Environment.js';
+import Force from './Force.js';
 
-let instance = null;
 export default class ThrustForce extends Force {
-  constructor(engine) {
-    super();
-    if (instance) return instance;
-    instance = this;
-    this.engine = engine;
-    this.env = new Environment();
-  }
-
-  _computeExhaustVelocity(pe) {
-    const ft = this.engine.fuel.type;
-    const Pt = ft.Pc || 6.8e6;
-    const pr = pe / Pt;
-    const prCrit = Math.pow(2 / (ft.gamma + 1), ft.gamma / (ft.gamma - 1));
-    const expFac = (ft.gamma - 1) / ft.gamma;
-    const factor = ((2 * ft.gamma) / (ft.gamma - 1)) * ft.R_spec * ft.Tt;
-    if (pr > prCrit) {
-      return Math.sqrt(factor * (1 - Math.pow(prCrit, expFac)));
+    constructor(engine) {
+        super();
+        this.engine = engine;
+        this.env = new Environment();
     }
-    return Math.sqrt(factor * (1 - Math.pow(pr, expFac)));
-  }
 
-  update(deltaTime) {
-    this.reset();
-    const dm = this.engine.updateFuel(deltaTime || 0);
-    if (dm <= 0) return;
-    const mDot = this.engine.getMassFlowRate();
-    const { pressure: pe } = this.env.atAltitude(this.engine.rocket.position.y);
-    const ve = this._computeExhaustVelocity(pe);
-    const thrust = this.engine.computeThrust(mDot, ve);
-    this.force.set(0, thrust, 0);
-  }
+    _computeExhaustVelocity(ambientPressure) {
+        const ft = this.engine.fuel.fuelType;
+        const {chamberPressure: Pt, chamberTemperature: Tt, gamma, specificGasConstant: R} = ft;
+        const pr = ambientPressure / Pt;
+        const crit = Math.pow(2 / (gamma + 1), gamma / (gamma - 1));
+        const expo = (gamma - 1) / gamma;
+        const factor = (2 * gamma / (gamma - 1)) * R * Tt;
+        if (pr > crit) return Math.sqrt(factor * (1 - Math.pow(crit, expo)));
+        return Math.sqrt(factor * (1 - Math.pow(pr, expo)));
+    }
+
+    update(dt) {
+        this.reset();
+        const dm = this.engine.updateFuel(dt);
+        if (dm <= 0) return;
+        const mfr = this.engine.getMassFlowRate();
+        const pa = this.env.getPressureAtAltitude(this.engine.rocket.position.y);
+        const ve = this._computeExhaustVelocity(pa);
+        const F = this.engine.computeThrust(mfr, ve, pa);
+        this.force.set(0, F, 0);
+    }
 }

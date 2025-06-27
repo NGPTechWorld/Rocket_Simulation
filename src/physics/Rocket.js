@@ -1,40 +1,37 @@
-// Rocket.js
-import { Vector3 } from "three";
-import Engine from "./Engine.js";
+import {Vector3} from 'three';
+import Engine from './Engine.js';
 
-let instance = null;
+let rocketInstance = null;
 export default class Rocket {
-  constructor(
-    initialFuelMass = 2_162_000, // kg
-    fuelTypeName = "RP-1/LOX"
-  ) {
-    if (instance) {
-      return instance;
+    constructor(
+        initialFuelMass = 2_021_000,
+        fuelTypeName = 'RP-1/LOX'
+    ) {
+        if (rocketInstance) return rocketInstance;
+        rocketInstance = this;
+        this.position = new Vector3(0, 0, 0);
+        this.velocity = new Vector3(0, 0, 0);
+        this.acceleration = new Vector3(0, 0, 0);
+
+        this.dryMass = 137_000;
+        this.crossSectionalArea = 78.5;
+        this.dragCoefficient = 0.45;
+        this.liftCoefficient = 0.1;
+        this.nozzleCount = 5;
+        this.exitArea = 15.36;
+        this.A_throat = 0.96;
+
+        this.engine = new Engine(initialFuelMass, fuelTypeName, this, this.exitArea);
     }
-    instance = this;
-    this.position = new Vector3(0, 0, 0);
-    this.velocity = new Vector3(0, 0, 0);
-    this.acceleration = new Vector3(0, 0, 0);
 
-    this.dryMass = 137_000; // kg
-    this.crossSectionalArea = 10; // m²
-    this.dragCoefficient = 0.45;
-    this.liftCoefficient = 0.1;
-
-    this.engine = new Engine(initialFuelMass, fuelTypeName, this);
-  }
-
-  /**
-   * @returns الكتلة الإجمالية للصاروخ (كتلة فارغة + كتلة الوقود) (kg)
-   */
-  getTotalMass() {
-    return this.dryMass + this.engine.fuel.mass;
-  }
-
-  update() {
-    if (this.position.y < 0) {
-      this.position.y = 0;
-      this.velocity.y = Math.max(0, this.velocity.y);
+    getTotalMass() {
+        return this.dryMass + this.engine.fuel.mass;
     }
-  }
+
+    update() {
+        if (this.position.y < 0) {
+            this.position.y = 0;
+            this.velocity.y = Math.max(0, this.velocity.y);
+        }
+    }
 }

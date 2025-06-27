@@ -1,37 +1,41 @@
 const FUEL_DATABASE = {
-  'LH2/LOX': {
-    density: 71,                     // kg/m³
-    specificHeatRatio: 1.22,         // γ
-    gasConstant: 8.3144621,          // J/(mol·K) R_universal
-    chamberTemperature: 3251,        // K
-    molecularWeight: 0.018015,       // kg/mol
-    efficiency: 0.95,                // فرضي
-  },
-  'RP-1/LOX': {
-    density: 810,                    // kg/m³
-    specificHeatRatio: 1.20,
-    gasConstant: 8.3144621,
-    chamberTemperature: 3701,        // K
-    molecularWeight: 0.022000,       // kg/mol
-    efficiency: 0.93,
-  },
+    'LH2/LOX': {
+        density: 71,
+        gamma: 1.22,
+        universalGasConstant: 8.3144621,
+        chamberTemperature: 3251,
+        molecularWeight: 0.018015,
+        combustionEfficiency: 0.95,
+        chamberPressure: 8.0e6
+    },
+    'RP-1/LOX': {
+        density: 810,
+        gamma: 1.20,
+        universalGasConstant: 8.3144621,
+        chamberTemperature: 3701,
+        molecularWeight: 0.022000,
+        combustionEfficiency: 0.93,
+        chamberPressure: 6.8e6
+    }
 };
 
 export default class FuelType {
-  constructor(name) {
-    const specs = FUEL_DATABASE[name];
-    if (!specs) throw new Error(`Unknown fuel type: ${name}`);
+    constructor(name) {
+        const spec = FUEL_DATABASE[name];
+        if (!spec) throw new Error(`Unknown fuel type: ${name}`);
+        this.name = name;
+        this.density = spec.density;
+        this.gamma = spec.gamma;
+        this.universalGasConstant = spec.universalGasConstant;
+        this.chamberTemperature = spec.chamberTemperature;
+        this.molecularWeight = spec.molecularWeight;
+        this.combustionEfficiency = spec.combustionEfficiency;
+        this.chamberPressure = spec.chamberPressure;
+        // R_specific = R_universal / M
+        this.specificGasConstant = this.universalGasConstant / this.molecularWeight;
+    }
 
-    this.name              = name;
-    this.density           = specs.density;          
-    this.gamma             = specs.specificHeatRatio;
-    this.Ru                = specs.gasConstant;   
-    this.Tt                = specs.chamberTemperature;
-    this.M                 = specs.molecularWeight;
-    this.efficiency        = specs.efficiency;
-  }
-
-  getCombustionEfficiency() { 
-    return this.efficiency;
-  }
+    getEfficiency() {
+        return this.combustionEfficiency;
+    }
 }
