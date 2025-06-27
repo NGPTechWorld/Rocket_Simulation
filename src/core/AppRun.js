@@ -59,6 +59,17 @@ export default class AppRun {
           maps: { map: "/textures/outer-space-background.jpg" },
           repeat: { x: 1, y: 1 },
         },
+        {
+          name: "ground",
+          maps: {
+            map: "/textures/Ground080_2K-JPG_Color.jpg",
+            normalMap: "/textures/Ground080_2K-JPG_NormalGL.jpg",
+            roughnessMap: "/textures/Ground080_2K-JPG_Roughness.jpg",
+            aoMap: "/textures/Ground080_2K-JPG_AmbientOcclusion.jpg",
+            displacementMap: "/textures/Ground080_2K-JPG_Displacement.jpg"
+          },
+          repeat: { x: 30, y: 30 }
+        },
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
