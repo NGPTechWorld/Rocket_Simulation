@@ -1,9 +1,9 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 export default class Rocket {
   /**
    * @param {import('./WorldManager').default} world
-  */
+   */
   constructor(world) {
     this.world = world;
     this.scene = world.scene;
@@ -16,9 +16,9 @@ export default class Rocket {
   }
 
   setMesh() {
-    this.model.position.set(10, this.groundLevel, 0)
-    this.model.scale.set(4, 4, 4)
-    this.scene.add(this.model)
+    this.model.position.set(10, this.groundLevel, 0);
+    this.model.scale.set(4, 4, 4);
+    this.scene.add(this.model);
   }
 
   get height() {
@@ -51,7 +51,7 @@ export default class Rocket {
   launch() {
     if (this.isLaunching) return;
     this.isLaunching = true;
-    this.world.camera.switchMode('follow')
+    // this.world.camera.switchMode('follow')
 
     this.world.assetsLoader.soundManager.play("launch");
 
@@ -59,23 +59,23 @@ export default class Rocket {
 
     this.launchStartTime = performance.now();
 
-
-    const flash = new THREE.PointLight(0xffccaa, 1000, 1000)
+    const flash = new THREE.PointLight(0xffccaa, 100000, 100000);
     flash.position.copy(this.model.position);
     this.world.scene.add(flash);
+    this.startLiftOff = false;
     setTimeout(() => {
+      this.startLiftOff = true;
+      this.liftStartTime = performance.now();
       this.world.scene.remove(flash);
-    }, 4000); 
+    }, 3000);
   }
 
   update() {
     if (this.isLaunching) {
       const elapsed = (performance.now() - this.launchStartTime) / 1000;
-      if (elapsed > 1) {
-        // this.stopCameraShake();
-        this.model.position.y += 0.05;
-      }
-      
+      if (this.startLiftOff) {
+      this.model.position.y += 0.5;
+    }
 
       if (elapsed > 2) {
         this.stopCameraShake();
@@ -91,9 +91,9 @@ export default class Rocket {
     this.originalCamPos = this.world.camera.instance.position.clone();
     this.shakeInterval = setInterval(() => {
       const cam = this.world.camera.instance;
-      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 0.2;
-      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 0.2;
-      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 0.2;
+      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 2.2;
+      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 2.2;
+      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 2.2;
     }, 30);
   }
 
@@ -101,6 +101,5 @@ export default class Rocket {
     clearInterval(this.shakeInterval);
     //this.world.camera.instance.position.copy(this.originalCamPos);
     //this.world.camera.switchMode('orbit')
-
   }
 }

@@ -22,9 +22,9 @@ export default class GuiController {
     const folder = this.gui.addFolder(name)
 
     // Position
-    folder.add(object.position, 'x', -10, 10).step(0.1).name('pos.x')
-    folder.add(object.position, 'y', -10, 10).step(0.1).name('pos.y')
-    folder.add(object.position, 'z', -10, 10).step(0.1).name('pos.z')
+    folder.add(object.position, 'x', -10, 60).step(0.1).name('pos.x')
+    folder.add(object.position, 'y', -10, 60).step(0.1).name('pos.y')
+    folder.add(object.position, 'z', -10, 60).step(0.1).name('pos.z')
 
     // Scale
     folder.add(object.scale, 'x', 0.01, 5).step(0.01).name('scale.x')

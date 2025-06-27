@@ -24,15 +24,15 @@ export default class RocketFire {
 
     const sprite = new THREE.Sprite(material)
     const offset = new THREE.Vector3(
-      (Math.random() - 0.5) * 0.4,
-      -1.5,
-      (Math.random() - 0.5) * 0.4
+      (Math.random() - 0.5) * 1.6,
+      -5.0,
+      (Math.random() - 0.5) * 1.6
     )
 
-    sprite.position.copy(this.rocket.position).add(offset)
-    sprite.scale.set(0.7, 2, 0.7)
+    sprite.position.add(offset)
+    sprite.scale.set(3, 7, 0.7)
 
-    this.scene.add(sprite)
+    this.rocket.add(sprite)
 
     this.particles.push({
       sprite,
@@ -55,7 +55,7 @@ export default class RocketFire {
       p.sprite.scale.multiplyScalar(0.98)
 
       if (p.life <= 0) {
-        this.scene.remove(p.sprite)
+        this.rocket.remove(p.sprite)
         this.particles.splice(i, 1)
       }
     })
