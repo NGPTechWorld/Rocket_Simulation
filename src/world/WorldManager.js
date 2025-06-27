@@ -51,9 +51,9 @@ export default class WorldManager {
 
     const cityRow = Array.from({ length: 1 }, (_, i) => ({
       model: city,
-      scale: [16,16, 16],
-      position: [-750 + i * 180, 0.3, 150],
-      rotation: [0, Math.PI / 2, 0], 
+      scale: [20,20, 20],
+      position: [-400 + i * 180, 0.3, 150],
+      rotation: [0, - Math.PI , 0], 
     }));
 
     const buildingRow = Array.from({ length: 4 }, (_, i) => ({
