@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
 export default class RocketSmoke {
-  constructor(scene, rocket) {
-    this.scene = scene;
+  constructor(world, rocket) {
+    this.world = world;
+    this.scene = world.scene;
     this.rocket = rocket;
     this.particles = [];
 
@@ -33,6 +34,7 @@ export default class RocketSmoke {
     sprite.scale.set(3.8, 3.0, 3.8);
 
     this.rocket.add(sprite);
+    sprite.renderOrder = 999;
 
     this.particles.push({
       sprite,
@@ -46,22 +48,29 @@ export default class RocketSmoke {
   }
 
   update() {
-    const now = Date.now();
-    if (now - this.lastSpawnTime > this.spawnInterval) {
-      this.spawnParticle();
-      this.lastSpawnTime = now;
-    }
+    if (this.world.rocket.isLaunching) {
+      const now = Date.now();
+      if (now - this.lastSpawnTime > this.spawnInterval) {
+        this.spawnParticle();
+        this.lastSpawnTime = now;
+      }
 
-    this.particles.forEach((p, i) => {
-      p.sprite.position.add(p.velocity);
-      p.life -= 0.01;
-      p.sprite.material.opacity = p.life * 0.5;
-      p.sprite.scale.multiplyScalar(1.02);
+      this.particles.forEach((p, i) => {
+        p.sprite.position.add(p.velocity);
+        p.life -= 0.01;
+        p.sprite.material.opacity = p.life * 0.5;
+        p.sprite.scale.multiplyScalar(1.02);
 
-      if (p.life <= 0) {
+        if (p.life <= 0) {
+          this.rocket.remove(p.sprite);
+          this.particles.splice(i, 1);
+        }
+      });
+    } else {
+      this.particles.forEach((p, i) => {
         this.rocket.remove(p.sprite);
         this.particles.splice(i, 1);
-      }
-    });
+      });
+    }
   }
 }

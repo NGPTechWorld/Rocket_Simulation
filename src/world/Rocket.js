@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import ExplosionEffect from "./effects/ExplosionEffect.js";
 
 export default class Rocket {
   /**
@@ -10,8 +11,11 @@ export default class Rocket {
     this.model = world.assetsLoader.getModels().rocket;
     this.gui = world.gui;
     this.groundLevel = 11;
-    this.ascentSpeed = 2;
+    this.ground = 9;
 
+    this.ascentSpeed = 2;
+    this.isLaunching = false;
+    this.isExplosion = false;
     this.setMesh();
   }
 
@@ -67,33 +71,43 @@ export default class Rocket {
       this.startLiftOff = true;
       this.liftStartTime = performance.now();
       this.world.scene.remove(flash);
-    }, 3000);
+    }, 5000);
+    setTimeout(() => {
+      this.stopCameraShake();
+    }, 6000);
   }
 
+  explosion() {
+    if (this.isExplosion) return;
+    this.isExplosion = true;
+    this.exploded = true;
+    new ExplosionEffect(this.world, this.model.position);
+    this.world.scene.remove(this.model);
+  }
   update() {
     if (this.isLaunching) {
-      const elapsed = (performance.now() - this.launchStartTime) / 1000;
       if (this.startLiftOff) {
-      this.model.position.y += 0.5;
-    }
-
-      if (elapsed > 2) {
-        this.stopCameraShake();
+        this.model.position.y += 0.5;
+      }
+    } else {
+      if (this.model.position.y <= this.ground) {
+        this.explosion()
       }
     }
   }
 
   stop() {
     this.isLaunching = false;
+    this.world.assetsLoader.soundManager.stop("launch");
   }
 
   startCameraShake() {
     this.originalCamPos = this.world.camera.instance.position.clone();
     this.shakeInterval = setInterval(() => {
       const cam = this.world.camera.instance;
-      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 2.2;
-      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 2.2;
-      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 2.2;
+      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 4.2;
+      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 4.2;
+      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 4.2;
     }, 30);
   }
 
