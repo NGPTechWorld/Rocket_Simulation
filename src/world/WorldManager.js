@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import Earth from "./Earth.js";
 import Rocket from "./Rocket.js";
 import RocketLaucherPad from "./RocketLaucherPad.js";
@@ -28,7 +29,8 @@ export default class WorldManager {
   }
 
   async init() {
-    
+    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002); // أسود وضبابي
+
     // World
     this.scene.background = this.assetsLoader.getTextures()['space'].map;
     this.earth = new Earth(this);
@@ -79,8 +81,8 @@ export default class WorldManager {
 
     this.setGUI();
     this.camera.followTarget(this.rocket.model); 
-    this.rocketFire = new RocketFire(this.scene, this.rocket.model)
-    this.rocketSmoke = new RocketSmoke(this.scene, this.rocket.model)
+    this.rocketFire = new RocketFire(this, this.rocket.model)
+    this.rocketSmoke = new RocketSmoke(this, this.rocket.model)
     console.log(this.camera.currentMode);
     this.gui.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])

@@ -1,16 +1,21 @@
-import * as THREE from 'three'
+import * as THREE from "three";
 
 export default class RocketFire {
-   constructor(scene, rocket) {
-    this.scene = scene
-    this.rocket = rocket
-    this.particles = []
+  /**
+   * @param {import('./WorldManager').default} world
+   */
+  constructor(world, rocket) {
+    this.world = world;
 
-    const loader = new THREE.TextureLoader()
-    this.texture = loader.load('/textures/particles/flame.png')
+    this.scene = world.scene;
+    this.rocket = rocket;
+    this.particles = [];
 
-    this.lastSpawnTime = 0
-    this.spawnInterval = 50 
+    const loader = new THREE.TextureLoader();
+    this.texture = loader.load("/textures/particles/flame.png");
+
+    this.lastSpawnTime = 0;
+    this.spawnInterval = 50;
   }
 
   spawnParticle() {
@@ -20,44 +25,52 @@ export default class RocketFire {
       opacity: 1,
       depthWrite: false,
       color: 0xff6600,
-    })
+    });
 
-    const sprite = new THREE.Sprite(material)
+    const sprite = new THREE.Sprite(material);
     const offset = new THREE.Vector3(
       (Math.random() - 0.5) * 1.6,
       -5.0,
       (Math.random() - 0.5) * 1.6
-    )
+    );
 
-    sprite.position.add(offset)
-    sprite.scale.set(3, 7, 0.7)
+    sprite.position.add(offset);
+    sprite.scale.set(3, 7, 0.7);
+    sprite.renderOrder = 999;
 
-    this.rocket.add(sprite)
+    this.rocket.add(sprite);
 
     this.particles.push({
       sprite,
       velocity: new THREE.Vector3(0, -0.02 + Math.random() * 0.02, 0),
-      life: 1, 
-    })
+      life: 1,
+    });
   }
 
   update() {
-    const now = Date.now()
-    if (now - this.lastSpawnTime > this.spawnInterval) {
-      this.spawnParticle()
-      this.lastSpawnTime = now
-    }
-
-    this.particles.forEach((p, i) => {
-      p.sprite.position.add(p.velocity)
-      p.life -= 0.02
-      p.sprite.material.opacity = p.life
-      p.sprite.scale.multiplyScalar(0.98)
-
-      if (p.life <= 0) {
-        this.rocket.remove(p.sprite)
-        this.particles.splice(i, 1)
+    if (this.world.rocket.isLaunching) {
+      const now = Date.now();
+      if (now - this.lastSpawnTime > this.spawnInterval) {
+        this.spawnParticle();
+        this.lastSpawnTime = now;
       }
-    })
+
+      this.particles.forEach((p, i) => {
+        p.sprite.position.add(p.velocity);
+        p.life -= 0.02;
+        p.sprite.material.opacity = p.life;
+        p.sprite.scale.multiplyScalar(0.98);
+
+        if (p.life <= 0) {
+          this.rocket.remove(p.sprite);
+          this.particles.splice(i, 1);
+        }
+      });
+    } else {
+      this.particles.forEach((p, i) => {
+        this.rocket.remove(p.sprite);
+        this.particles.splice(i, 1);
+      });
+    }
   }
 }

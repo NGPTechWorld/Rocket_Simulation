@@ -11,7 +11,7 @@ export default class Rocket {
     this.gui = world.gui;
     this.groundLevel = 11;
     this.ascentSpeed = 2;
-
+    this.isLaunching = false
     this.setMesh();
   }
 
@@ -67,7 +67,10 @@ export default class Rocket {
       this.startLiftOff = true;
       this.liftStartTime = performance.now();
       this.world.scene.remove(flash);
-    }, 3000);
+    }, 5000);
+    setTimeout(() => {
+      this.stopCameraShake();
+    }, 6000);
   }
 
   update() {
@@ -77,23 +80,23 @@ export default class Rocket {
       this.model.position.y += 0.5;
     }
 
-      if (elapsed > 2) {
-        this.stopCameraShake();
-      }
+    
     }
   }
 
   stop() {
     this.isLaunching = false;
+    this.world.assetsLoader.soundManager.stop("launch");
+
   }
 
   startCameraShake() {
     this.originalCamPos = this.world.camera.instance.position.clone();
     this.shakeInterval = setInterval(() => {
       const cam = this.world.camera.instance;
-      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 2.2;
-      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 2.2;
-      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 2.2;
+      cam.position.x = this.originalCamPos.x + (Math.random() - 0.5) * 4.2;
+      cam.position.y = this.originalCamPos.y + (Math.random() - 0.5) * 4.2;
+      cam.position.z = this.originalCamPos.z + (Math.random() - 0.5) * 4.2;
     }, 30);
   }
 
