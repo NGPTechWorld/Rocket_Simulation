@@ -4,18 +4,20 @@ export default class Rocket {
   /**
    * @param {import('./WorldManager').default} world
   */
-  constructor(world, model) {
-    this.scene = world.scene
-    this.model = model
-    this.gui =world.gui
-    this.groundLevel = -4.25
-    this.ascentSpeed = 2
-    this.setMesh()
+  constructor(world) {
+    this.world = world;
+    this.scene = world.scene;
+    this.model = world.assetsLoader.getModels().rocket;
+    this.gui = world.gui;
+    this.groundLevel = 11;
+    this.ascentSpeed = 2;
+
+    this.setMesh();
   }
 
   setMesh() {
-    this.model.position.set(1, this.groundLevel, 0)
-    this.model.scale.set(0.3,0.3,0.3)
+    this.model.position.set(10, this.groundLevel, 0)
+    this.model.scale.set(4, 4, 4)
     this.scene.add(this.model)
   }
 
