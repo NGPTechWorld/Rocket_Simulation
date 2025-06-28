@@ -1,17 +1,12 @@
-import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 
 export default class FirstPersonControls {
-  constructor(camera, canvas) {
+  constructor(camera, canvas, eventEmitter) {
     this.camera = camera;
     this.canvas = canvas;
-
-    // إعداد PointerLockControls
+    this.eventEmitter = eventEmitter;
     this.controls = new PointerLockControls(camera, document.body);
-    this.canvas.addEventListener('click', () => {
-      this.controls.lock();
-    });
-
-    // إعداد متغيرات الحركة
+    
     this.moveSpeed = 0.05;
     this.keys = {
       w: false,
@@ -22,60 +17,63 @@ export default class FirstPersonControls {
       down: false,
       shift: false,
     };
-
+    this._onClickToLock = () => {
+      this.controls.lock();
+    };
+    this.canvas.addEventListener("click",this._onClickToLock);
     this._setupKeyboardListeners();
   }
 
   _setupKeyboardListeners() {
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener("keydown", (event) => {
       switch (event.code) {
-        case 'KeyW':
+        case "KeyW":
           this.keys.w = true;
           break;
-        case 'KeyA':
+        case "KeyA":
           this.keys.a = true;
           break;
-        case 'KeyS':
+        case "KeyS":
           this.keys.s = true;
           break;
-        case 'KeyD':
+        case "KeyD":
           this.keys.d = true;
           break;
-        case 'Space':
+        case "Space":
           this.keys.up = true;
           break;
-        case 'ControlLeft':
+        case "ShiftLeft":
           this.keys.down = true;
           break;
-        case 'ShiftLeft':
-        case 'ShiftRight':
+        case "ControlLeft":
+        case "ShiftRight":
           this.keys.shift = true;
           break;
       }
     });
 
-    document.addEventListener('keyup', (event) => {
+    document.addEventListener("keyup", (event) => {
       switch (event.code) {
-        case 'KeyW':
+        case "KeyW":
           this.keys.w = false;
           break;
-        case 'KeyA':
+        case "KeyA":
           this.keys.a = false;
           break;
-        case 'KeyS':
+        case "KeyS":
           this.keys.s = false;
           break;
-        case 'KeyD':
+        case "KeyD":
           this.keys.d = false;
           break;
-        case 'Space':
+        case "Space":
           this.keys.up = false;
           break;
-        case 'ControlLeft':
+        case "ShiftLeft":
           this.keys.down = false;
           break;
-        case 'ShiftLeft':
-        case 'ShiftRight':
+        case "ControlLeft":
+        case "ShiftRight":
           this.keys.shift = false;
           break;
       }
