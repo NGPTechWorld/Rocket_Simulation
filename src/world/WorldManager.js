@@ -24,7 +24,7 @@ export default class WorldManager {
     this.gui = app.gui;
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
-
+    this.physics= app.physics
     this.init();
   }
 

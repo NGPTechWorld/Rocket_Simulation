@@ -88,6 +88,9 @@ export default class Rocket {
     if (this.isLaunching) {
       if (this.startLiftOff) {
         this.model.position.y += 0.5;
+        //  this.model.position.x = this.world.physics.rocket.position.x / 100
+        // this.model.position.y = this.world.physics.rocket.position.y / 100
+        // this.model.position.z = this.world.physics.rocket.position.z / 100
       }
     } else {
       if (this.model.position.y <= this.ground) {
