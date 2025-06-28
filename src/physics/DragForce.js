@@ -5,12 +5,12 @@ import Environment from "./Environment";
 let instance = null;
 export default class DragForce extends Force {
   constructor() {
+    super();
     if (instance) {
       return instance;
     }
     instance = this;
 
-    super();
     this.environment = new Environment();
     this.rocket = new Rocket();
 

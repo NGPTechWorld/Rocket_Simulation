@@ -5,12 +5,12 @@ import Earth from "./Earth";
 let instance = null;
 export default class WeightForce extends Force {
   constructor() {
+    super();
     if (instance) {
       return instance;
     }
     instance = this;
 
-    super();
     this.earth = new Earth();
     this.rocket = new Rocket();
     this.update();
