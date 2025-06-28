@@ -9,7 +9,8 @@ export default class Earth {
   constructor(world) {
     this.scene = world.scene;
     this.textures = world.assetsLoader.getTextures()['earth']
-    this.radius = 6378; //km
+    // this.radius = 6378; //km
+    this.radius = 6000; //km/
            
     this.setMesh();
     this.drawAtmosphereLayers();
@@ -57,7 +58,7 @@ export default class Earth {
   }
 
 drawAtmosphereLayers() {
-  const KM_TO_UNITS = 1;
+  const KM_TO_UNITS = 1000;
 
   const layerMaterials = [
     { color: 0x6ca0f6, opacity: 0.12 },
@@ -71,10 +72,7 @@ drawAtmosphereLayers() {
   ATMOSPHERE_LAYERS.forEach((layer, i) => {
     if (!isFinite(layer.maxHeight)) return;
 
-    const layerRadiusKm = this.radius + layer.maxHeight;
-    const layerRadius = layerRadiusKm * KM_TO_UNITS;
-
-    const geometry = new THREE.SphereGeometry(layerRadius, 64, 64);
+    const geometry = new THREE.SphereGeometry(layer.maxHeight *1000, 64, 64);
 
     const matInfo = layerMaterials[i] || { color: 0xffffff, opacity: 0.03 };
 
@@ -84,6 +82,7 @@ drawAtmosphereLayers() {
       side: THREE.FrontSide,
       metalness: 0.5, 
       side: 2,
+      side: THREE.BackSide,
     });
 
     const layerMesh = new THREE.Mesh(geometry, material);

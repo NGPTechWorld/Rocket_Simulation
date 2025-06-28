@@ -53,17 +53,17 @@ export default class WorldManager {
     const apartment =this.assetsLoader.getModels().apartment;
     const bunker =this.assetsLoader.getModels().bunker;
     const city = this.assetsLoader.getModels().city;
-    const brownstoneModel = this.assetsLoader.getModels().brownstone;
-    const brownstoneTextures = this.assetsLoader.getTextures().brownstone;
+   // const brownstoneModel = this.assetsLoader.getModels().brownstone;
+    //const brownstoneTextures = this.assetsLoader.getTextures().brownstone;
     
     // const brownstoneMaterial = createStandardBuildingMaterial(brownstoneTextures, this.renderer);
 
-    const brownstoneRow = Array.from({ length: 4 }, (_, i) => ({
-      model: brownstoneModel.clone(),
-      scale: [4, 4, 4],
-      position: [i * 180 - 180, 0.1, -600], 
-      rotation: [0, Math.PI, 0],
-    }));
+    // const brownstoneRow = Array.from({ length: 4 }, (_, i) => ({
+    //   model: brownstoneModel.clone(),
+    //   scale: [4, 4, 4],
+    //   position: [i * 180 - 180, 0.1, -600], 
+    //   rotation: [0, Math.PI, 0],
+    // }));
     
     // brownstoneRow.forEach((item) => {
     //   item.model.traverse((child) => {
@@ -109,7 +109,7 @@ export default class WorldManager {
       ...apartmentRow,
       ...buildingRow,
       ...bunkerRow,
-      ...brownstoneRow
+     // ...brownstoneRow
     ]);
 
     this.setGUI();

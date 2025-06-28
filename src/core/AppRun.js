@@ -72,15 +72,15 @@ export default class AppRun {
           },
           repeat: { x: 30, y: 30 }
         },
-        {
-          name: "brownstone",
-          maps: {
-            map: "/textures/BuildingColorMap.png",
-            normalMap: "/textures/BuildingNormalMap.png",
-            specularMap: "/textures/BuildingSpecularMap.png"
-          },
-          repeat: { x: 1, y: 1 }
-        },
+        // {
+        //   name: "brownstone",
+        //   maps: {
+        //     map: "/textures/BuildingColorMap.png",
+        //     normalMap: "/textures/BuildingNormalMap.png",
+        //     specularMap: "/textures/BuildingSpecularMap.png"
+        //   },
+        //   repeat: { x: 1, y: 1 }
+        // },
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
@@ -90,7 +90,7 @@ export default class AppRun {
         apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
         city: 'models/NEW+CİTY.1blend.glb',
-        brownstone: "/models/BrownStoneWithRestaurant.glb",
+        // brownstone: "/models/BrownStoneWithRestaurant.glb",
       },
       sounds: {
         explosion: "/sounds/explosion.mp3",
