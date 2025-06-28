@@ -10,12 +10,14 @@ export default class Rocket {
     this.scene = world.scene;
     this.model = world.assetsLoader.getModels().rocket;
     this.gui = world.gui;
-    this.groundLevel = 11;
-    this.ground = 9;
+    this.groundLevel = 0;
+    this.ground = -1 ;
 
     this.ascentSpeed = 2;
     this.isLaunching = false;
     this.isExplosion = false;
+    this.isStartEngine = false;
+
     this.setMesh();
   }
 
@@ -26,7 +28,7 @@ export default class Rocket {
   }
 
   get height() {
-    const metersPerUnit = 1000;
+    const metersPerUnit = 1;
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
@@ -84,10 +86,25 @@ export default class Rocket {
     new ExplosionEffect(this.world, this.model.position);
     this.world.scene.remove(this.model);
   }
+
+  startEngine() {
+    if (this.isStartEngine) return;
+    this.isStartEngine = true;
+    
+    this.world.physics.startEngine()
+   
+  }
+
   update() {
     if (this.isLaunching) {
       if (this.startLiftOff) {
-        this.model.position.y += 0.5;
+        this.world.physics.update()
+        //this.model.position.y += 0.5;
+         console.log( this.world.physics.getPhysicsParameters())
+        this.startEngine()
+         this.model.position.x = this.world.physics.rocket.position.x / 100
+        this.model.position.y = this.world.physics.rocket.position.y / 100
+        this.model.position.z = this.world.physics.rocket.position.z / 100
       }
     } else {
       if (this.model.position.y <= this.ground) {

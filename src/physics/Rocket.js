@@ -4,7 +4,7 @@ import Engine from './Engine.js';
 let rocketInstance = null;
 export default class Rocket {
     constructor(
-        initialFuelMass = 2_021_000,
+        initialFuelMass = 10000000,
         fuelTypeName = 'RP-1/LOX'
     ) {
         if (rocketInstance) return rocketInstance;
@@ -13,7 +13,7 @@ export default class Rocket {
         this.velocity = new Vector3(0, 0, 0);
         this.acceleration = new Vector3(0, 0, 0);
 
-        this.dryMass = 137_000;
+        this.dryMass = 2_822_171;
         this.crossSectionalArea = 78.5;
         this.dragCoefficient = 0.45;
         this.liftCoefficient = 0.1;

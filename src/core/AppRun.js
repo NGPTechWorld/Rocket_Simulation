@@ -11,7 +11,7 @@ import Time from "./utils/Time.js";
 import EventEmitter from "./utils/EventEmitter.js";
 import GuiController from "./../world/ui/GuiController.js";
 import LoadingScreen from "./../world/ui/LoadingScreen.js";
-import MainMenu from './../world/ui/MainMenu.js'
+
 
 export default class AppRun {
   static instance;
@@ -37,7 +37,7 @@ export default class AppRun {
     this.soundManager = new SoundManager();
 
     this.assetsLoader = new AssetsLoader(this, this.loadingScreen);
-
+    
     this.sizes.on("resize", () => this.resize());
     this.time.on("tick", () => this.update());
   }
@@ -112,5 +112,6 @@ export default class AppRun {
     this.camera.update();
     this.sceneManager?.update();
     this.renderer.update();
+    // this.physics.update();
   }
 }

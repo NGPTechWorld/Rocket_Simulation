@@ -12,7 +12,7 @@ import Ground from "./Ground.js";
 import BuildingPlacer from "./BuildingPlacer.js";
 import RocketFire from './effects/RocketFire.js'
 import RocketSmoke from './effects/RocketSmoke.js'
-
+import Physics from './../physics/Physics.js'
 export default class WorldManager {
   /**
    * @param {import('./../core/AppRun.js').default} app
@@ -24,7 +24,9 @@ export default class WorldManager {
     this.gui = app.gui;
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
-
+    
+    // this.physics= app.physics
+    this.physics =new Physics();
     this.init();
   }
 
