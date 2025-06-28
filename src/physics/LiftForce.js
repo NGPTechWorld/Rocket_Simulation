@@ -1,6 +1,7 @@
 import Force from "./Force";
 import Rocket from "./Rocket";
 import Environment from "./Environment";
+import { Vector3 } from "three";
 
 let instance = null;
 export default class LiftForce extends Force {
@@ -8,9 +9,9 @@ export default class LiftForce extends Force {
     if (instance) {
       return instance;
     }
+    super();
     instance = this;
 
-    super();
     this.environment = new Environment();
     this.rocket = new Rocket();
 
