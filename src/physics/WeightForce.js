@@ -9,7 +9,6 @@ export default class WeightForce extends Force {
     if (instance) {
       return instance;
     }
-    super();
     instance = this;
 
     this.earth = new Earth();

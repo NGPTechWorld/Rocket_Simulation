@@ -9,7 +9,6 @@ export default class DragForce extends Force {
     if (instance) {
       return instance;
     }
-    super();
     instance = this;
 
     this.environment = new Environment();

@@ -24,9 +24,12 @@ export default class Physics {
       lift: new LiftForce(),
       thrust: new ThrustForce(this.rocket.engine),
     };
-    this.rocket.engine.start();
+
   }
 
+  startEngine(){
+    this.rocket.engine.start();
+  }
   getTotalForce() {
     let totalForce = new Vector3(0, 0, 0);
 
@@ -36,7 +39,7 @@ export default class Physics {
     this.sanitizeVector(this.forces.thrust.force);
 
     totalForce.add(this.forces.weight.force);
-    totalForce.add(this.forces.drag.force);
+    //totalForce.add(this.forces.drag.force);
     // totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 

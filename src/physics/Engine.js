@@ -31,7 +31,7 @@ export default class Engine {
   updateFuel(deltaTime) {
     if (!this.isBurning()) return 0;
     const prev = this.fuel.mass;
-    this.fuel.update(deltaTime, this.nominalBurnRate, this);
+    this.fuel.update(deltaTime, this);
     const consumed = prev - this.fuel.mass;
     this.elapsedTime += deltaTime;
     if (this.fuel.mass <= 0) this.stop();
