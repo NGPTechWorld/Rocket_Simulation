@@ -24,10 +24,9 @@ export default class Physics {
       lift: new LiftForce(),
       thrust: new ThrustForce(this.rocket.engine),
     };
-
   }
 
-  startEngine(){
+  startEngine() {
     this.rocket.engine.start();
   }
   getTotalForce() {
@@ -102,6 +101,7 @@ export default class Physics {
       position: this.rocket.position.toArray(),
       "total mass": this.rocket.getTotalMass(),
       "fuel mass": this.rocket.engine.fuel.mass,
+      initialFuelMass: this.rocket.initialFuelMass,
       weight: this.forces.weight.force.toArray(),
       drag: this.forces.drag.force.toArray(),
       lift: this.forces.lift.force.toArray(),

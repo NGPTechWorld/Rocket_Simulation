@@ -9,9 +9,10 @@ export default class Rocket {
     this.world = world;
     this.scene = world.scene;
     this.model = world.assetsLoader.getModels().rocket;
-    this.gui = world.gui;
+    this.guiRight = world.guiRight;
+    this.guiLeft = world.guiLeft;
     this.groundLevel = 0;
-    this.ground = -1 ;
+    this.ground = -1;
 
     this.ascentSpeed = 2;
     this.isLaunching = false;
@@ -32,12 +33,6 @@ export default class Rocket {
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
-  setGUI() {
-    this.gui.addObjectControls("Rocket", this.model);
-    this.gui.addTextMonitor("Rocket Height", () => this.height + " m");
-    this.gui.addLaunchStopControls(this);
-  }
-
   // launch() {
   //   if (this.isLaunching) return;
 
@@ -53,6 +48,96 @@ export default class Rocket {
   //   this.startCameraShake()
   //   moveUp();
   // }
+
+  setGUI() {
+    const getPhysicsParameters = () =>
+      this.world.physics.getPhysicsParameters();
+
+    const getMagnitude = (vec) => {
+      return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2).toFixed(2);
+    };
+
+    this.guiRight.addObjectControls("Rocket", this.model);
+    this.guiRight.addTextMonitor("Rocket Height", () => this.height + " m");
+    this.guiRight.addLaunchStopControls(this);
+    this.guiLeft.addTextMonitor("Time", () =>
+      getPhysicsParameters().time.toFixed(2)
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Position",
+      () => getPhysicsParameters().position,
+      "m"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Velocity",
+      () => getPhysicsParameters().velocity,
+      "m·s⁻¹"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Acceleration",
+      () => getPhysicsParameters().acceleration,
+      "m·s⁻²"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Weight Force",
+      () => getPhysicsParameters().weight,
+      "N"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Drag Force",
+      () => getPhysicsParameters().drag,
+      "N"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Lift Force",
+      () => getPhysicsParameters().lift,
+      "N"
+    );
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+      "Thrust Force",
+      () => getPhysicsParameters().thrust,
+      "N"
+    );
+
+    this.guiLeft.addFuelProgressBar(
+      "Fuel Level",
+      () => getPhysicsParameters()["fuel mass"],
+      () => getPhysicsParameters().initialFuelMass
+    );
+
+    // Mass
+    this.guiLeft.addTextMonitor(
+      "Total Mass",
+      () => getPhysicsParameters()["total mass"].toFixed(2) + " kg"
+    );
+    this.guiLeft.addTextMonitor(
+      "Fuel Mass",
+      () => getPhysicsParameters()["fuel mass"].toFixed(2) + " kg"
+    );
+
+    // this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
+    //   "Extra",
+    //   () => getPhysicsParameters().thrust,
+    //   "N", //  وحدة المتجه
+    //   [
+    //     {
+    //       label: "Time",
+    //       getValue: () => getPhysicsParameters().time,
+    //     },
+    //     {
+    //       label: "Fuel Mass",
+    //       getValue: () => getPhysicsParameters()["fuel mass"],
+    //     },
+    //   ]
+    // );
+  }
 
   launch() {
     if (this.isLaunching) return;
@@ -90,25 +175,24 @@ export default class Rocket {
   startEngine() {
     if (this.isStartEngine) return;
     this.isStartEngine = true;
-    
-    this.world.physics.startEngine()
-   
+
+    this.world.physics.startEngine();
   }
 
   update() {
     if (this.isLaunching) {
       if (this.startLiftOff) {
-        this.world.physics.update()
+        this.world.physics.update();
         //this.model.position.y += 0.5;
-         console.log( this.world.physics.getPhysicsParameters())
-        this.startEngine()
-         this.model.position.x = this.world.physics.rocket.position.x / 100
-        this.model.position.y = this.world.physics.rocket.position.y / 100
-        this.model.position.z = this.world.physics.rocket.position.z / 100
+        console.log(this.world.physics.getPhysicsParameters());
+        this.startEngine();
+        this.model.position.x = this.world.physics.rocket.position.x / 100;
+        this.model.position.y = this.world.physics.rocket.position.y / 100;
+        this.model.position.z = this.world.physics.rocket.position.z / 100;
       }
     } else {
       if (this.model.position.y <= this.ground) {
-        this.explosion()
+        this.explosion();
       }
     }
   }

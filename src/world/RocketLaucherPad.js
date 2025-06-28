@@ -8,7 +8,7 @@ export default class RocketLaucherPad {
     this.scene = world.scene
     this.rocket_lancher = world.assetsLoader.getModels().rocket_lancher
 
-    this.gui =world.gui
+    this.guiRight =world.guiRight
     this.setMesh()
 
   }
@@ -19,6 +19,6 @@ export default class RocketLaucherPad {
     this.scene.add(this.rocket_lancher)
   }
   setGUI() {
-    this.gui.addObjectControls('Rocket Laucher Pad',this.rocket_lancher)
+    this.guiRight.addObjectControls('Rocket Laucher Pad',this.rocket_lancher)
   }
 }

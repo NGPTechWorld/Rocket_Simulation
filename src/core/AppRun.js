@@ -11,7 +11,7 @@ import Time from "./utils/Time.js";
 import EventEmitter from "./utils/EventEmitter.js";
 import GuiController from "./../world/ui/GuiController.js";
 import LoadingScreen from "./../world/ui/LoadingScreen.js";
-
+import GUI from "lil-gui";
 
 export default class AppRun {
   static instance;
@@ -23,8 +23,11 @@ export default class AppRun {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
 
-   // this.mainMenu = new MainMenu();
-    this.gui = new GuiController();
+    // this.mainMenu = new MainMenu();
+    // this.gui = new GuiController();
+
+    this.setupGUI(); // إعداد الواجهات
+
     this.sizes = new Sizes();
     this.eventEmitter = new EventEmitter();
     this.time = new Time();
@@ -37,9 +40,27 @@ export default class AppRun {
     this.soundManager = new SoundManager();
 
     this.assetsLoader = new AssetsLoader(this, this.loadingScreen);
-    
+
     this.sizes.on("resize", () => this.resize());
     this.time.on("tick", () => this.update());
+  }
+
+  // إعداد واجهات المستخدم
+  setupGUI() {
+    // الواجهة اليمنى: للتحكم
+    const guiRight = new GUI(); // يظهر بشكل افتراضي على اليمين
+
+    // الواجهة اليسرى: للمراقبة
+    const guiLeft = new GUI();
+    guiLeft.domElement.style.position = "absolute";
+    guiLeft.domElement.style.left = "0px";
+    guiLeft.domElement.style.top = "0px";
+    guiLeft.domElement.style.zIndex = "999"; // اجعلها فوق كل شيء
+    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)"; // اختياري
+
+    // أنشئ وحدتين من GuiController:
+    this.guiRight = new GuiController(guiRight);
+    this.guiLeft = new GuiController(guiLeft);
   }
 
   async start() {
@@ -68,9 +89,9 @@ export default class AppRun {
             normalMap: "/textures/Ground080_2K-JPG_NormalGL.jpg",
             roughnessMap: "/textures/Ground080_2K-JPG_Roughness.jpg",
             aoMap: "/textures/Ground080_2K-JPG_AmbientOcclusion.jpg",
-            displacementMap: "/textures/Ground080_2K-JPG_Displacement.jpg"
+            displacementMap: "/textures/Ground080_2K-JPG_Displacement.jpg",
           },
-          repeat: { x: 30, y: 30 }
+          repeat: { x: 30, y: 30 },
         },
       ],
       models: {
@@ -80,7 +101,7 @@ export default class AppRun {
         house: "models/build.glb",
         apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
-        city: 'models/NEW+CİTY.1blend.glb',
+        city: "models/NEW+CİTY.1blend.glb",
       },
       sounds: {
         explosion: "/sounds/explosion.mp3",
