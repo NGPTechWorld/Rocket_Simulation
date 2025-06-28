@@ -11,7 +11,6 @@ export default class WeightForce extends Force {
     }
     instance = this;
 
-    // خصائص إضافية للمراقبة
     this.gravity = 0;
     this.direction = new Vector3();
 
@@ -40,7 +39,6 @@ export default class WeightForce extends Force {
 
     this.force.copy(directionToEarthCenter.multiplyScalar(gravity * mass));
 
-    // تخزين للمراقبة
     this.gravity = gravity;
     this.direction.copy(directionToEarthCenter);
   }

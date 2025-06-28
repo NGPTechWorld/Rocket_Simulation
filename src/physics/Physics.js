@@ -105,7 +105,7 @@ export default class Physics {
       "total mass": this.rocket.getTotalMass(),
       "fuel mass": this.rocket.engine.fuel.mass,
       initialFuelMass: this.rocket.initialFuelMass,
-      fuelTypeName: this.rocket.fuelTypeName,
+      fuelTypeName: this.rocket.engine.fuel.fuelType.name,
 
       // Forces
       weight: this.forces.weight.force.toArray(),
@@ -132,7 +132,7 @@ export default class Physics {
       temperatureLapseRate: this.environment.temperatureLapseRate,
       specificGasConstantAir: this.environment.specificGasConstantAir,
 
-      // Thrust Info (مباشر بدون متغيرات)
+      // Thrust Info
       ambientPressure: this.environment.getPressureAtAltitude(
         this.rocket.position.y
       ),

@@ -15,7 +15,6 @@ export default class DragForce extends Force {
     this.environment = new Environment();
     this.rocket = new Rocket();
 
-    // خصائص إضافية للمراقبة
     this.dragMagnitude = 0;
     this.dragDirection = new Vector3();
 
@@ -37,7 +36,6 @@ export default class DragForce extends Force {
 
     this.force.copy(dragForce);
 
-    // حفظ القيم للمراقبة
     this.dragMagnitude = dragMagnitude;
     this.dragDirection.copy(velocityDir).multiplyScalar(-1).normalize(); // عكس الاتجاه
   }

@@ -13,7 +13,6 @@ export default class LiftForce extends Force {
     this.environment = new Environment();
     this.rocket = new Rocket();
 
-    // 🆕 متغيرات جديدة لتخزين بيانات القوة
     this.liftMagnitude = 0;
     this.liftDirection = new Vector3();
 
@@ -35,7 +34,6 @@ export default class LiftForce extends Force {
 
     const liftForce = liftDir.clone().multiplyScalar(liftMagnitude);
 
-    // 🆕 تخزين الاتجاه والشدة لاستخدامهم لاحقًا في getPhysicsParameters
     this.liftDirection.copy(liftDir);
     this.liftMagnitude = liftMagnitude;
 
