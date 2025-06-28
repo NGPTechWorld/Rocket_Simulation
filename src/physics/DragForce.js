@@ -1,6 +1,7 @@
 import Force from "./Force";
 import Rocket from "./Rocket";
 import Environment from "./Environment";
+import { Vector3 } from "three";
 
 let instance = null;
 export default class DragForce extends Force {
@@ -13,6 +14,10 @@ export default class DragForce extends Force {
 
     this.environment = new Environment();
     this.rocket = new Rocket();
+
+    // خصائص إضافية للمراقبة
+    this.dragMagnitude = 0;
+    this.dragDirection = new Vector3();
 
     this.update();
   }
@@ -31,5 +36,9 @@ export default class DragForce extends Force {
     const dragForce = velocityDir.clone().multiplyScalar(-dragMagnitude);
 
     this.force.copy(dragForce);
+
+    // حفظ القيم للمراقبة
+    this.dragMagnitude = dragMagnitude;
+    this.dragDirection.copy(velocityDir).multiplyScalar(-1).normalize(); // عكس الاتجاه
   }
 }

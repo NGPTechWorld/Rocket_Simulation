@@ -53,10 +53,6 @@ export default class Rocket {
     const getPhysicsParameters = () =>
       this.world.physics.getPhysicsParameters();
 
-    const getMagnitude = (vec) => {
-      return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2).toFixed(2);
-    };
-
     this.guiRight.addObjectControls("Rocket", this.model);
     this.guiRight.addTextMonitor("Rocket Height", () => this.height + " m");
     this.guiRight.addLaunchStopControls(this);
@@ -64,47 +60,127 @@ export default class Rocket {
       getPhysicsParameters().time.toFixed(2)
     );
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Position",
-      () => getPhysicsParameters().position,
-      "m"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Position",
+      getVectorFunc: () => getPhysicsParameters().position,
+      unit: "m",
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Velocity",
-      () => getPhysicsParameters().velocity,
-      "m·s⁻¹"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Velocity",
+      getVectorFunc: () => getPhysicsParameters().velocity,
+      unit: "m·s⁻¹",
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Acceleration",
-      () => getPhysicsParameters().acceleration,
-      "m·s⁻²"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Acceleration",
+      getVectorFunc: () => getPhysicsParameters().acceleration,
+      unit: "m·s⁻²",
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Weight Force",
-      () => getPhysicsParameters().weight,
-      "N"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Total Force",
+      getVectorFunc: () => getPhysicsParameters().totalForce,
+      unit: "N",
+    });
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Weight Force",
+      getVectorFunc: () => getPhysicsParameters().weight,
+      unit: "N",
+      extraMonitors: [
+        {
+          label: "Gravity Acceleration",
+          getValue: () =>
+            getPhysicsParameters().gravityAcceleration.toFixed(2) + " m/s²",
+        },
+        {
+          label: "Weight Direction",
+          getValue: () => {
+            const dir = getPhysicsParameters().weightDirection;
+            return `(${dir[0].toFixed(2)}, ${dir[1].toFixed(
+              2
+            )}, ${dir[2].toFixed(2)})`;
+          },
+        },
+      ],
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Drag Force",
-      () => getPhysicsParameters().drag,
-      "N"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Drag Force",
+      getVectorFunc: () => getPhysicsParameters().drag,
+      unit: "N",
+      extraMonitors: [
+        {
+          label: "Drag Magnitude",
+          getValue: () =>
+            getPhysicsParameters().dragMagnitude.toFixed(2) + " N",
+        },
+        {
+          label: "Drag Direction",
+          getValue: () => {
+            const dir = getPhysicsParameters().dragDirection;
+            return `(${dir[0].toFixed(2)}, ${dir[1].toFixed(
+              2
+            )}, ${dir[2].toFixed(2)})`;
+          },
+        },
+      ],
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Lift Force",
-      () => getPhysicsParameters().lift,
-      "N"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Lift Force",
+      getVectorFunc: () => getPhysicsParameters().lift,
+      unit: "N",
+      extraMonitors: [
+        {
+          label: "Lift Magnitude",
+          getValue: () =>
+            getPhysicsParameters().liftMagnitude.toFixed(2) + " N",
+        },
+        {
+          label: "Lift Direction",
+          getValue: () => {
+            const dir = getPhysicsParameters().liftDirection;
+            return `(${dir[0].toFixed(2)}, ${dir[1].toFixed(
+              2
+            )}, ${dir[2].toFixed(2)})`;
+          },
+        },
+      ],
+    });
 
-    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-      "Thrust Force",
-      () => getPhysicsParameters().thrust,
-      "N"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Thrust Force",
+      getVectorFunc: () => getPhysicsParameters().thrust,
+      unit: "N",
+      extraMonitors: [
+        {
+          label: "Ambient Pressure",
+          getValue: () =>
+            getPhysicsParameters().ambientPressure.toFixed(2) + " Pa",
+        },
+        {
+          label: "Exhaust Velocity",
+          getValue: () =>
+            getPhysicsParameters().exhaustVelocity.toFixed(2) + " m/s",
+        },
+        {
+          label: "Mass Flow Rate",
+          getValue: () =>
+            getPhysicsParameters().massFlowRate.toFixed(4) + " kg/s",
+        },
+        {
+          label: "Chamber Pressure",
+          getValue: () =>
+            getPhysicsParameters().chamberPressure.toFixed(0) + " Pa",
+        },
+        {
+          label: "Chamber Temp",
+          getValue: () =>
+            getPhysicsParameters().chamberTemperature.toFixed(2) + " K",
+        },
+      ],
+    });
 
     this.guiLeft.addFuelProgressBar(
       "Fuel Level",
@@ -112,15 +188,93 @@ export default class Rocket {
       () => getPhysicsParameters().initialFuelMass
     );
 
-    // Mass
-    this.guiLeft.addTextMonitor(
-      "Total Mass",
-      () => getPhysicsParameters()["total mass"].toFixed(2) + " kg"
-    );
-    this.guiLeft.addTextMonitor(
-      "Fuel Mass",
-      () => getPhysicsParameters()["fuel mass"].toFixed(2) + " kg"
-    );
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Rocket",
+      // getVectorFunc: () => getPhysicsParameters().thrust,
+      unit: "N",
+      extraMonitors: [
+        {
+          label: "Fuel Type",
+          getValue: () => getPhysicsParameters().fuelTypeName,
+        },
+        {
+          label: "Fuel Mass",
+          getValue: () => getPhysicsParameters()["fuel mass"] + " kg",
+        },
+        {
+          label: "Total Mass",
+          getValue: () =>
+            getPhysicsParameters()["total mass"].toFixed(2) + " kg",
+        },
+        {
+          label: "Dry Mass",
+          getValue: () => getPhysicsParameters().dryMass + " kg",
+        },
+        {
+          label: "Cross Section",
+          getValue: () => getPhysicsParameters().crossSectionalArea + " m²",
+        },
+        {
+          label: "Drag Coefficient",
+          getValue: () => getPhysicsParameters().dragCoefficient,
+        },
+        {
+          label: "Lift Coefficient",
+          getValue: () => getPhysicsParameters().liftCoefficient,
+        },
+        {
+          label: "Nozzle Count",
+          getValue: () => getPhysicsParameters().nozzleCount,
+        },
+        {
+          label: "Exit Area",
+          getValue: () => getPhysicsParameters().exitArea + " m²",
+        },
+        {
+          label: "Throat Area",
+          getValue: () => getPhysicsParameters().A_throat + " m²",
+        },
+        {
+          label: "Burn Duration",
+          getValue: () => getPhysicsParameters().burnDuration.toFixed(2) + " s",
+        },
+      ],
+    });
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "Environment",
+      unit: "", // لا حاجة لوحدة عامة هنا
+      extraMonitors: [
+        {
+          label: "Air Density",
+          getValue: () =>
+            getPhysicsParameters().airDensity.toFixed(4) + " kg/m³",
+        },
+        {
+          label: "Sea-Level Pressure",
+          getValue: () =>
+            getPhysicsParameters().seaLevelPressure.toLocaleString() + " Pa",
+        },
+        {
+          label: "Sea-Level Temperature",
+          getValue: () => getPhysicsParameters().seaLevelTemperature + " K",
+        },
+        {
+          label: "Gravity (g)",
+          getValue: () =>
+            getPhysicsParameters().gravitationalAcceleration + " m/s²",
+        },
+        {
+          label: "Lapse Rate",
+          getValue: () => getPhysicsParameters().temperatureLapseRate + " K/m",
+        },
+        {
+          label: "Gas Constant (Air)",
+          getValue: () =>
+            getPhysicsParameters().specificGasConstantAir + " J/kg·K",
+        },
+      ],
+    });
 
     // this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
     //   "Extra",

@@ -38,8 +38,8 @@ export default class Physics {
     this.sanitizeVector(this.forces.thrust.force);
 
     totalForce.add(this.forces.weight.force);
-    //totalForce.add(this.forces.drag.force);
-    // totalForce.add(this.forces.lift.force);
+    totalForce.add(this.forces.drag.force);
+    totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 
     return totalForce;
@@ -95,17 +95,65 @@ export default class Physics {
 
   getPhysicsParameters() {
     return {
+      // Motion
       time: this.time,
       velocity: this.rocket.velocity.toArray(),
       acceleration: this.rocket.acceleration.toArray(),
       position: this.rocket.position.toArray(),
+
+      // Rocket
       "total mass": this.rocket.getTotalMass(),
       "fuel mass": this.rocket.engine.fuel.mass,
       initialFuelMass: this.rocket.initialFuelMass,
+      fuelTypeName: this.rocket.fuelTypeName,
+
+      // Forces
       weight: this.forces.weight.force.toArray(),
       drag: this.forces.drag.force.toArray(),
       lift: this.forces.lift.force.toArray(),
       thrust: this.forces.thrust.force.toArray(),
+      totalForce: this.getTotalForce().toArray(),
+
+      // Static Rocket Properties
+      dryMass: this.rocket.dryMass,
+      crossSectionalArea: this.rocket.crossSectionalArea,
+      dragCoefficient: this.rocket.dragCoefficient,
+      liftCoefficient: this.rocket.liftCoefficient,
+      nozzleCount: this.rocket.nozzleCount,
+      exitArea: this.rocket.exitArea,
+      A_throat: this.rocket.A_throat,
+      burnDuration: this.rocket.engine.burnDuration,
+
+      // Environment
+      airDensity: this.environment.airDensity,
+      seaLevelPressure: this.environment.seaLevelPressure,
+      seaLevelTemperature: this.environment.seaLevelTemperature,
+      gravitationalAcceleration: this.environment.gravitationalAcceleration,
+      temperatureLapseRate: this.environment.temperatureLapseRate,
+      specificGasConstantAir: this.environment.specificGasConstantAir,
+
+      // Thrust Info (مباشر بدون متغيرات)
+      ambientPressure: this.environment.getPressureAtAltitude(
+        this.rocket.position.y
+      ),
+      exhaustVelocity: this.forces.thrust._computeExhaustVelocity(
+        this.environment.getPressureAtAltitude(this.rocket.position.y)
+      ),
+      massFlowRate: this.rocket.engine.getMassFlowRate(),
+      chamberPressure: this.rocket.engine.fuel.fuelType.chamberPressure,
+      chamberTemperature: this.rocket.engine.fuel.fuelType.chamberTemperature,
+
+      //lift info
+      liftMagnitude: this.forces.lift.liftMagnitude,
+      liftDirection: this.forces.lift.liftDirection.toArray(),
+
+      // Weight Info
+      gravityAcceleration: this.forces.weight.gravity,
+      weightDirection: this.forces.weight.direction.toArray(),
+
+      // Drag Info
+      dragMagnitude: this.forces.drag.dragMagnitude,
+      dragDirection: this.forces.drag.dragDirection.toArray(),
     };
   }
 }

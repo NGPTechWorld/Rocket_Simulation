@@ -167,24 +167,28 @@ export default class GuiController {
 
     update();
   }
-
-  addVector3WithMagnitudeWithExtraMonitors(
+  addVector3WithMagnitudeWithExtraMonitors({
     label,
-    getVectorFunc,
+    getVectorFunc = null,
     unit = "",
-    extraMonitors = []
-  ) {
-    const vector = { x: 0, y: 0, z: 0 };
+    extraMonitors = [],
+  }) {
     const folder = this.gui.addFolder(label);
     folder.close(); // إغلاق المجلد افتراضيًا
 
-    // إضافة عناصر X, Y, Z للمراقبة
-    folder.add(vector, "x").name("X").listen();
-    folder.add(vector, "y").name("Y").listen();
-    folder.add(vector, "z").name("Z").listen();
+    const hasVector = typeof getVectorFunc === "function";
 
-    // الوصول إلى عنصر عنوان المجلد لتحديثه لاحقًا
+    // الوصول إلى عنوان المجلد لتحديثه لاحقًا
     const titleElement = folder.domElement.querySelector(".title");
+
+    // فقط إذا تم تمرير getVectorFunc، نقوم بإنشاء vector والمتغيرات المرتبطة به
+    let vector = null;
+    if (hasVector) {
+      vector = { x: 0, y: 0, z: 0 };
+      folder.add(vector, "x").name("X").listen();
+      folder.add(vector, "y").name("Y").listen();
+      folder.add(vector, "z").name("Z").listen();
+    }
 
     // القيم الإضافية داخل المجلد
     const extraValues = {};
@@ -203,15 +207,19 @@ export default class GuiController {
 
     // التحديث المستمر
     function update() {
-      const v = getVectorFunc();
-      vector.x = v[0]?.toFixed(2) ?? 0;
-      vector.y = v[1]?.toFixed(2) ?? 0;
-      vector.z = v[2]?.toFixed(2) ?? 0;
+      let v = [0, 0, 0];
 
-      // تحديث عنوان المجلد بمقدار المتجه
-      if (titleElement) {
-        const magnitude = getMagnitude(v).toFixed(2);
-        titleElement.innerHTML = `${label}<span style="float:right;">${magnitude} ${unit}</span>`;
+      if (hasVector) {
+        v = getVectorFunc() || [0, 0, 0];
+        vector.x = v[0]?.toFixed(2) ?? 0;
+        vector.y = v[1]?.toFixed(2) ?? 0;
+        vector.z = v[2]?.toFixed(2) ?? 0;
+
+        // تحديث العنوان بالمقدار
+        if (titleElement) {
+          const magnitude = getMagnitude(v).toFixed(2);
+          titleElement.innerHTML = `${label}<span style="float:right;">${magnitude} ${unit}</span>`;
+        }
       }
 
       // تحديث القيم الإضافية

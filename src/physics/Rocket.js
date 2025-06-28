@@ -10,6 +10,7 @@ export default class Rocket {
         if (rocketInstance) return rocketInstance;
         rocketInstance = this;
         this.initialFuelMass = initialFuelMass;
+        this.fuelTypeName = fuelTypeName;
         this.position = new Vector3(0, 0, 0);
         this.velocity = new Vector3(0, 0, 0);
         this.acceleration = new Vector3(0, 0, 0);

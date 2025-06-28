@@ -1,7 +1,7 @@
 import Force from "./Force";
 import Rocket from "./Rocket";
 import Earth from "./Earth";
-
+import { Vector3 } from "three";
 let instance = null;
 export default class WeightForce extends Force {
   constructor() {
@@ -10,6 +10,10 @@ export default class WeightForce extends Force {
       return instance;
     }
     instance = this;
+
+    // خصائص إضافية للمراقبة
+    this.gravity = 0;
+    this.direction = new Vector3();
 
     this.earth = new Earth();
     this.rocket = new Rocket();
@@ -35,5 +39,9 @@ export default class WeightForce extends Force {
       .normalize(); // to earth center (0, 0, 0)
 
     this.force.copy(directionToEarthCenter.multiplyScalar(gravity * mass));
+
+    // تخزين للمراقبة
+    this.gravity = gravity;
+    this.direction.copy(directionToEarthCenter);
   }
 }
