@@ -11,7 +11,6 @@ export default class WeightForce extends Force {
     }
     instance = this;
 
-    
     this.earth = new Earth();
     this.rocket = new Rocket();
     this.update();

@@ -11,7 +11,6 @@ export default class DragForce extends Force {
     }
     instance = this;
 
-    
     this.environment = new Environment();
     this.rocket = new Rocket();
 

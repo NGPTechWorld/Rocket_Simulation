@@ -3,10 +3,10 @@ const FUEL_DATABASE = {
         density: 71,
         gamma: 1.22,
         universalGasConstant: 8.3144621,
-        chamberTemperature: 3251,
+        chamberTemperature: 3470,
         molecularWeight: 0.018015,
         combustionEfficiency: 0.95,
-        chamberPressure: 8.0e6
+        chamberPressure: 7.0e6
     },
     'RP-1/LOX': {
         density: 810,
