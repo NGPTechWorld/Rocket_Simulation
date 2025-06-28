@@ -24,14 +24,20 @@ export default class Physics {
       lift: new LiftForce(),
       thrust: new ThrustForce(this.rocket.engine),
     };
+    this.rocket.engine.start();
   }
 
   getTotalForce() {
     let totalForce = new Vector3(0, 0, 0);
 
+    this.sanitizeVector(this.forces.weight.force);
+    this.sanitizeVector(this.forces.drag.force);
+    this.sanitizeVector(this.forces.lift.force);
+    this.sanitizeVector(this.forces.thrust.force);
+
     totalForce.add(this.forces.weight.force);
     totalForce.add(this.forces.drag.force);
-    totalForce.add(this.forces.lift.force);
+    // totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 
     return totalForce;
@@ -41,6 +47,8 @@ export default class Physics {
     this.rocket.acceleration
       .copy(this.getTotalForce())
       .divideScalar(this.rocket.getTotalMass());
+
+    this.sanitizeVector(this.rocket.acceleration);
   }
 
   velocity() {
@@ -48,10 +56,14 @@ export default class Physics {
       this.rocket.acceleration,
       this.deltaTime
     );
+
+    this.sanitizeVector(this.rocket.velocity);
   }
 
   position() {
     this.rocket.position.addScaledVector(this.rocket.velocity, this.deltaTime);
+
+    this.sanitizeVector(this.rocket.position, 1e-3);
   }
 
   update() {
@@ -69,5 +81,28 @@ export default class Physics {
 
   time_update() {
     this.time = this.time + this.deltaTime;
+  }
+
+  sanitizeVector(vector, threshold = 1e-3) {
+    vector.set(
+      Math.abs(vector.x) < threshold ? 0 : vector.x,
+      Math.abs(vector.y) < threshold ? 0 : vector.y,
+      Math.abs(vector.z) < threshold ? 0 : vector.z
+    );
+  }
+
+  getPhysicsParameters() {
+    return {
+      time: this.time,
+      velocity: this.rocket.velocity.toArray(),
+      acceleration: this.rocket.acceleration.toArray(),
+      position: this.rocket.position.toArray(),
+      "total mass": this.rocket.getTotalMass(),
+      "fuel mass": this.rocket.engine.fuel.mass,
+      weight: this.forces.weight.force.toArray(),
+      drag: this.forces.drag.force.toArray(),
+      lift: this.forces.lift.force.toArray(),
+      thrust: this.forces.thrust.force.toArray(),
+    };
   }
 }

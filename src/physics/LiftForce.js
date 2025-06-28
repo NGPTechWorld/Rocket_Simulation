@@ -12,7 +12,6 @@ export default class LiftForce extends Force {
     }
     instance = this;
 
-    
     this.environment = new Environment();
     this.rocket = new Rocket();
 
