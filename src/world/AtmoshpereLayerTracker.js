@@ -1,3 +1,12 @@
+export const ATMOSPHERE_LAYERS = [
+  { name: 'Troposphere', maxHeight: 20 },    
+  { name: 'Stratosphere', maxHeight: 50 },
+  { name: 'Mesosphere', maxHeight: 85 },
+  { name: 'Thermosphere', maxHeight: 600 },
+  { name: 'Ionosphere', maxHeight: 985 },
+  { name: 'Exosphere', maxHeight: 1000 },
+  { name: 'Space', maxHeight: Infinity },
+];
 
 export default class AtmoshpereLayerTracker {
    /**
@@ -6,16 +15,8 @@ export default class AtmoshpereLayerTracker {
     constructor (world, rocket){
       this.rocket = rocket
       this.layer = 'Unknown'
-        this.gui =world.gui
-      this.layers = [
-        { name: 'Troposphere', maxHeight: 14500 },
-        { name: 'Stratosphere', maxHeight: 50000 },
-        { name: 'Mesosphere', maxHeight: 85000 },
-        { name: 'Thermosphere', maxHeight: 600000 },
-        { name: 'Ionosphere', maxHeight: 985000 },
-        { name: 'Exosphere', maxHeight: 1000000 },
-        { name: 'Space', maxHeight: Infinity },
-      ];
+      this.gui =world.gui
+      this.layers = ATMOSPHERE_LAYERS
 
       this.startTracking()
     }
@@ -25,12 +26,9 @@ export default class AtmoshpereLayerTracker {
     }
 
     update() {
-      const height = this.rocket.height
-  
-      const foundLayer = this.layers.find(layer => height <= layer.maxHeight)
-      this.layer = foundLayer ? foundLayer.name : 'Unknown'
+      this.layer = this.layers.find(layer => this.rocket.height <= layer.maxHeight)?.name || 'Unknown';
     }
-
+    
     setGUI() {
         this.gui.addTextMonitor('Atmosphere Layer', () => this.layer)
     }

@@ -39,7 +39,7 @@ export default class WorldManager {
     this.rocket = new Rocket(this);
     this.rocket_lancher = new RocketLaucherPad(this);
 
-    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',996);
+    this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',this.earth.radius - 15);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
 
     const groundTextures = this.assetsLoader.getTextures()["ground"];
@@ -141,21 +141,21 @@ export default class WorldManager {
 }
 
 
-function createStandardBuildingMaterial(textures, renderer) {
-  const { map, normalMap, specularMap } = textures;
+// function createStandardBuildingMaterial(textures, renderer) {
+//   const { map, normalMap, specularMap } = textures;
 
-  [map, normalMap, specularMap].forEach((tex) => {
-    if (tex) {
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy?.() || 1;
-      tex.repeat.set(1, 1);
-    }
-  });
+//   [map, normalMap, specularMap].forEach((tex) => {
+//     if (tex) {
+//       tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+//       tex.anisotropy = renderer.capabilities.getMaxAnisotropy?.() || 1;
+//       tex.repeat.set(1, 1);
+//     }
+//   });
 
-  return new THREE.MeshPhongMaterial({
-    map,
-    normalMap,
-    specularMap,
-    shininess: 60,
-  });
-}
+//   return new THREE.MeshPhongMaterial({
+//     map,
+//     normalMap,
+//     specularMap,
+//     shininess: 60,
+//   });
+// }

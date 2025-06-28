@@ -13,7 +13,7 @@ export default class Rocket {
     this.groundLevel = 0;
     this.ground = -1 ;
 
-    this.ascentSpeed = 2;
+    this.ascentSpeed = 15;
     this.isLaunching = false;
     this.isExplosion = false;
     this.isStartEngine = false;
@@ -28,56 +28,57 @@ export default class Rocket {
   }
 
   get height() {
-    const metersPerUnit = 1;
-    return (this.model.position.y - this.groundLevel) * metersPerUnit;
+    const metersPerUnit = 1; 
+    const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
+    return heightInMeters / 1000; 
   }
 
   setGUI() {
     this.gui.addObjectControls("Rocket", this.model);
-    this.gui.addTextMonitor("Rocket Height", () => this.height + " m");
+    this.gui.addTextMonitor("Rocket Height", () => this.height + "      km");
     this.gui.addLaunchStopControls(this);
+  }
+
+  launch() {
+    if (this.isLaunching) return;
+
+    this.isLaunching = true;
+
+    const moveUp = () => {
+      if (!this.isLaunching) return;
+
+      this.model.position.y += this.ascentSpeed;
+
+      requestAnimationFrame(moveUp);
+    };
+    // this.startCameraShake()
+    moveUp();
   }
 
   // launch() {
   //   if (this.isLaunching) return;
-
   //   this.isLaunching = true;
+  //   // this.world.camera.switchMode('follow')
 
-  //   const moveUp = () => {
-  //     if (!this.isLaunching) return;
+  //   this.world.assetsLoader.soundManager.play("launch");
 
-  //     this.model.position.y += this.ascentSpeed;
+  //   this.startCameraShake();
 
-  //     requestAnimationFrame(moveUp);
-  //   };
-  //   this.startCameraShake()
-  //   moveUp();
+  //   this.launchStartTime = performance.now();
+
+  //   const flash = new THREE.PointLight(0xffccaa, 100000, 100000);
+  //   flash.position.copy(this.model.position);
+  //   this.world.scene.add(flash);
+  //   this.startLiftOff = false;
+  //   setTimeout(() => {
+  //     this.startLiftOff = true;
+  //     this.liftStartTime = performance.now();
+  //     this.world.scene.remove(flash);
+  //   }, 5000);
+  //   setTimeout(() => {
+  //     this.stopCameraShake();
+  //   }, 6000);
   // }
-
-  launch() {
-    if (this.isLaunching) return;
-    this.isLaunching = true;
-    // this.world.camera.switchMode('follow')
-
-    this.world.assetsLoader.soundManager.play("launch");
-
-    this.startCameraShake();
-
-    this.launchStartTime = performance.now();
-
-    const flash = new THREE.PointLight(0xffccaa, 100000, 100000);
-    flash.position.copy(this.model.position);
-    this.world.scene.add(flash);
-    this.startLiftOff = false;
-    setTimeout(() => {
-      this.startLiftOff = true;
-      this.liftStartTime = performance.now();
-      this.world.scene.remove(flash);
-    }, 5000);
-    setTimeout(() => {
-      this.stopCameraShake();
-    }, 6000);
-  }
 
   explosion() {
     if (this.isExplosion) return;
