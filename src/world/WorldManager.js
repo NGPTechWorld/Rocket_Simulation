@@ -20,7 +20,7 @@ export default class WorldManager {
   constructor(app) {
     this.assetsLoader=app.assetsLoader
     this.scene = app.scene;
-    this.camera=app.camera
+    this.camera=app.camera;
     this.gui = app.gui;
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
@@ -44,17 +44,39 @@ export default class WorldManager {
     this.ground = new Ground(this,groundTextures,this.assetsLoader.getModels().tree,{
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
-      // color: 0x555555,
       positionY: -5.25     
     })
+
     const building =this.assetsLoader.getModels().house;
     const apartment =this.assetsLoader.getModels().apartment;
     const bunker =this.assetsLoader.getModels().bunker;
     const city = this.assetsLoader.getModels().city;
+    const brownstoneModel = this.assetsLoader.getModels().brownstone;
+    const brownstoneTextures = this.assetsLoader.getTextures().brownstone;
+    
+    // const brownstoneMaterial = createStandardBuildingMaterial(brownstoneTextures, this.renderer);
+
+    const brownstoneRow = Array.from({ length: 4 }, (_, i) => ({
+      model: brownstoneModel.clone(),
+      scale: [4, 4, 4],
+      position: [i * 180 - 180, 0.1, -600], 
+      rotation: [0, Math.PI, 0],
+    }));
+    
+    // brownstoneRow.forEach((item) => {
+    //   item.model.traverse((child) => {
+    //     if (child.isMesh) {
+    //       if (child.material) child.material.dispose(); // تنظيف
+    //       child.material = brownstoneMaterial;
+    //       child.castShadow = true;
+    //       child.receiveShadow = true;
+    //     }
+    //   });
+    // });
 
     const cityRow = Array.from({ length: 1 }, (_, i) => ({
       model: city,
-      scale: [20,20, 20],
+      scale: [23,23, 23],
       position: [-400 + i * 180, 0.3, 150],
       rotation: [0, - Math.PI , 0], 
     }));
@@ -73,21 +95,20 @@ export default class WorldManager {
       rotation: [0, Math.PI, 0],
     }));
 
-    const bunkerRow = Array.from({ length: 2 }, (_, i) => ({
+    const bunkerRow = Array.from({ length: 1 }, (_, i) => ({
       model: bunker,
       scale: [4,4, 4],               
-      position: [450, 0.1, i * 180 - 40],     
+       position: [400 - i * 180, 0.1, 0],     
       rotation: [0, 0, 0],         
     }));
     
-    this.buildings = new BuildingPlacer(this, [
-      ...buildingRow,
+    this.buildings = new BuildingPlacer(this,[
+      ...cityRow,
       ...apartmentRow,
+      ...buildingRow,
       ...bunkerRow,
-      ...cityRow
+      ...brownstoneRow
     ]);
-
-    // this.ground.buildings = this.buildings;
 
     this.setGUI();
     this.camera.followTarget(this.rocket.model); 
@@ -104,6 +125,7 @@ export default class WorldManager {
     this.rocketFire?.update()
     this.rocketSmoke?.update()
     this.rocket?.update()
+    // this.buildings?.updateVisibleCities();
 
   }
   setGUI() {
@@ -113,4 +135,25 @@ export default class WorldManager {
     this.atmosphereTracker.setGUI()
     //  this.ground.setGUI()
   }
+
+}
+
+
+function createStandardBuildingMaterial(textures, renderer) {
+  const { map, normalMap, specularMap } = textures;
+
+  [map, normalMap, specularMap].forEach((tex) => {
+    if (tex) {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy?.() || 1;
+      tex.repeat.set(1, 1);
+    }
+  });
+
+  return new THREE.MeshPhongMaterial({
+    map,
+    normalMap,
+    specularMap,
+    shininess: 60,
+  });
 }
