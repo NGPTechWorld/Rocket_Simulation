@@ -24,9 +24,8 @@ export default class AppRun {
     this.scene = new THREE.Scene();
 
     // this.mainMenu = new MainMenu();
-    // this.gui = new GuiController();
 
-    this.setupGUI(); // إعداد الواجهات
+    this.setupGUI();
 
     this.sizes = new Sizes();
     this.eventEmitter = new EventEmitter();
@@ -45,20 +44,16 @@ export default class AppRun {
     this.time.on("tick", () => this.update());
   }
 
-  // إعداد واجهات المستخدم
   setupGUI() {
-    // الواجهة اليمنى: للتحكم
-    const guiRight = new GUI(); // يظهر بشكل افتراضي على اليمين
+    const guiRight = new GUI();
 
-    // الواجهة اليسرى: للمراقبة
     const guiLeft = new GUI();
     guiLeft.domElement.style.position = "absolute";
     guiLeft.domElement.style.left = "0px";
     guiLeft.domElement.style.top = "0px";
-    guiLeft.domElement.style.zIndex = "999"; // اجعلها فوق كل شيء
-    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)"; // اختياري
+    guiLeft.domElement.style.zIndex = "999"; 
+    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)";
 
-    // أنشئ وحدتين من GuiController:
     this.guiRight = new GuiController(guiRight);
     this.guiLeft = new GuiController(guiLeft);
   }
