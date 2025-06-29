@@ -23,7 +23,7 @@ export default class Engine {
   isBurning() {
     return (
       this.isActive &&
-      this.elapsedTime < this.burnDuration &&
+      // this.elapsedTime < this.burnDuration &&
       this.fuel.mass > 0
     );
   }

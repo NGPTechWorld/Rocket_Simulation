@@ -24,7 +24,7 @@ export default class Physics {
       lift: new LiftForce(),
       thrust: new ThrustForce(this.rocket.engine),
     };
-    this.rocket.engine.fuel._mass = 10000000;
+    // this.rocket.engine.fuel._mass = 50000;
   }
 
   startEngine() {
@@ -69,6 +69,10 @@ export default class Physics {
     this.sanitizeVector(this.rocket.position, 1e-3);
   }
 
+  getPosition() {
+    return new Vector3(this.rocket.position.x / 100, this.rocket.position.y / 100, 0)
+  }
+
   update() {
     this.time_update();
     this.acceleration();
@@ -100,7 +104,7 @@ export default class Physics {
       time: this.time,
       velocity: this.rocket.velocity.toArray(),
       acceleration: this.rocket.acceleration.toArray(),
-      position: this.rocket.position.toArray(),
+      position: this.getPosition().toArray(),
 
       // Rocket
       "total mass": this.rocket.getTotalMass(),

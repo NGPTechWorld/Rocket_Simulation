@@ -16,11 +16,11 @@ export default class Environment {
   }
 
   updateAirDensity() {
-    if (this.rocket.position.y <= 20000) {
+    if (this.rocket.position.y <= 2000000) {
       this.airDensity = 1.225;
-    } else if (this.rocket.position.y <= 50000) {
+    } else if (this.rocket.position.y <= 5000000) {
       this.airDensity = 0.149; //   Stratosphere
-    } else if (this.rocket.position.y <= 85000) {
+    } else if (this.rocket.position.y <= 8500000) {
       this.airDensity = 0.00103; // Mesosphere
     } else {
       this.airDensity = 0; // Thermosphere and higher
