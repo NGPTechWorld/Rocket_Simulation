@@ -61,12 +61,12 @@ drawAtmosphereLayers() {
   const KM_TO_UNITS = 1000;
 
   const layerMaterials = [
-    { color: 0x6ca0f6, opacity: 0.12 },
-    { color: 0x3b5998, opacity: 0.10 },
-    { color: 0x5c90d2, opacity: 0.08 },
-    { color: 0x9ec1ff, opacity: 0.06 },
-    { color: 0xa8c8ff, opacity: 0.05 },
-    { color: 0xd1e0ff, opacity: 0.04 },
+    { color: 0x6ca0f6, opacity: 0.12 }, // Troposphere - أزرق فاتح متوسط
+    { color: 0x3b5998, opacity: 0.10 }, // Stratosphere - أزرق متوسط
+    { color: 0x2d4373, opacity: 0.08 }, // Mesosphere - أزرق داكن
+    { color: 0x1f2d4d, opacity: 0.06 }, // Thermosphere - أزرق داكن جداً
+    { color: 0x141a33, opacity: 0.05 }, // Ionosphere - أزرق مائل للأسود
+    { color: 0x0d1124, opacity: 0.04 }, // Exosphere - أزرق أسود
   ];
 
   ATMOSPHERE_LAYERS.forEach((layer, i) => {
