@@ -42,10 +42,16 @@ export default class AssetsLoader {
       promises.push(p);
     }
 
-    for (const [name, path] of Object.entries(sounds)) {
+    for (const [name, config] of Object.entries(sounds)) {
       this.total++;
+      const {
+        path,
+        loop = false,
+        volume = 1,
+      } = typeof config === "string" ? { path: config } : config;
+
       const p = this.soundManager
-        .load(name, path)
+        .load(name, path, loop, volume)
         .then(() => this._onProgress());
       promises.push(p);
     }

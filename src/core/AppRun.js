@@ -110,12 +110,20 @@ export default class AppRun {
         house: "models/build.glb",
         apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
-        city: 'models/NEW+CİTY.1blend.glb',
-         // brownstone: "/models/BrownStoneWithRestaurant.glb",
+        city: "models/NEW+CİTY.1blend.glb",
+        // brownstone: "/models/BrownStoneWithRestaurant.glb",
       },
       sounds: {
-        explosion: "/sounds/explosion.mp3",
-        launch: "/sounds/rocket_lanch.mp3",
+        explosion: {
+          path: "/sounds/explosion.mp3",
+          loop: false,
+          volume: 1,
+        },
+        launch: {
+          path: "/sounds/rocket_lanch.mp3",
+          loop: true,
+          volume: 1,
+        },
       },
     });
 
