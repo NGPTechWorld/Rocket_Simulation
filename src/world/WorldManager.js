@@ -21,12 +21,10 @@ export default class WorldManager {
     this.assetsLoader=app.assetsLoader
     this.scene = app.scene;
     this.camera=app.camera
-      this.guiRight = app.guiRight;
+    this.guiRight = app.guiRight;
     this.guiLeft= app.guiLeft
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
-    
-    // this.physics= app.physics
     this.physics =new Physics();
     this.init();
   }
@@ -36,15 +34,15 @@ export default class WorldManager {
 
     // World
     this.scene.background = this.assetsLoader.getTextures()['space'].map;
+
     this.earth = new Earth(this);
     this.rocket = new Rocket(this);
     this.rocket_lancher = new RocketLaucherPad(this);
-
     this.atmosphere = new AtmosphereLayer(this, '/textures/puresky.exr',this.earth.radius - 15);
     this.atmosphereTracker = new AtmoshpereLayerTracker(this, this.rocket)
 
     const groundTextures = this.assetsLoader.getTextures()["ground"];
-    this.ground = new Ground(this,groundTextures,this.assetsLoader.getModels().tree,{
+    this.ground = new Ground(this,groundTextures,{
       radius: this.atmosphere.radius - 0.5,
       thickness: 0.5,
       positionY: -5.25     
@@ -132,11 +130,11 @@ export default class WorldManager {
 
   }
   setGUI() {
-    // this.rocket_lancher.setGUI()
+    //this.rocket_lancher.setGUI()
     this.rocket.setGUI()
     this.atmosphere.setGUI()
     this.atmosphereTracker.setGUI()
-    //  this.ground.setGUI()
+    // this.ground.setGUI()
   }
 
 }

@@ -26,7 +26,7 @@ export default class Camera {
       1,
       50000
     );
-    this.instance.position.set(0, 2, 10);
+    this.instance.position.set(0, 4, 60);
     this.scene.add(this.instance);
   }
 
@@ -78,7 +78,7 @@ export default class Camera {
 
       case "follow":
         if (this.followTargetObj) {
-          const offset = new THREE.Vector3(0, 3, +100);
+          const offset = new THREE.Vector3(0, 3, +150);
           const targetPos = this.followTargetObj.position.clone().add(offset);
 
           this.instance.position.lerp(targetPos, 0.1);

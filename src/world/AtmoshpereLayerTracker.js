@@ -26,7 +26,7 @@ export default class AtmoshpereLayerTracker {
     }
 
     update() {
-      this.layer = this.layers.find(layer => this.rocket.height <= layer.maxHeight)?.name || 'Unknown';
+      this.layer = this.layers.find(layer => this.rocket.height <= layer.maxHeight*100)?.name || 'Unknown';
     }
     
     setGUI() {

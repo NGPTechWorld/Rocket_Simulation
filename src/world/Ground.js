@@ -4,15 +4,15 @@ export default class Ground {
      /**
    * @param {import('./WorldManager').default} world
   */
-  constructor(world,textures,tree,options = {}) {
+  constructor(world,textures,options = {}) {
     this.scene = world.scene;
     this.textures = textures;
-    this.tree = tree;
-      this.guiRight =world.guiRight
+    //this.tree = tree;
+    this.guiRight =world.guiRight
     this.radius = options.radius || 25;
     this.thickness = options.thickness || 0.5;
     this.color = options.color || 0xffffffff;
-    this.positionY = options.positionY || -5.25;
+    this.positionY = -18.8;
 
     this.mesh = null;
 
@@ -57,7 +57,7 @@ export default class Ground {
       this.mesh.rotation.x = -Math.PI / 2;
     }
 
-    this.mesh.position.set(0, this.positionY, 0);
+    this.mesh.position.set(0, -18.8, 0);
     this.mesh.receiveShadow = true;
 
     this.scene.add(this.mesh);

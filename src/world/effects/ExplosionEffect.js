@@ -13,7 +13,7 @@ export default class ExplosionEffect {
 
   createFlash() {
     const flash = new THREE.PointLight(0xff5500, 50000, 100000)
-    flash.position.copy(this.position).add(new THREE.Vector3(0, 10, 0))
+    flash.position.copy(this.position).add(new THREE.Vector3(0, 0, 0))
     flash.castShadow = true
     this.world.scene.add(flash)
 

@@ -23,16 +23,16 @@ export default class Rocket {
   }
 
   setMesh() {
-    this.model.position.set(10, this.groundLevel, 0);
+    this.model.position.set(0, this.groundLevel, 0);
     this.model.scale.set(4, 4, 4);
     this.scene.add(this.model);
   }
 
   get height() {
     const metersPerUnit = 1;
-   const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
-    return heightInMeters / 1000; 
-
+  //  const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
+  //   return heightInMeters / 1000; 
+    return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
   // launch() {
@@ -340,7 +340,7 @@ export default class Rocket {
       if (this.startLiftOff) {
         this.world.physics.update();
         //this.model.position.y += 0.5;
-        console.log(this.world.physics.getPhysicsParameters());
+        // console.log(); this.world.physics.getPhysicsParameters()["fuel mass"]
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 100;
         this.model.position.y = this.world.physics.rocket.position.y / 100;

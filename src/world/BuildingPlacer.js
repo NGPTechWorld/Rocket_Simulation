@@ -5,7 +5,7 @@ export default class BuildingPlacer {
   */
   constructor(world, buildings) {
     this.world = world;
-    this.scene = world.scene;
+    this.scene = world.ground.mesh;
     this.camera = world.camera.instance;
     this.buildings = buildings
 
@@ -19,8 +19,8 @@ export default class BuildingPlacer {
     this.buildings.forEach((entry) => {
       const building = entry.model.clone();
 
-      const [x, yOffset, z] = entry.position || [0, 0, 0];
-      const y = world.ground.positionY + world.ground.thickness / 2 + yOffset;
+      const [x, y, z] = entry.position || [0, 0, 0];
+      //const y = world.ground.positionY + world.ground.thickness / 2 + yOffset;
       building.position.set(x, y, z);
 
       const [sx, sy, sz] = entry.scale || [0.4, 0.4, 0.4];

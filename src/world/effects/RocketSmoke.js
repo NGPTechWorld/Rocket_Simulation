@@ -47,30 +47,40 @@ export default class RocketSmoke {
     });
   }
 
-  update() {
-    if (this.world.rocket.isLaunching) {
-      const now = Date.now();
-      if (now - this.lastSpawnTime > this.spawnInterval) {
-        this.spawnParticle();
-        this.lastSpawnTime = now;
-      }
+ update() {
+  if (this.world.rocket.isLaunching && this.world.physics.getPhysicsParameters()["fuel mass"] > 0) {
+    const now = Date.now();
+    if (now - this.lastSpawnTime > this.spawnInterval) {
+      this.spawnParticle();
+      this.lastSpawnTime = now;
+    }
 
-      this.particles.forEach((p, i) => {
-        p.sprite.position.add(p.velocity);
-        p.life -= 0.01;
-        p.sprite.material.opacity = p.life * 0.5;
-        p.sprite.scale.multiplyScalar(1.02);
+    this.particles.forEach((p, i) => {
+      p.sprite.position.add(p.velocity);
+      p.life -= 0.01;
+      p.sprite.material.opacity = p.life * 0.5;
+      p.sprite.scale.multiplyScalar(1.02);
 
-        if (p.life <= 0) {
-          this.rocket.remove(p.sprite);
-          this.particles.splice(i, 1);
-        }
-      });
-    } else {
-      this.particles.forEach((p, i) => {
+      if (p.life <= 0) {
         this.rocket.remove(p.sprite);
         this.particles.splice(i, 1);
-      });
+      }
+    });
+
+    clearTimeout(this.clearTimeoutID);
+    this.clearTimeoutID = null;
+
+  } else {
+    if (!this.clearTimeoutID) {
+      this.clearTimeoutID = setTimeout(() => {
+        this.particles.forEach((p) => {
+          this.rocket.remove(p.sprite);
+        });
+        this.particles = [];
+        this.clearTimeoutID = null;
+      }, 20000);
     }
   }
+}
+
 }
