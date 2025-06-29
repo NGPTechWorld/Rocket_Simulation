@@ -20,8 +20,9 @@ export default class WorldManager {
   constructor(app) {
     this.assetsLoader=app.assetsLoader
     this.scene = app.scene;
-    this.camera=app.camera;
-    this.gui = app.gui;
+    this.camera=app.camera
+      this.guiRight = app.guiRight;
+    this.guiLeft= app.guiLeft
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
     
@@ -117,7 +118,7 @@ export default class WorldManager {
     this.rocketFire = new RocketFire(this, this.rocket.model)
     this.rocketSmoke = new RocketSmoke(this, this.rocket.model)
     console.log(this.camera.currentMode);
-    this.gui.gui
+    this.guiRight.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])
       .name("Camera Mode");
   }

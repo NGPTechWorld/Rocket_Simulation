@@ -7,13 +7,14 @@ let instance = null;
 export default class LiftForce extends Force {
   constructor() {
     super();
-    if (instance) {
-      return instance;
-    }
+    if (instance) return instance;
     instance = this;
 
     this.environment = new Environment();
     this.rocket = new Rocket();
+
+    this.liftMagnitude = 0;
+    this.liftDirection = new Vector3();
 
     this.update();
   }
@@ -32,6 +33,9 @@ export default class LiftForce extends Force {
       Math.pow(speed, 2);
 
     const liftForce = liftDir.clone().multiplyScalar(liftMagnitude);
+
+    this.liftDirection.copy(liftDir);
+    this.liftMagnitude = liftMagnitude;
 
     this.force.copy(liftForce);
   }

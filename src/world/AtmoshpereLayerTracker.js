@@ -15,8 +15,8 @@ export default class AtmoshpereLayerTracker {
     constructor (world, rocket){
       this.rocket = rocket
       this.layer = 'Unknown'
-      this.gui =world.gui
-      this.layers = ATMOSPHERE_LAYERS
+        this.guiRight =world.guiRight
+     this.layers = ATMOSPHERE_LAYERS
 
       this.startTracking()
     }
@@ -30,7 +30,7 @@ export default class AtmoshpereLayerTracker {
     }
     
     setGUI() {
-        this.gui.addTextMonitor('Atmosphere Layer', () => this.layer)
+        this.guiRight.addTextMonitor('Atmosphere Layer', () => this.layer)
     }
 
     startTracking() {
