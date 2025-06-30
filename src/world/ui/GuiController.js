@@ -54,10 +54,11 @@ export default class GuiController {
     this.folders[name] = folder;
   }
 
-  /**
-   * إضافة أزرار تحكم الإطلاق والإيقاف للـ rocket
-   * @param {object} rocket - الكائن الذي يحتوي على دوال launch و stop
-   */
+ /**
+ * يضيف أزرار تحكم لإطلاق أو إيقاف الصاروخ من واجهة المستخدم.
+ *
+ * @param {import('../Rocket').default} rocket 
+ */
   addLaunchStopControls(rocket) {
     this.gui.add({ launch: () => rocket.launch() }, "launch");
     this.gui.add({ stop: () => rocket.stop() }, "stop");
