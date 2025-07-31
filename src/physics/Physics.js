@@ -97,7 +97,10 @@ export default class Physics {
       Math.abs(vector.z) < threshold ? 0 : vector.z
     );
   }
-
+  // setPhysicsParameters(){
+  //   this.rocket.initialFuelMass=20000000;
+  //   this.rocket.engine.fuel.mass=20000000;
+  // }
   getPhysicsParameters() {
     return {
       // Motion
@@ -107,8 +110,8 @@ export default class Physics {
       position: this.getPosition().toArray(),
 
       // Rocket
-      "total mass": this.rocket.getTotalMass(),
-      "fuel mass": this.rocket.engine.fuel.mass,
+      totalMass: this.rocket.getTotalMass(),
+      fuelMass: this.rocket.engine.fuel.mass,
       initialFuelMass: this.rocket.initialFuelMass,
       fuelTypeName: this.rocket.engine.fuel.fuelType.name,
 

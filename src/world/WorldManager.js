@@ -129,9 +129,11 @@ export default class WorldManager {
     // this.buildings?.updateVisibleCities();
 
   }
+  //!Osama here
   setGUI() {
     //this.rocket_lancher.setGUI()
-    this.rocket.setGUI()
+    this.rocket.setGuiRight()
+    this.rocket.setGuiLeft()
     this.atmosphere.setGUI()
     this.atmosphereTracker.setGUI()
     // this.ground.setGUI()
