@@ -24,6 +24,12 @@ export default class ExplosionEffect {
       this.world.scene.remove(flash)
       this.world.scene.remove(ambientFlash)
     }, 15000)
+
+
+    const crashMessage = document.getElementById('crash-message');
+    if (crashMessage) {
+      crashMessage.style.display = 'flex';
+    }
   }
 
   createSmokeParticles() {

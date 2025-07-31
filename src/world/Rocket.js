@@ -355,6 +355,31 @@ export default class Rocket {
 
   stop() {
     this.isLaunching = false;
+    const stopMessage = document.getElementById('stop-message');
+  if (stopMessage) {
+    stopMessage.style.display = 'flex';
+
+    // ربط زر إعادة المحاكاة (نزيل أي listener سابق لتجنب التكرار)
+    const retryBtn = document.getElementById('retry-btn');
+    if (retryBtn) {
+      // إزالة أي مستمع موجود
+      retryBtn.replaceWith(retryBtn.cloneNode(true));
+      const freshBtn = document.getElementById('retry-btn');
+
+      freshBtn.addEventListener('click', () => {
+        // إخفاء الرسالة فوراً
+        stopMessage.style.display = 'none';
+
+        // إذا عندك دالة تعيد تهيئة المحاكاة، نستخدمها، وإلا نعيد تحميل الصفحة
+        if (typeof initSimulation === 'function') {
+          initSimulation();
+        } else {
+          location.reload();
+        }
+      });
+    }
+  }
+  
     this.world.assetsLoader.soundManager.stop("launch");
   }
 
