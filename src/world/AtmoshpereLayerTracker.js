@@ -15,8 +15,8 @@ export default class AtmoshpereLayerTracker {
     constructor (world, rocket){
       this.rocket = rocket
       this.layer = 'Unknown'
-        this.guiRight =world.guiRight
-     this.layers = ATMOSPHERE_LAYERS
+      this.guiRight =world.guiRight
+      this.layers = ATMOSPHERE_LAYERS
 
       this.startTracking()
     }
@@ -42,7 +42,38 @@ export default class AtmoshpereLayerTracker {
           console.log('Rocket has reached space! Simulation should end.')
           
           this.rocket.stop()
-          return; 
+          
+      const msg = document.getElementById('end-simulation-message');
+      if (msg) {
+        // إخفاء أي واجهات سابقة إذا وجدت
+        ['stop-message', 'crash-message'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'none';
+        });
+
+        msg.style.display = 'flex';
+
+        // ربط زر إعادة المحاكاة (نستخدم id مختلف لتفادي تعارض)
+        const retryBtn = document.getElementById('retry-end');
+        if (retryBtn) {
+          // إلغاء أي مستمع قديم
+          retryBtn.replaceWith(retryBtn.cloneNode(true));
+          const fresh = document.getElementById('retry-end');
+          fresh.addEventListener('click', () => {
+            // إخفاء الواجهة
+            msg.style.display = 'none';
+
+            // إعادة تهيئة المحاكاة أو fallback بإعادة تحميل الصفحة
+            if (typeof window.initSimulation === 'function') {
+              window.initSimulation();
+            } else {
+              location.reload();
+            }
+          });
+        }
+      }
+
+          return;
         }
   
         requestAnimationFrame(loop);
