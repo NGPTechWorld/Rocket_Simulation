@@ -48,7 +48,7 @@ export default class RocketSmoke {
   }
 
  update() {
-  if (this.world.rocket.isLaunching && this.world.physics.getPhysicsParameters()["fuel mass"] > 0) {
+  if (this.world.rocket.isLaunching && this.world.physics.getPhysicsParameters().fuelMass > 0) {
     const now = Date.now();
     if (now - this.lastSpawnTime > this.spawnInterval) {
       this.spawnParticle();

@@ -10,6 +10,14 @@ export default class Fuel {
         return this._mass;
     }
 
+    set mass(value) {
+        this._mass = Math.max(0, value); 
+    }
+
+    setFuelType(typeName) {
+    this.fuelType = new FuelType(typeName);
+    }
+
     _consumeFuel(dm) {
         this._mass = Math.max(0, this._mass - dm);
     }

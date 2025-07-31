@@ -132,13 +132,14 @@ export default class WorldManager {
     this.rocket?.update();
     // this.buildings?.updateVisibleCities();
   }
+  //!Osama here
   setGUI() {
     //this.rocket_lancher.setGUI()
-    this.rocket.setGUI();
-    this.atmosphere.setGUI();
-    this.atmosphereTracker.setGUI();
-    console.log(this.camera.currentMode);
-    this.guiRight.gui
+      this.rocket.setGuiRight()
+    this.rocket.setGuiLeft()
+    this.atmosphere.setGUI()
+    this.atmosphereTracker.setGUI()
+     this.guiRight.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])
       .name("Camera Mode");
     const cameraInfo = {
@@ -150,6 +151,7 @@ export default class WorldManager {
       .name("📷 Change camera mode")
       .onFinishChange(() => {}); // حتى ما يصير editable
     //  this.ground.setGUI()
+    // this.ground.setGUI()
   }
 }
 

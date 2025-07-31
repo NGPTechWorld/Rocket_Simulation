@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import ExplosionEffect from "./effects/ExplosionEffect.js";
-
+import GUI from "lil-gui";
+import GuiController from "./../world/ui/GuiController.js";
 export default class Rocket {
   /**
    * @param {import('./WorldManager').default} world
@@ -18,6 +19,12 @@ export default class Rocket {
     this.isLaunching = false;
     this.isExplosion = false;
     this.isStartEngine = false;
+    this.defaultRocketSettings = {
+      fuelType: "RP-1/LOX",
+      fuelMass: 2_640_000,
+      dryMass: 330_000,
+    };
+    this.userRocketSettings = { ...this.defaultRocketSettings };
 
     this.setMesh();
   }
@@ -30,8 +37,8 @@ export default class Rocket {
 
   get height() {
     const metersPerUnit = 1;
-  //  const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
-  //   return heightInMeters / 1000; 
+    //  const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
+    //   return heightInMeters / 1000;
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
@@ -50,14 +57,45 @@ export default class Rocket {
   //   this.startCameraShake()
   //   moveUp();
   // }
+  resetGuiRightToDefaults() {
+    this.userRocketSettings = { ...this.defaultRocketSettings };
+    this.guiRight.gui.destroy();
+    this.guiRight.gui = new GUI();
+    this.guiRight = new GuiController(this.guiRight.gui);
+    this.setGuiRight();
+  }
 
-  setGUI() {
+  //! Right GUI
+  setGuiRight() {
+    this.guiRight.addTextMonitor("Rocket Height", () => this.height + " m");
+    this.guiRight.addLaunchStopControls(this);
+
+    const rocketFolder = this.guiRight.gui.addFolder("🚀 Rocket Values");
+    rocketFolder
+      .add(this.userRocketSettings, "fuelType", ["RP-1/LOX", "LH2/LOX"])
+      .name("Fuel Type");
+    rocketFolder
+      .add(this.userRocketSettings, "fuelMass", 1000, 5_000_000)
+      .step(500)
+      .name("Fuel Mass");
+    rocketFolder
+      .add(this.userRocketSettings, "dryMass", 1000, 1_000_000)
+      .step(500)
+      .name("Rocket Dry Mass");
+    rocketFolder
+      .add({ launch: () => this.launch() }, "launch")
+      .name("🚀 Launch");
+    // ! Here the reset logic is not work well (It delet the old guiRight and then create new one)
+    // rocketFolder
+    //   .add({ reset: () => this.resetGuiRightToDefaults() }, "reset")
+    //   .name("🔄 استعادة الإعدادات");
+  }
+
+  //! Left GUI
+  setGuiLeft() {
     const getPhysicsParameters = () =>
       this.world.physics.getPhysicsParameters();
 
-    this.guiRight.addObjectControls("Rocket", this.model);
-    this.guiRight.addTextMonitor("Rocket Height", () => this.height + " m");
-    this.guiRight.addLaunchStopControls(this);
     this.guiLeft.addTextMonitor("Time", () =>
       getPhysicsParameters().time.toFixed(2)
     );
@@ -85,6 +123,7 @@ export default class Rocket {
       getVectorFunc: () => getPhysicsParameters().totalForce,
       unit: "N",
     });
+
     this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
       label: "Weight Force",
       getVectorFunc: () => getPhysicsParameters().weight,
@@ -186,13 +225,12 @@ export default class Rocket {
 
     this.guiLeft.addFuelProgressBar(
       "Fuel Level",
-      () => getPhysicsParameters()["fuel mass"],
+      () => getPhysicsParameters().fuelMass,
       () => getPhysicsParameters().initialFuelMass
     );
 
     this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
       label: "Rocket",
-      // getVectorFunc: () => getPhysicsParameters().thrust,
       unit: "N",
       extraMonitors: [
         {
@@ -201,12 +239,11 @@ export default class Rocket {
         },
         {
           label: "Fuel Mass",
-          getValue: () => getPhysicsParameters()["fuel mass"] + " kg",
+          getValue: () => getPhysicsParameters().fuelMass.toFixed(2) + " kg",
         },
         {
           label: "Total Mass",
-          getValue: () =>
-            getPhysicsParameters()["total mass"].toFixed(2) + " kg",
+          getValue: () => getPhysicsParameters().totalMass.toFixed(2) + " kg",
         },
         {
           label: "Dry Mass",
@@ -245,7 +282,7 @@ export default class Rocket {
 
     this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
       label: "Environment",
-      unit: "", // لا حاجة لوحدة عامة هنا
+      unit: "",
       extraMonitors: [
         {
           label: "Air Density",
@@ -277,35 +314,18 @@ export default class Rocket {
         },
       ],
     });
-
-    // this.guiLeft.addVector3WithMagnitudeWithExtraMonitors(
-    //   "Extra",
-    //   () => getPhysicsParameters().thrust,
-    //   "N", //  وحدة المتجه
-    //   [
-    //     {
-    //       label: "Time",
-    //       getValue: () => getPhysicsParameters().time,
-    //     },
-    //     {
-    //       label: "Fuel Mass",
-    //       getValue: () => getPhysicsParameters()["fuel mass"],
-    //     },
-    //   ]
-    // );
   }
 
   launch() {
     if (this.isLaunching) return;
     this.isLaunching = true;
     // this.world.camera.switchMode('follow')
-
+    this.applyUserSettings();
+    // this.guiRight.gui.destroy();
+    //!Effects
     this.world.assetsLoader.soundManager.play("launch");
-
     this.startCameraShake();
-
     this.launchStartTime = performance.now();
-
     const flash = new THREE.PointLight(0xffccaa, 100000, 100000);
     flash.position.copy(this.model.position);
     this.world.scene.add(flash);
@@ -327,6 +347,21 @@ export default class Rocket {
     new ExplosionEffect(this.world, this.model.position);
     this.world.scene.remove(this.model);
   }
+  applyUserSettings() {
+    const settings = this.userRocketSettings;
+    const physicsRocket = this.world.physics.rocket;
+    const engine = physicsRocket.engine;
+
+    // Set dry mass
+    physicsRocket.dryMass = settings.dryMass;
+
+    // Set fuel mass
+    physicsRocket.initialFuelMass = settings.fuelMass;
+    engine.fuel.mass = settings.fuelMass;
+
+    // Set fuel type
+    engine.fuel.setFuelType(settings.fuelType);
+  }
 
   startEngine() {
     if (this.isStartEngine) return;
@@ -340,7 +375,7 @@ export default class Rocket {
       if (this.startLiftOff) {
         this.world.physics.update();
         //this.model.position.y += 0.5;
-        // console.log(); this.world.physics.getPhysicsParameters()["fuel mass"]
+        // console.log(); this.world.physics.getPhysicsParameters().fuelMass
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 100;
         this.model.position.y = this.world.physics.rocket.position.y / 100;
