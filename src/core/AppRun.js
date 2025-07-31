@@ -45,18 +45,15 @@ export default class AppRun {
     this.time.on("tick", () => this.update());
   }
 
-  // إعداد واجهات المستخدم
   setupGUI() {
-    // الواجهة اليمنى: للتحكم
-    const guiRight = new GUI(); // يظهر بشكل افتراضي على اليمين
+    const guiRight = new GUI();
 
-    // الواجهة اليسرى: للمراقبة
     const guiLeft = new GUI();
     guiLeft.domElement.style.position = "absolute";
     guiLeft.domElement.style.left = "0px";
     guiLeft.domElement.style.top = "0px";
-    guiLeft.domElement.style.zIndex = "999"; // اجعلها فوق كل شيء
-    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)"; // اختياري
+    guiLeft.domElement.style.zIndex = "999";
+    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)";
 
     // أنشئ وحدتين من GuiController:
     this.guiRight = new GuiController(guiRight);
@@ -105,6 +102,8 @@ export default class AppRun {
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
+        desert: "/models/Desert.glb",
+        desert2: "/models/desert7.glb",
         rocket_lancher: "/models/rocket_laucher_pad.glb",
         tree: "/models/birch_tree.glb",
         house: "models/build.glb",
@@ -130,6 +129,19 @@ export default class AppRun {
     this.loadingScreen.hide();
     //this.mainMenu.show();
     this.sceneManager = new SceneManager(this);
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "KeyV") {
+        console.log("كبس V");
+        if (
+          this.camera.currentMode === "follow" &&
+          this.camera.followTargetObj
+        ) {
+          this.camera.switchFollowView();
+        } else {
+          console.log("الكاميرا ليست في وضع follow أو لا يوجد هدف للمتابعة");
+        }
+      }
+    });
   }
 
   resize() {

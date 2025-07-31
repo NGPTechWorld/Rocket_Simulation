@@ -26,9 +26,9 @@ export default class GuiController {
     const folder = this.gui.addFolder(name);
 
     // Position
-    folder.add(object.position, "x", -60, 60).step(0.1).name("pos.x");
-    folder.add(object.position, "y", -60, 60).step(0.1).name("pos.y");
-    folder.add(object.position, "z", -60, 60).step(0.1).name("pos.z");
+    folder.add(object.position, "x", -3000,3000).step(0.1).name("pos.x");
+    folder.add(object.position, "y", -3000,3000).step(0.1).name("pos.y");
+    folder.add(object.position, "z", -3000, 3000).step(0.1).name("pos.z");
 
     // Scale
     folder.add(object.scale, "x", 0.01, 5).step(0.01).name("scale.x");
@@ -174,14 +174,10 @@ export default class GuiController {
     extraMonitors = [],
   }) {
     const folder = this.gui.addFolder(label);
-    folder.close(); // إغلاق المجلد افتراضيًا
+    folder.close(); 
 
     const hasVector = typeof getVectorFunc === "function";
-
-    // الوصول إلى عنوان المجلد لتحديثه لاحقًا
     const titleElement = folder.domElement.querySelector(".title");
-
-    // فقط إذا تم تمرير getVectorFunc، نقوم بإنشاء vector والمتغيرات المرتبطة به
     let vector = null;
     if (hasVector) {
       vector = { x: 0, y: 0, z: 0 };
@@ -190,7 +186,6 @@ export default class GuiController {
       folder.add(vector, "z").name("Z").listen();
     }
 
-    // القيم الإضافية داخل المجلد
     const extraValues = {};
     const controllers = [];
 
@@ -199,13 +194,10 @@ export default class GuiController {
       const ctrl = folder.add(extraValues, extraLabel).listen();
       controllers.push({ ctrl, getValue, label: extraLabel });
     }
-
-    // دالة لحساب مقدار المتجه
     function getMagnitude(vec) {
       return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2);
     }
 
-    // التحديث المستمر
     function update() {
       let v = [0, 0, 0];
 
@@ -215,14 +207,12 @@ export default class GuiController {
         vector.y = v[1]?.toFixed(2) ?? 0;
         vector.z = v[2]?.toFixed(2) ?? 0;
 
-        // تحديث العنوان بالمقدار
         if (titleElement) {
           const magnitude = getMagnitude(v).toFixed(2);
           titleElement.innerHTML = `${label}<span style="float:right;">${magnitude} ${unit}</span>`;
         }
       }
 
-      // تحديث القيم الإضافية
       for (const { ctrl, getValue, label } of controllers) {
         extraValues[label] = getValue();
         ctrl.setValue(extraValues[label]);
@@ -244,14 +234,12 @@ export default class GuiController {
     const folder = this.gui.addFolder(label);
     folder.open();
 
-    // الحاوية لتنسيق الشريط والنص
     const container = document.createElement("div");
     container.style.display = "flex";
     container.style.flexDirection = "column";
     container.style.alignItems = "stretch";
     container.style.padding = "4px 0";
 
-    // شريط الخلفية
     const progressBar = document.createElement("div");
     progressBar.style.height = "20px";
     progressBar.style.border = "1px solid #ccc";
@@ -259,25 +247,22 @@ export default class GuiController {
     progressBar.style.overflow = "hidden";
     progressBar.style.background = "#eee";
 
-    // الجزء الملون حسب النسبة
     const progressFill = document.createElement("div");
     progressFill.style.height = "100%";
     progressFill.style.width = "0%";
     progressFill.style.transition = "width 0.3s";
-    progressFill.style.background = "green"; // البداية
+    progressFill.style.background = "green"; 
     progressBar.appendChild(progressFill);
 
-    // النص أسفل الشريط
     const text = document.createElement("div");
     text.style.textAlign = "center";
     text.style.fontSize = "12px";
     text.style.marginTop = "4px";
 
-    // تجميع العناصر
     container.appendChild(progressBar);
     container.appendChild(text);
 
-    // ضمان إضافة العنصر داخل قائمة العناصر القابلة للطي
+
     const childrenContainer = folder.domElement.querySelector(".children");
     if (childrenContainer) {
       childrenContainer.appendChild(container);
@@ -285,7 +270,7 @@ export default class GuiController {
       folder.domElement.appendChild(container); // fallback
     }
 
-    // لتحديد اللون بناءً على النسبة
+
     function getColorByRatio(ratio) {
       if (ratio > 0.6) return "#4caf50"; // أخضر
       if (ratio > 0.3) return "#ffb300"; // أصفر

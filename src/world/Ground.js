@@ -15,10 +15,21 @@ export default class Ground {
     this.positionY = -18.8;
 
     this.mesh = null;
-
+this.desert2 = world.assetsLoader.getModels().desert2.clone();
+this.desert1 = world.assetsLoader.getModels().desert2.clone();
     this.setGround();
+    this.setT();
   }
-
+  setT(){
+      this.desert2.position.set(+1231.5, -369.2, -2198.7)
+      this.desert2.rotation.set(0, 1.56, 0)
+      this.desert2.scale.set(30, 30, 30)
+      this.mesh.add(this.desert2)
+      this.desert1.position.set(-1360.2, -369.2, +2451.2)
+      this.desert1.rotation.set(0, -1.56, 0)
+      this.desert1.scale.set(30, 30, 30)
+      this.mesh.add(this.desert1)
+  }
   setGround() {
 
     let geometry;
@@ -93,6 +104,7 @@ export default class Ground {
     if (this.guiRight) {
       this.guiRight.addObjectControls('Ground', this.mesh);
     }
+     this.guiRight.addObjectControls('desert',this.desert2)
   }
 }
 

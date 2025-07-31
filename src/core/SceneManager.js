@@ -1,13 +1,14 @@
 import * as THREE from "three";
 import WorldManager from "../world/WorldManager.js";
 
+
 export default class SceneManager {
   /**
    * @param {import('./AppRun.js').default} app
    */
   constructor(app) {
     this.scene = app.scene;
-
+    this.camera=app.camera;
     this.setLights();
     this.setWorld(app);
     // لاحقًا: this.setWorld(), this.setPhysics()
@@ -23,6 +24,7 @@ export default class SceneManager {
 
   setWorld(app) {
     this.world = new WorldManager(app);
+    //  this.camera.switchMode('follow');
   }
 
   update() {

@@ -11,17 +11,24 @@ export default class Camera {
     this.scene = app.scene;
     this.canvas = app.canvas;
     this.eventEmitter = app.eventEmitter;
-    this.currentMode = "orbit";
+    this.currentMode = "follow";
     this.setInstance();
     this.setOrbitControls();
 
     this.firstPerson = null;
     this.followTargetObj = null;
+    this.followOffsets = [
+      new THREE.Vector3(0, 50, 150), // خلف الهدف
+      new THREE.Vector3(0, 10, -100), // أمام الهدف من فوق
+      new THREE.Vector3(100, 50, 100), // جانب الهدف
+      new THREE.Vector3(0, 100, 0), // من فوق مباشرة
+    ];
+    this.followOffsetIndex = 0;
   }
 
   setInstance() {
     this.instance = new THREE.PerspectiveCamera(
-      60, 
+      60,
       this.sizes.width / this.sizes.height,
       1,
       2e7
@@ -64,7 +71,7 @@ export default class Camera {
             this.firstPerson._onClickToLock
           );
         }
-        this.orbit.enabled = true
+        this.orbit.enabled = true;
         this.orbit?.update();
         break;
 
@@ -72,21 +79,27 @@ export default class Camera {
         if (!this.firstPerson) {
           this.setFirstPersonControls();
         }
-
         this.firstPerson.update();
         break;
 
       case "follow":
-        if (this.followTargetObj) {
-          const offset = new THREE.Vector3(0, 3, +100);
-          const targetPos = this.followTargetObj.position.clone().add(offset);
-
-          this.instance.position.lerp(targetPos, 0.1);
-          this.instance.lookAt(this.followTargetObj.position);
+        if (
+          !this.followTargetObj ||
+          !this.scene.children.includes(this.followTargetObj)
+        ) {
+          console.warn("🚨 الكاميرا فقدت الهدف! التحويل إلى Orbit");
+          this.switchMode("orbit");
+          return;
         }
+
+        const offset = this.followOffsets[this.followOffsetIndex];
+        const targetPos = this.followTargetObj.position.clone().add(offset);
+        this.instance.position.lerp(targetPos, 0.1);
+        this.instance.lookAt(this.followTargetObj.position);
         break;
     }
   }
+
   switchMode(mode) {
     if (this.currentMode === "first" && this.firstPerson) {
       this.firstPerson.controls.unlock();
@@ -101,6 +114,9 @@ export default class Camera {
     if (mode === "first" && !this.firstPerson) {
       this.setFirstPersonControls();
     }
-    
+  }
+  switchFollowView() {
+    this.followOffsetIndex =
+      (this.followOffsetIndex + 1) % this.followOffsets.length;
   }
 }

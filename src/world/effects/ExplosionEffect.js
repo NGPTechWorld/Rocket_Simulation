@@ -7,13 +7,13 @@ export default class ExplosionEffect {
 
     this.createFlash()
     // this.createSmokeParticles()
-    //this.shakeCamera()
+    this.shakeCamera()
     this.playSound()
   }
 
   createFlash() {
-    const flash = new THREE.PointLight(0xff5500, 50000, 100000)
-    flash.position.copy(this.position).add(new THREE.Vector3(0, 0, 0))
+    const flash = new THREE.PointLight(0xff5500, 500000, 1000000)
+    flash.position.copy(this.position).add(new THREE.Vector3(0, 50, 0))
     flash.castShadow = true
     this.world.scene.add(flash)
 
