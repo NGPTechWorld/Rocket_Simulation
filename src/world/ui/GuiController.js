@@ -282,8 +282,7 @@ export default class GuiController {
       if (absX >= absY && absX >= absZ) return x > 0 ? "→" : "←";
       return z > 0 ? "Z↑" : "Z↓";
     }
-    // التحديث المستمر
-    function update() {
+  function update() {
       let v = [0, 0, 0];
 
       if (hasVector) {
@@ -292,7 +291,9 @@ export default class GuiController {
         vector.y = v[1]?.toFixed(2) ?? 0;
         vector.z = v[2]?.toFixed(2) ?? 0;
 
-        // تحديث العنوان بالمقدار
+        const magnitude = getMagnitude(v).toFixed(2);
+        const arrow = getVectorMainArrow(v);
+
         if (titleElement) {
           titleElement.innerHTML = `${label}<span style="float:right;">${arrow}  ${magnitude} ${unit}</span>`;
         }
