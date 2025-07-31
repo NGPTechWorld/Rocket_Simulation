@@ -52,11 +52,11 @@ export default class WorldManager {
       positionY: -5.25,
     });
 
-    const building = this.assetsLoader.getModels().house;
-    const apartment = this.assetsLoader.getModels().apartment;
+    // const building = this.assetsLoader.getModels().house;
+    // const apartment = this.assetsLoader.getModels().apartment;
     const bunker = this.assetsLoader.getModels().bunker;
-    const city = this.assetsLoader.getModels().city;
-    const desert2 = this.assetsLoader.getModels().desert2;
+    // const city = this.assetsLoader.getModels().city;
+    // const desert2 = this.assetsLoader.getModels().desert2;
     // const brownstoneModel = this.assetsLoader.getModels().brownstone;
     //const brownstoneTextures = this.assetsLoader.getTextures().brownstone;
 
@@ -80,32 +80,32 @@ export default class WorldManager {
     //   });
     // });
 
-    const cityRow = Array.from({ length: 1 }, (_, i) => ({
-      model: city,
-      scale: [23, 23, 23],
-      position: [-400 + i * 180, 0.3, 150],
-      rotation: [0, -Math.PI, 0],
-    }));
-    const desertRow = Array.from({ length: 1 }, (_, i) => ({
-      model: desert2,
-      scale: [30, 30, 30],
-      position: [-400 + i * 180, -50, -4000],
-      rotation: [0, +Math.PI, 0],
-    }));
+    // const cityRow = Array.from({ length: 1 }, (_, i) => ({
+    //   model: city,
+    //   scale: [23, 23, 23],
+    //   position: [-400 + i * 180, 0.3, 150],
+    //   rotation: [0, -Math.PI, 0],
+    // }));
+    // const desertRow = Array.from({ length: 1 }, (_, i) => ({
+    //   model: desert2,
+    //   scale: [30, 30, 30],
+    //   position: [-400 + i * 180, -50, -4000],
+    //   rotation: [0, +Math.PI, 0],
+    // }));
 
-    const buildingRow = Array.from({ length: 4 }, (_, i) => ({
-      model: building,
-      scale: [8, 8, 8],
-      position: [i * 180 - 180, 0.1, -400],
-      rotation: [0, -Math.PI / 2, 0],
-    }));
+    // const buildingRow = Array.from({ length: 4 }, (_, i) => ({
+    //   model: building,
+    //   scale: [8, 8, 8],
+    //   position: [i * 180 - 180, 0.1, -400],
+    //   rotation: [0, -Math.PI / 2, 0],
+    // }));
 
-    const apartmentRow = Array.from({ length: 4 }, (_, i) => ({
-      model: apartment,
-      scale: [5, 5, 5],
-      position: [i * 180 - 180, 0.1, 400],
-      rotation: [0, Math.PI, 0],
-    }));
+    // const apartmentRow = Array.from({ length: 4 }, (_, i) => ({
+    //   model: apartment,
+    //   scale: [5, 5, 5],
+    //   position: [i * 180 - 180, 0.1, 400],
+    //   rotation: [0, Math.PI, 0],
+    // }));
 
     const bunkerRow = Array.from({ length: 1 }, (_, i) => ({
       model: bunker,
@@ -115,12 +115,7 @@ export default class WorldManager {
     }));
 
     this.buildings = new BuildingPlacer(this, [
-      // ...cityRow,
-      // ...apartmentRow,
-      // ...buildingRow,
-      // ...bunkerRow,
-      //...desertRow,
-      // ...brownstoneRow
+      ...bunkerRow,
     ]);
 
     this.setGUI();

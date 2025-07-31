@@ -102,14 +102,13 @@ export default class AppRun {
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
-        desert: "/models/Desert.glb",
         desert2: "/models/desert7.glb",
         rocket_lancher: "/models/rocket_laucher_pad.glb",
-        tree: "/models/birch_tree.glb",
-        house: "models/build.glb",
-        apartment: "models/EEB_015.glb",
+        // tree: "/models/birch_tree.glb",
+        // house: "models/build.glb",
+        // apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
-        city: "models/NEW+CİTY.1blend.glb",
+        // city: "models/NEW+CİTY.1blend.glb",
         // brownstone: "/models/BrownStoneWithRestaurant.glb",
       },
       sounds: {
