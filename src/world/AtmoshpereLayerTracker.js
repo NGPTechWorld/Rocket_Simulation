@@ -1,10 +1,10 @@
 export const ATMOSPHERE_LAYERS = [
-  { name: 'Troposphere', maxHeight: 20 },    
-  { name: 'Stratosphere', maxHeight: 50 },
-  { name: 'Mesosphere', maxHeight: 85 },
-  { name: 'Thermosphere', maxHeight: 600 },
-  { name: 'Ionosphere', maxHeight: 985 },
-  { name: 'Exosphere', maxHeight: 1000 },
+  { name: 'Troposphere', maxHeight: 20 },//km    
+  { name: 'Stratosphere', maxHeight: 50 },//km  
+  { name: 'Mesosphere', maxHeight: 85 },//km  
+  { name: 'Thermosphere', maxHeight: 600 },//km  
+  { name: 'Ionosphere', maxHeight: 985 },//km  
+  { name: 'Exosphere', maxHeight: 1000 },//km  
   { name: 'Space', maxHeight: Infinity },
 ];
 
