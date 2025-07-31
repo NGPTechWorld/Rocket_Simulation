@@ -124,23 +124,129 @@ body
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ========== */
 #crash-message {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.95); /* شفافية */
-  color: white;
-  display: none; /* يتم تفعيله فقط عند الاصطدام */
+  inset: 0;
+  display: none; /* يُفعل عند نهاية المحاكاة */
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  padding: 2rem;
+  background:
+  url('../assets/textures/Broken-Screen-PNG-Background-Image.png') center center no-repeat,rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  box-shadow: 0 40px 80px -10px rgba(0, 0, 0, 0.35);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  font-family: 'Arial', sans-serif;
-  font-size: 2rem;
-  padding: 20px;
+  gap: 0.75rem;
+  z-index: 10000;
+}
+
+/* خلفية توهّج متحركة */
+#crash-message::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(34, 193, 195, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(253, 187, 45, 0.25) 0%, transparent 50%);
+  mix-blend-mode: overlay;
+  animation: successGlow 6s ease-in-out infinite;
+  border-radius: 24px;
+  z-index: 0;
+}
+
+/* ✅ صورة الشاشة المكسورة */
+.broken-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  width: auto;    /* يمكن ترك العرض تلقائي */
+  height: auto;
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 0;
+  filter: drop-shadow(0 0 10px red) drop-shadow(0 0 15px darkorange);
+  border-radius: 24px;
+  object-fit: contain;
+}
+/* ✅ النص والزر فوق الصورة */
+#crash-message > *:not(.broken-overlay) {
+  position: relative;
+  z-index: 1;
+}
+
+#crash-message h1 {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  animation: bounceIn 1s ease-out;
+}
+
+#crash-message p {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.95;
+  line-height: 1.4;
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+/* زر إعادة المحاكاة */
+.btn-retry {
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #22c1c3, #fdbb2d);
+  color: #1f2937;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 15px 35px -5px rgba(34, 193, 195, 0.6);
+}
+
+.btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px -5px rgba(34, 193, 195, 0.75);
+}
+
+.btn-retry:active {
+  transform: translateY(0);
+  box-shadow: 0 12px 25px -5px rgba(34, 193, 195, 0.5);
+}
+
+.btn-retry:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* الرسوم المتحركة */
+@keyframes successGlow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Modern Glassmorphism Design */
