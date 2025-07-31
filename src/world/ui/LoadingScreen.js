@@ -10,7 +10,10 @@ export default class LoadingScreen {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: radial-gradient(#111 20%, #000);
+     // background: radial-gradient(#111 20%, #000);
+       background:
+    radial-gradient(circle at 30% 40%, rgba(34, 193, 195, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(253, 187, 45, 0.25) 0%, transparent 50%);
       display: flex;
       flex-direction: column;
       justify-content: center;

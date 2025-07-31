@@ -14,7 +14,7 @@ export default class Physics {
     }
     instance = this;
 
-    this.deltaTime = 0.1;
+    this.deltaTime = 0.2;
     this.time = 0;
     this.rocket = new Rocket();
     this.environment = new Environment();
