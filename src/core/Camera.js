@@ -11,7 +11,7 @@ export default class Camera {
     this.scene = app.scene;
     this.canvas = app.canvas;
     this.eventEmitter = app.eventEmitter;
-    this.currentMode = "follow";
+    this.currentMode = "rocket-follow";
     this.setInstance();
     this.setOrbitControls();
 
@@ -63,6 +63,7 @@ export default class Camera {
   }
 
   update() {
+    
     switch (this.currentMode) {
       case "orbit":
         if (this.firstPerson) {
@@ -92,11 +93,44 @@ export default class Camera {
           return;
         }
 
-        const offset = this.followOffsets[this.followOffsetIndex];
-        const targetPos = this.followTargetObj.position.clone().add(offset);
-        this.instance.position.copy(targetPos);
+        // const offset = this.followOffsets[this.followOffsetIndex];
+        // const targetPos = this.followTargetObj.position.clone().add(offset);
+        // this.instance.position.copy(targetPos);
+        // this.instance.lookAt(this.followTargetObj.position);
+        const rocketY = this.followTargetObj.position.y;
+        this.instance.position.set(0, rocketY + 100, 300);
         this.instance.lookAt(this.followTargetObj.position);
+
         break;
+              case "rocket-follow":
+        if (
+          !this.followTargetObj ||
+          !this.scene.children.includes(this.followTargetObj)
+        ) {
+          console.warn("🚨 الكاميرا فقدت الهدف! التحويل إلى Orbit");
+          this.switchMode("orbit");
+          return;
+        }
+
+        const rocket = this.followTargetObj;
+
+        // اتجاه للخلف من الصاروخ
+        const backward = new THREE.Vector3(0, 0, -1).applyQuaternion(rocket.quaternion);
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(rocket.quaternion);
+
+        // موضع الكاميرا خلف وفوق الصاروخ
+        const cameraPos = rocket.position.clone()
+          .addScaledVector(backward, 30)
+          .addScaledVector(up, 10);
+
+        // حركة ناعمة
+        this.instance.position.lerp(cameraPos, 0.1);
+
+        // نظر الكاميرا للأمام بنفس اتجاه الصاروخ
+        const lookAt = rocket.position.clone().addScaledVector(backward, -10);
+        this.instance.lookAt(lookAt);
+        break;
+
     }
   }
 
@@ -114,6 +148,7 @@ export default class Camera {
     if (mode === "first" && !this.firstPerson) {
       this.setFirstPersonControls();
     }
+    
   }
   switchFollowView() {
     this.followOffsetIndex =

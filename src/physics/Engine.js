@@ -4,7 +4,7 @@ export default class Engine {
   constructor(initialFuelMass, fuelTypeName, rocket, exitArea) {
     this.rocket = rocket;
     this.fuel = new Fuel(initialFuelMass, fuelTypeName);
-    this.nominalBurnRate = this.fuel.mass / 168;
+    this.nominalBurnRate = this.fuel.mass / 168; // بدلاً من 168
     this.burnDuration = 168;
     this.elapsedTime = 0;
     this.isActive = false;

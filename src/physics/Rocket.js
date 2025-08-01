@@ -13,12 +13,12 @@ export default class Rocket {
 
     // this.dryMass = 2_822_171;
     this.dryMass = 330_000;
-    this.crossSectionalArea = 78.5;
-    this.dragCoefficient = 0.45;
-    this.liftCoefficient = 0.1;
+    this.crossSectionalArea = 10.1; //78.5;
+    this.dragCoefficient = 0.3;  //0.45;
+    this.liftCoefficient = 0.05; // 0.1;
     this.nozzleCount = 5;
-    this.exitArea = 15.36;
-    this.A_throat = 0.96;
+    this.exitArea = 3.8; // 6.5; // بدلاً من 15.36
+    this.A_throat = 0.25; // 0.28; // بدلاً من 0.96
 
     this.engine = new Engine(
       initialFuelMass,
