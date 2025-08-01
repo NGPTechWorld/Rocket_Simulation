@@ -40,7 +40,7 @@ export default class Physics {
 
     totalForce.add(this.forces.weight.force);
     totalForce.add(this.forces.drag.force);
-    totalForce.add(this.forces.lift.force);
+    //totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 
     return totalForce;
@@ -70,7 +70,7 @@ export default class Physics {
   }
 
   getPosition() {
-    return new Vector3(this.rocket.position.x / 100, this.rocket.position.y / 100, 0)
+    return new Vector3(this.rocket.position.x , this.rocket.position.y , 0)
   }
 
   update() {

@@ -30,7 +30,7 @@ export default class Rocket {
   }
 
   setMesh() {
-    this.model.position.set(0, this.groundLevel, 0);
+    this.model.position.set(0, 1, 0);
     this.model.scale.set(4, 4, 4);
     this.scene.add(this.model);
   }
@@ -377,12 +377,15 @@ export default class Rocket {
         //this.model.position.y += 0.5;
         // console.log(); this.world.physics.getPhysicsParameters().fuelMass
         this.startEngine();
-        this.model.position.x = this.world.physics.rocket.position.x / 100;
-        this.model.position.y = this.world.physics.rocket.position.y / 100;
-        this.model.position.z = this.world.physics.rocket.position.z / 100;
+        this.model.position.x = this.world.physics.rocket.position.x / 1;
+        this.model.position.y = this.world.physics.rocket.position.y / 1;
+        this.model.position.z = this.world.physics.rocket.position.z / 1;
+        if (this.model.position.y <= this.groundLevel) {
+        this.explosion();
+      }
       }
     } else {
-      if (this.model.position.y <= this.ground) {
+     if (this.model.position.y <= this.groundLevel) {
         this.explosion();
       }
     }

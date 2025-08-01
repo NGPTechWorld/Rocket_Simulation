@@ -23,6 +23,11 @@ export default class WorldManager {
     this.camera = app.camera;
     this.guiRight = app.guiRight;
     this.guiLeft = app.guiLeft;
+    this.guiRight.gui.domElement.style.zIndex = '10';
+this.guiRight.gui.domElement.style.position = 'absolute';
+
+this.guiLeft.gui.domElement.style.zIndex = '10';
+this.guiLeft.gui.domElement.style.position = 'absolute';
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
     this.physics = new Physics();
@@ -135,7 +140,7 @@ export default class WorldManager {
   //!Osama here
   setGUI() {
     //this.rocket_lancher.setGUI()
-      this.rocket.setGuiRight()
+     this.rocket.setGuiRight()
     this.rocket.setGuiLeft()
     this.atmosphere.setGUI()
     this.atmosphereTracker.setGUI()

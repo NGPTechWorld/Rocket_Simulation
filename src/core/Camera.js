@@ -94,7 +94,7 @@ export default class Camera {
 
         const offset = this.followOffsets[this.followOffsetIndex];
         const targetPos = this.followTargetObj.position.clone().add(offset);
-        this.instance.position.lerp(targetPos, 0.1);
+        this.instance.position.copy(targetPos);
         this.instance.lookAt(this.followTargetObj.position);
         break;
     }

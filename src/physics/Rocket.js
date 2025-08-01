@@ -7,7 +7,7 @@ export default class Rocket {
     if (rocketInstance) return rocketInstance;
     rocketInstance = this;
     this.initialFuelMass = initialFuelMass;
-    this.position = new Vector3(0, 0, 0);
+    this.position = new Vector3(0, 1, 0);
     this.velocity = new Vector3(0, 0, 0);
     this.acceleration = new Vector3(0, 0, 0);
 
@@ -34,8 +34,8 @@ export default class Rocket {
 
   update() {
     if (this.position.y < 0) {
-      this.position.y = 0;
-      this.velocity.y = Math.max(0, this.velocity.y);
+      this.position.y = 1;
+      this.velocity.y = Math.max(1, this.velocity.y);
     }
   }
 }
