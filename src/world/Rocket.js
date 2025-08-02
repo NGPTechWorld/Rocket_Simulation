@@ -12,7 +12,7 @@ export default class Rocket {
     this.model = world.assetsLoader.getModels().rocket;
     this.guiRight = world.guiRight;
     this.guiLeft = world.guiLeft;
-    this.groundLevel = 0;
+    this.groundLevel = 0.1;
     this.ground = -1;
 
     this.ascentSpeed = 2;
@@ -475,12 +475,12 @@ export default class Rocket {
         this.model.position.x = this.world.physics.rocket.position.x / 1;
         this.model.position.y = this.world.physics.rocket.position.y / 1;
         this.model.position.z = this.world.physics.rocket.position.z / 1;
-        if (this.model.position.y <= this.groundLevel) {
+        if (this.model.position.y < this.groundLevel) {
           this.explosion();
         }
       }
     } else {
-      if (this.model.position.y <= this.groundLevel) {
+      if (this.model.position.y < this.groundLevel) {
         this.explosion();
       }
     }
