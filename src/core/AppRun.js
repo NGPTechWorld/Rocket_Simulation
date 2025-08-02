@@ -45,9 +45,9 @@ export default class AppRun {
   }
 
   setupGUI() {
-      const guiRight = new GUI();
+    const guiRight = new GUI({ title: "👨‍🚀 Pilot Input" });
 
-    const guiLeft = new GUI();
+    const guiLeft = new GUI({ title: "📡 Flight Data" });
     guiLeft.domElement.style.position = "absolute";
     guiLeft.domElement.style.left = "0px";
     guiLeft.domElement.style.top = "0px";

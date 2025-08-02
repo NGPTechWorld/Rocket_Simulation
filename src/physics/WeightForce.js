@@ -2,6 +2,7 @@ import Force from "./Force";
 import Rocket from "./Rocket";
 import Earth from "./Earth";
 import { Vector3 } from "three";
+import Environment from "./Environment";
 let instance = null;
 export default class WeightForce extends Force {
   constructor() {
@@ -13,7 +14,7 @@ export default class WeightForce extends Force {
 
     this.gravity = 0;
     this.direction = new Vector3();
-
+    this.environment = new Environment();
     this.earth = new Earth();
     this.rocket = new Rocket();
     this.update();
@@ -22,14 +23,20 @@ export default class WeightForce extends Force {
   computeGravityAcceleration() {
     const height = this.rocket.position.y + this.earth.radius;
 
-    const gravity =
+    const naturalGravity =
       (this.earth.gravityConstant * this.earth.mass) / Math.pow(height, 2);
 
-    return gravity;
+    // Scale by User gravity
+    return (
+      naturalGravity * (this.environment.gravitationalAcceleration / 9.80665)
+    );
   }
 
   update() {
     const gravity = this.computeGravityAcceleration();
+    // simpler 
+    //  const gravity = this.environment.gravitationalAcceleration;
+    
     const mass = this.rocket.getTotalMass();
 
     const directionToEarthCenter = this.rocket.position

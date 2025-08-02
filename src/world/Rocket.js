@@ -19,12 +19,30 @@ export default class Rocket {
     this.isLaunching = false;
     this.isExplosion = false;
     this.isStartEngine = false;
-    this.defaultRocketSettings = {
+    this.defaultSettings = {
+      // Rocket
       fuelType: "RP-1/LOX",
-      fuelMass: 2_640_000,
+      initialFuelMass: 2_640_000,
       dryMass: 330_000,
+      A_throat: 0.25,
+      crossSectionalArea: 10.1,
+      dragCoefficient: 0.3,
+      liftCoefficient: 0.05,
+      nozzleCount: 5,
+      exitArea: 3.8,
+      burnDuration: 168,
+
+      // Environment defaults
+      airDensity: 1.225,
+      seaLevelPressure: 101325,
+      seaLevelTemperature: 288.15,
+      gravitationalAcceleration: 9.80665,
+      temperatureLapseRate: 0.0065,
+      specificGasConstantAir: 287.05,
+
+      deltaTime: 0.1,
     };
-    this.userRocketSettings = { ...this.defaultRocketSettings };
+    this.userSettings = { ...this.defaultSettings };
 
     this.setMesh();
   }
@@ -57,35 +75,92 @@ export default class Rocket {
   //   this.startCameraShake()
   //   moveUp();
   // }
-  resetGuiRightToDefaults() {
-    this.userRocketSettings = { ...this.defaultRocketSettings };
-    this.guiRight.gui.destroy();
-    this.guiRight.gui = new GUI();
-    this.guiRight = new GuiController(this.guiRight.gui);
-    this.setGuiRight();
-  }
+  // resetGuiRightToDefaults() {
+  //   this.userSettings = { ...this.defaultSettings };
+  //   this.guiRight.gui.destroy();
+  //   this.guiRight.gui = new GUI();
+  //   this.guiRight = new GuiController(this.guiRight.gui);
+  //   this.setGuiRight();
+  // }
 
   //! Right GUI
   setGuiRight() {
-    this.guiRight.addTextMonitor("Rocket Height", () => this.height + " m");
-    this.guiRight.addLaunchStopControls(this);
-
+    // Rocket
     const rocketFolder = this.guiRight.gui.addFolder("🚀 Rocket Values");
     rocketFolder
-      .add(this.userRocketSettings, "fuelType", ["RP-1/LOX", "LH2/LOX"])
+      .add(this.userSettings, "fuelType", ["RP-1/LOX", "LH2/LOX"])
       .name("Fuel Type");
     rocketFolder
-      .add(this.userRocketSettings, "fuelMass", 1000, 5_000_000)
-      .step(500)
-      .name("Fuel Mass");
+      .add(this.userSettings, "initialFuelMass", 0, 5_000_000)
+      .step(100)
+      .name("Initial Fuel Mass");
     rocketFolder
-      .add(this.userRocketSettings, "dryMass", 1000, 1_000_000)
-      .step(500)
+      .add(this.userSettings, "dryMass", 0, 1_000_000)
+      .step(100)
       .name("Rocket Dry Mass");
     rocketFolder
-      .add({ launch: () => this.launch() }, "launch")
-      .name("🚀 Launch");
-    // ! Here the reset logic is not work well (It delet the old guiRight and then create new one)
+      .add(this.userSettings, "crossSectionalArea", 0, 100)
+      .step(0.1)
+      .name("Cross Sectional Area");
+    rocketFolder
+      .add(this.userSettings, "dragCoefficient", 0, 5)
+      .step(0.1)
+      .name("Drag Coefficient");
+    rocketFolder
+      .add(this.userSettings, "liftCoefficient", 0, 5)
+      .step(0.01)
+      .name("Lift Coefficient");
+    rocketFolder
+      .add(this.userSettings, "nozzleCount", 0, 10)
+      .step(1)
+      .name("Nozzle Count");
+    rocketFolder
+      .add(this.userSettings, "exitArea", 0, 100)
+      .step(0.1)
+      .name("Exit Area");
+    rocketFolder
+      .add(this.userSettings, "A_throat", 0, 10)
+      .step(0.1)
+      .name("Throat Area");
+    // rocketFolder
+    //   .add(this.userSettings, "burnDuration", 0, 10000)
+    //   .step(10)
+    //   .name("Burn Duration");
+
+    // Enivronment
+    const environmentFolder = this.guiRight.gui.addFolder(
+      "🌍 Environment Values"
+    );
+    environmentFolder
+      .add(this.userSettings, "airDensity", 0, 10)
+      .step(0.001)
+      .name("Air Density");
+    environmentFolder
+      .add(this.userSettings, "seaLevelPressure", 0, 200000)
+      .step(100)
+      .name("Sea-Level Pressure");
+    environmentFolder
+      .add(this.userSettings, "seaLevelTemperature", 0, 4000)
+      .step(0.1)
+      .name("Sea-Level Temp");
+    environmentFolder
+      .add(this.userSettings, "gravitationalAcceleration", 0, 200)
+      .step(0.01)
+      .name("Gravity");
+    environmentFolder
+      .add(this.userSettings, "temperatureLapseRate", 0, 1)
+      .step(0.0001)
+      .name("Temp Lapse Rate");
+    environmentFolder
+      .add(this.userSettings, "specificGasConstantAir", 0, 1000)
+      .step(0.01)
+      .name("Gas Constant");
+    environmentFolder
+      .add(this.userSettings, "deltaTime", 0, 1)
+      .step(0.1)
+      .name("Simulation Speed");
+
+    this.guiRight.addLaunchStopControls(this);
     // rocketFolder
     //   .add({ reset: () => this.resetGuiRightToDefaults() }, "reset")
     //   .name("🔄 استعادة الإعدادات");
@@ -96,6 +171,10 @@ export default class Rocket {
     const getPhysicsParameters = () =>
       this.world.physics.getPhysicsParameters();
 
+    this.guiLeft.addTextMonitor(
+      "Rocket Height",
+      () => this.height.toFixed(2) + " m"
+    );
     this.guiLeft.addTextMonitor("Time", () =>
       getPhysicsParameters().time.toFixed(2)
     );
@@ -238,19 +317,24 @@ export default class Rocket {
           getValue: () => getPhysicsParameters().fuelTypeName,
         },
         {
-          label: "Fuel Mass",
+          label: "Initial Fuel Mass",
+          getValue: () =>
+            getPhysicsParameters().initialFuelMass.toFixed(2) + " kg",
+        },
+        {
+          label: "Now Fuel Mass",
           getValue: () => getPhysicsParameters().fuelMass.toFixed(2) + " kg",
+        },
+        {
+          label: "Rocket Dry Mass",
+          getValue: () => getPhysicsParameters().dryMass + " kg",
         },
         {
           label: "Total Mass",
           getValue: () => getPhysicsParameters().totalMass.toFixed(2) + " kg",
         },
         {
-          label: "Dry Mass",
-          getValue: () => getPhysicsParameters().dryMass + " kg",
-        },
-        {
-          label: "Cross Section",
+          label: "Cross Section Area",
           getValue: () => getPhysicsParameters().crossSectionalArea + " m²",
         },
         {
@@ -273,10 +357,10 @@ export default class Rocket {
           label: "Throat Area",
           getValue: () => getPhysicsParameters().A_throat + " m²",
         },
-        {
-          label: "Burn Duration",
-          getValue: () => getPhysicsParameters().burnDuration.toFixed(2) + " s",
-        },
+        // {
+        //   label: "Burn Duration",
+        //   getValue: () => getPhysicsParameters().burnDuration.toFixed(2) + " s",
+        // },
       ],
     });
 
@@ -304,7 +388,7 @@ export default class Rocket {
             getPhysicsParameters().gravitationalAcceleration + " m/s²",
         },
         {
-          label: "Lapse Rate",
+          label: "Temp Lapse Rate",
           getValue: () => getPhysicsParameters().temperatureLapseRate + " K/m",
         },
         {
@@ -348,19 +432,30 @@ export default class Rocket {
     this.world.scene.remove(this.model);
   }
   applyUserSettings() {
-    const settings = this.userRocketSettings;
-    const physicsRocket = this.world.physics.rocket;
-    const engine = physicsRocket.engine;
+    const settings = this.userSettings;
+    this.world.physics.setPhysicsParameters({
+      // Rocket
+      dryMass: settings.dryMass,
+      initialFuelMass: settings.initialFuelMass,
+      A_throat: settings.A_throat,
+      fuelType: settings.fuelType,
+      crossSectionalArea: settings.crossSectionalArea,
+      dragCoefficient: settings.dragCoefficient,
+      liftCoefficient: settings.liftCoefficient,
+      nozzleCount: settings.nozzleCount,
+      exitArea: settings.exitArea,
+      burnDuration: settings.burnDuration,
 
-    // Set dry mass
-    physicsRocket.dryMass = settings.dryMass;
+      // Environment parameters
+      airDensity: settings.airDensity,
+      seaLevelPressure: settings.seaLevelPressure,
+      seaLevelTemperature: settings.seaLevelTemperature,
+      gravitationalAcceleration: settings.gravitationalAcceleration,
+      temperatureLapseRate: settings.temperatureLapseRate,
+      specificGasConstantAir: settings.specificGasConstantAir,
 
-    // Set fuel mass
-    physicsRocket.initialFuelMass = settings.fuelMass;
-    engine.fuel.mass = settings.fuelMass;
-
-    // Set fuel type
-    engine.fuel.setFuelType(settings.fuelType);
+      deltaTime: settings.deltaTime,
+    });
   }
 
   startEngine() {
@@ -381,11 +476,11 @@ export default class Rocket {
         this.model.position.y = this.world.physics.rocket.position.y / 1;
         this.model.position.z = this.world.physics.rocket.position.z / 1;
         if (this.model.position.y <= this.groundLevel) {
-        this.explosion();
-      }
+          this.explosion();
+        }
       }
     } else {
-     if (this.model.position.y <= this.groundLevel) {
+      if (this.model.position.y <= this.groundLevel) {
         this.explosion();
       }
     }
@@ -393,31 +488,31 @@ export default class Rocket {
 
   stop() {
     this.isLaunching = false;
-    const stopMessage = document.getElementById('stop-message');
-  if (stopMessage) {
-    stopMessage.style.display = 'flex';
+    const stopMessage = document.getElementById("stop-message");
+    if (stopMessage) {
+      stopMessage.style.display = "flex";
 
-    // ربط زر إعادة المحاكاة (نزيل أي listener سابق لتجنب التكرار)
-    const retryBtn = document.getElementById('retry-btn');
-    if (retryBtn) {
-      // إزالة أي مستمع موجود
-      retryBtn.replaceWith(retryBtn.cloneNode(true));
-      const freshBtn = document.getElementById('retry-btn');
+      // ربط زر إعادة المحاكاة (نزيل أي listener سابق لتجنب التكرار)
+      const retryBtn = document.getElementById("retry-btn");
+      if (retryBtn) {
+        // إزالة أي مستمع موجود
+        retryBtn.replaceWith(retryBtn.cloneNode(true));
+        const freshBtn = document.getElementById("retry-btn");
 
-      freshBtn.addEventListener('click', () => {
-        // إخفاء الرسالة فوراً
-        stopMessage.style.display = 'none';
+        freshBtn.addEventListener("click", () => {
+          // إخفاء الرسالة فوراً
+          stopMessage.style.display = "none";
 
-        // إذا عندك دالة تعيد تهيئة المحاكاة، نستخدمها، وإلا نعيد تحميل الصفحة
-        if (typeof initSimulation === 'function') {
-          initSimulation();
-        } else {
-          location.reload();
-        }
-      });
+          // إذا عندك دالة تعيد تهيئة المحاكاة، نستخدمها، وإلا نعيد تحميل الصفحة
+          if (typeof initSimulation === "function") {
+            initSimulation();
+          } else {
+            location.reload();
+          }
+        });
+      }
     }
-  }
-  
+
     this.world.assetsLoader.soundManager.stop("launch");
   }
 

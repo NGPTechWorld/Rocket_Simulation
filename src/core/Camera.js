@@ -98,7 +98,9 @@ export default class Camera {
         // this.instance.position.copy(targetPos);
         // this.instance.lookAt(this.followTargetObj.position);
         const rocketY = this.followTargetObj.position.y;
-        this.instance.position.set(0, rocketY + 100, 300);
+        const rocketX = this.followTargetObj.position.x;
+
+        this.instance.position.set(rocketX, rocketY + 100, 300);
         this.instance.lookAt(this.followTargetObj.position);
 
         break;

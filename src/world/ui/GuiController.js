@@ -26,8 +26,8 @@ export default class GuiController {
     const folder = this.gui.addFolder(name);
 
     // Position
-    folder.add(object.position, "x", -3000,3000).step(0.1).name("pos.x");
-    folder.add(object.position, "y", -3000,3000).step(0.1).name("pos.y");
+    folder.add(object.position, "x", -3000, 3000).step(0.1).name("pos.x");
+    folder.add(object.position, "y", -3000, 3000).step(0.1).name("pos.y");
     folder.add(object.position, "z", -3000, 3000).step(0.1).name("pos.z");
 
     // Scale
@@ -54,14 +54,14 @@ export default class GuiController {
     this.folders[name] = folder;
   }
 
- /**
- * يضيف أزرار تحكم لإطلاق أو إيقاف الصاروخ من واجهة المستخدم.
- *
- * @param {import('../Rocket').default} rocket 
- */
+  /**
+   * يضيف أزرار تحكم لإطلاق أو إيقاف الصاروخ من واجهة المستخدم.
+   *
+   * @param {import('../Rocket').default} rocket
+   */
   addLaunchStopControls(rocket) {
-    this.gui.add({ launch: () => rocket.launch() }, "launch");
-    this.gui.add({ stop: () => rocket.stop() }, "stop");
+    this.gui.add({ launch: () => rocket.launch() }, "launch").name("🚀 Launch");
+    this.gui.add({ stop: () => rocket.stop() }, "stop").name("⏸️ Stop");
   }
 
   /**
@@ -270,7 +270,7 @@ export default class GuiController {
     function getMagnitude(vec) {
       return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2);
     }
- //   السهم بناءً على الاتجاه الأقوى
+    //   السهم بناءً على الاتجاه الأقوى
     function getVectorMainArrow([x, y, z], threshold = 0.01) {
       const absX = Math.abs(x);
       const absY = Math.abs(y);
@@ -282,7 +282,7 @@ export default class GuiController {
       if (absX >= absY && absX >= absZ) return x > 0 ? "→" : "←";
       return z > 0 ? "Z↑" : "Z↓";
     }
-  function update() {
+    function update() {
       let v = [0, 0, 0];
 
       if (hasVector) {
@@ -337,7 +337,7 @@ export default class GuiController {
     progressFill.style.height = "100%";
     progressFill.style.width = "0%";
     progressFill.style.transition = "width 0.3s";
-    progressFill.style.background = "green"; 
+    progressFill.style.background = "green";
     progressBar.appendChild(progressFill);
 
     const text = document.createElement("div");
@@ -348,14 +348,12 @@ export default class GuiController {
     container.appendChild(progressBar);
     container.appendChild(text);
 
-
     const childrenContainer = folder.domElement.querySelector(".children");
     if (childrenContainer) {
       childrenContainer.appendChild(container);
     } else {
       folder.domElement.appendChild(container); // fallback
     }
-
 
     function getColorByRatio(ratio) {
       if (ratio > 0.6) return "#4caf50"; // أخضر

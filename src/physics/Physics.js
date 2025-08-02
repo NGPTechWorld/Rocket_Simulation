@@ -40,7 +40,7 @@ export default class Physics {
 
     totalForce.add(this.forces.weight.force);
     totalForce.add(this.forces.drag.force);
-    //totalForce.add(this.forces.lift.force);
+    totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 
     return totalForce;
@@ -70,7 +70,7 @@ export default class Physics {
   }
 
   getPosition() {
-    return new Vector3(this.rocket.position.x , this.rocket.position.y , 0)
+    return new Vector3(this.rocket.position.x, this.rocket.position.y, 0);
   }
 
   update() {
@@ -97,10 +97,56 @@ export default class Physics {
       Math.abs(vector.z) < threshold ? 0 : vector.z
     );
   }
-  // setPhysicsParameters(){
-  //   this.rocket.initialFuelMass=20000000;
-  //   this.rocket.engine.fuel.mass=20000000;
-  // }
+  setPhysicsParameters({
+    // Default Values if not passed
+    // Rocket
+    dryMass = this.rocket.dryMass,
+    initialFuelMass = this.rocket.initialFuelMass,
+    A_throat = this.rocket.A_throat,
+    fuelType = this.rocket.engine.fuel.fuelType.name,
+    crossSectionalArea = this.rocket.crossSectionalArea,
+    dragCoefficient = this.rocket.dragCoefficient,
+    liftCoefficient = this.rocket.liftCoefficient,
+    nozzleCount = this.rocket.nozzleCount,
+    exitArea = this.rocket.exitArea,
+    burnDuration = this.rocket.engine.burnDuration,
+
+    // Environment
+    airDensity = this.environment.airDensity,
+    seaLevelPressure = this.environment.seaLevelPressure,
+    seaLevelTemperature = this.environment.seaLevelTemperature,
+    gravitationalAcceleration = this.environment.gravitationalAcceleration,
+    temperatureLapseRate = this.environment.temperatureLapseRate,
+    specificGasConstantAir = this.environment.specificGasConstantAir,
+
+    deltaTime = this.deltaTime,
+  } = {}) {
+    // The `= {}` makes the whole parameter optional
+
+    // Update rocket properties
+    this.rocket.dryMass = dryMass;
+    this.rocket.initialFuelMass = initialFuelMass;
+    this.rocket.engine.fuel.mass = initialFuelMass;
+    this.rocket.A_throat = A_throat;
+    this.rocket.engine.fuel.setFuelType(fuelType);
+    this.rocket.crossSectionalArea = crossSectionalArea;
+    this.rocket.dragCoefficient = dragCoefficient;
+    this.rocket.liftCoefficient = liftCoefficient;
+    this.rocket.nozzleCount = nozzleCount;
+    this.rocket.exitArea = exitArea;
+    this.rocket.engine.burnDuration = burnDuration;
+
+    // Update environment properties
+    this.environment.airDensity = airDensity;
+    this.environment.seaLevelPressure = seaLevelPressure;
+    this.environment.seaLevelTemperature = seaLevelTemperature;
+    this.environment.gravitationalAcceleration = gravitationalAcceleration;
+    this.environment.temperatureLapseRate = temperatureLapseRate;
+    this.environment.specificGasConstantAir = specificGasConstantAir;
+
+    this.deltaTime = deltaTime;
+  }
+
   getPhysicsParameters() {
     return {
       // Motion
