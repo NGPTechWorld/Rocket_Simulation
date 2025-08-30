@@ -45,7 +45,7 @@ export default class AtmoshpereLayerTracker {
           
       const msg = document.getElementById('end-simulation-message');
       if (msg) {
-        // إخفاء أي واجهات سابقة إذا وجدت
+      
         ['stop-message', 'crash-message'].forEach(id => {
           const el = document.getElementById(id);
           if (el) el.style.display = 'none';
@@ -53,17 +53,17 @@ export default class AtmoshpereLayerTracker {
 
         msg.style.display = 'flex';
 
-        // ربط زر إعادة المحاكاة (نستخدم id مختلف لتفادي تعارض)
+        
         const retryBtn = document.getElementById('retry-end');
         if (retryBtn) {
-          // إلغاء أي مستمع قديم
+         
           retryBtn.replaceWith(retryBtn.cloneNode(true));
           const fresh = document.getElementById('retry-end');
           fresh.addEventListener('click', () => {
-            // إخفاء الواجهة
+          
             msg.style.display = 'none';
 
-            // إعادة تهيئة المحاكاة أو fallback بإعادة تحميل الصفحة
+          
             if (typeof window.initSimulation === 'function') {
               window.initSimulation();
             } else {

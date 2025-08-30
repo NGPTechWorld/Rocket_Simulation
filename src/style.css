@@ -22,7 +22,7 @@ body
 #end-simulation-message {
   position: fixed;
   inset: 0;
-  display: none; /* يُفعل عند نهاية المحاكاة */
+  display: none; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -40,7 +40,7 @@ body
   z-index: 2;
 }
 
-/* خلفية توهّج متحركة */
+
 #end-simulation-message::before {
   content: '';
   position: absolute;
@@ -56,7 +56,7 @@ body
 }
 
 #end-simulation-message > * {
-  position: relative; /* ليكون فوق ::before */
+  position: relative; 
   z-index: 1;
 }
 
@@ -78,7 +78,7 @@ body
   animation: fadeInUp 1s ease-out 0.3s both;
 }
 
-/* زر إعادة المحاكاة */
+
 .btn-retry {
   padding: 0.85rem 1.75rem;
   font-size: 1rem;
@@ -107,7 +107,7 @@ body
   outline-offset: 2px;
 }
 
-/* الرسوم المتحركة */
+
 @keyframes successGlow {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
@@ -125,11 +125,11 @@ body
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== */
+
 #crash-message {
   position: fixed;
   inset: 0;
-  display: none; /* يُفعل عند نهاية المحاكاة */
+  display: none; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -148,7 +148,7 @@ body
   z-index: 2;
 }
 
-/* خلفية توهّج متحركة */
+
 #crash-message::before {
   content: '';
   position: absolute;
@@ -163,13 +163,13 @@ body
   z-index: 0;
 }
 
-/* ✅ صورة الشاشة المكسورة */
+
 .broken-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5);
-  width: auto;    /* يمكن ترك العرض تلقائي */
+  width: auto;    
   height: auto;
   pointer-events: none;
   opacity: 0.35;
@@ -178,7 +178,7 @@ body
   border-radius: 24px;
   object-fit: contain;
 }
-/* ✅ النص والزر فوق الصورة */
+
 #crash-message > *:not(.broken-overlay) {
   position: relative;
   z-index: 1;
@@ -202,7 +202,7 @@ body
   animation: fadeInUp 1s ease-out 0.3s both;
 }
 
-/* زر إعادة المحاكاة */
+
 .btn-retry {
   padding: 0.85rem 1.75rem;
   font-size: 1rem;
@@ -231,7 +231,6 @@ body
   outline-offset: 2px;
 }
 
-/* الرسوم المتحركة */
 @keyframes successGlow {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }

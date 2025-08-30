@@ -40,7 +40,7 @@ export default class Physics {
 
     totalForce.add(this.forces.weight.force);
     totalForce.add(this.forces.drag.force);
-    // totalForce.add(this.forces.lift.force);
+    totalForce.add(this.forces.lift.force);
     totalForce.add(this.forces.thrust.force);
 
     return totalForce;

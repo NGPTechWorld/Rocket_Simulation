@@ -11,17 +11,17 @@ export default class Camera {
     this.scene = app.scene;
     this.canvas = app.canvas;
     this.eventEmitter = app.eventEmitter;
-    this.currentMode = "rocket-follow";
+    this.currentMode = "follow";
     this.setInstance();
     this.setOrbitControls();
 
     this.firstPerson = null;
     this.followTargetObj = null;
     this.followOffsets = [
-      new THREE.Vector3(0, 50, 150), // خلف الهدف
-      new THREE.Vector3(0, 10, -100), // أمام الهدف من فوق
-      new THREE.Vector3(100, 50, 100), // جانب الهدف
-      new THREE.Vector3(0, 100, 0), // من فوق مباشرة
+      new THREE.Vector3(0, 50, 150),
+      new THREE.Vector3(0, 10, -100),
+      new THREE.Vector3(100, 50, 100),
+      new THREE.Vector3(0, 100, 0),
     ];
     this.followOffsetIndex = 0;
   }
@@ -63,7 +63,6 @@ export default class Camera {
   }
 
   update() {
-    
     switch (this.currentMode) {
       case "orbit":
         if (this.firstPerson) {
@@ -92,19 +91,14 @@ export default class Camera {
           this.switchMode("orbit");
           return;
         }
-
-        // const offset = this.followOffsets[this.followOffsetIndex];
-        // const targetPos = this.followTargetObj.position.clone().add(offset);
-        // this.instance.position.copy(targetPos);
-        // this.instance.lookAt(this.followTargetObj.position);
-        const rocketY = this.followTargetObj.position.y;
-        const rocketX = this.followTargetObj.position.x;
-
-        this.instance.position.set(rocketX, rocketY + 100, 300);
+        const offset = this.followOffsets[this.followOffsetIndex].clone();
+        offset.applyQuaternion(this.followTargetObj.quaternion);
+        const targetPos = this.followTargetObj.position.clone().add(offset);
+        this.instance.position.copy(targetPos);
         this.instance.lookAt(this.followTargetObj.position);
-
         break;
-              case "rocket-follow":
+
+      case "rocket-follow":
         if (
           !this.followTargetObj ||
           !this.scene.children.includes(this.followTargetObj)
@@ -117,11 +111,16 @@ export default class Camera {
         const rocket = this.followTargetObj;
 
         // اتجاه للخلف من الصاروخ
-        const backward = new THREE.Vector3(0, 0, -1).applyQuaternion(rocket.quaternion);
-        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(rocket.quaternion);
+        const backward = new THREE.Vector3(0, 0, -1).applyQuaternion(
+          rocket.quaternion
+        );
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(
+          rocket.quaternion
+        );
 
         // موضع الكاميرا خلف وفوق الصاروخ
-        const cameraPos = rocket.position.clone()
+        const cameraPos = rocket.position
+          .clone()
           .addScaledVector(backward, 30)
           .addScaledVector(up, 10);
 
@@ -132,7 +131,6 @@ export default class Camera {
         const lookAt = rocket.position.clone().addScaledVector(backward, -10);
         this.instance.lookAt(lookAt);
         break;
-
     }
   }
 
@@ -150,7 +148,6 @@ export default class Camera {
     if (mode === "first" && !this.firstPerson) {
       this.setFirstPersonControls();
     }
-    
   }
   switchFollowView() {
     this.followOffsetIndex =

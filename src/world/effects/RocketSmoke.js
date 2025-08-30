@@ -25,7 +25,7 @@ export default class RocketSmoke {
 
     const sprite = new THREE.Sprite(material);
     const offset = new THREE.Vector3(
-      (Math.random() - 0.5) * 4.5, // توسيع النطاق
+      (Math.random() - 0.5) * 4.5, 
       -6.0,
       (Math.random() - 0.5) * 4.5
     );
@@ -39,8 +39,8 @@ export default class RocketSmoke {
     this.particles.push({
       sprite,
       velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.01, // أوسع حركة أفقية
-        -0.002 + Math.random() * -0.002, // نزول أبطأ
+        (Math.random() - 0.5) * 0.01, 
+        -0.002 + Math.random() * -0.002, 
         (Math.random() - 0.5) * 0.01
       ),
       life: 1.2,

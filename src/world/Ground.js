@@ -74,31 +74,6 @@ this.desert1 = world.assetsLoader.getModels().desert2.clone();
     this.scene.add(this.mesh);
   }
 
-//   addTreesNearBuildings(buildings) {
-//   const treeGroup = new THREE.Group();
-
-//   buildings.forEach((building) => {
-//     const [x, y, z] = building.position;
-//     const [sx, , sz] = building.scale;
-
-//     const offsetX = sx * 10;
-//     const offsetZ = sz * 3;  
-
-//     const rightTree = this.tree.clone();
-//     rightTree.position.set(x + offsetX, this.positionY + this.thickness / 2, z + offsetZ);
-//     rightTree.rotation.y = Math.random() * Math.PI * 2;
-//     rightTree.scale.set(6, 6, 6);
-//     treeGroup.add(rightTree);
-
-//     const leftTree = this.tree.clone();
-//     leftTree.position.set(x - offsetX, this.positionY + this.thickness / 2, z - offsetZ);
-//     leftTree.rotation.y = Math.random() * Math.PI * 2;
-//     leftTree.scale.set(6, 6, 6);
-//     treeGroup.add(leftTree);
-//   });
-
-//   this.scene.add(treeGroup);
-// }
 
   setGUI() {
     if (this.guiRight) {

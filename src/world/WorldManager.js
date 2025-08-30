@@ -35,7 +35,7 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
   }
 
   async init() {
-    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002); // أسود وضبابي
+    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002); 
 
     // World
     this.scene.background = this.assetsLoader.getTextures()["space"].map;
@@ -57,60 +57,7 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
       positionY: -5.25,
     });
 
-    // const building = this.assetsLoader.getModels().house;
-    // const apartment = this.assetsLoader.getModels().apartment;
     const bunker = this.assetsLoader.getModels().bunker;
-    // const city = this.assetsLoader.getModels().city;
-    // const desert2 = this.assetsLoader.getModels().desert2;
-    // const brownstoneModel = this.assetsLoader.getModels().brownstone;
-    //const brownstoneTextures = this.assetsLoader.getTextures().brownstone;
-
-    // const brownstoneMaterial = createStandardBuildingMaterial(brownstoneTextures, this.renderer);
-
-    // const brownstoneRow = Array.from({ length: 4 }, (_, i) => ({
-    //   model: brownstoneModel.clone(),
-    //   scale: [4, 4, 4],
-    //   position: [i * 180 - 180, 0.1, -600],
-    //   rotation: [0, Math.PI, 0],
-    // }));
-
-    // brownstoneRow.forEach((item) => {
-    //   item.model.traverse((child) => {
-    //     if (child.isMesh) {
-    //       if (child.material) child.material.dispose(); // تنظيف
-    //       child.material = brownstoneMaterial;
-    //       child.castShadow = true;
-    //       child.receiveShadow = true;
-    //     }
-    //   });
-    // });
-
-    // const cityRow = Array.from({ length: 1 }, (_, i) => ({
-    //   model: city,
-    //   scale: [23, 23, 23],
-    //   position: [-400 + i * 180, 0.3, 150],
-    //   rotation: [0, -Math.PI, 0],
-    // }));
-    // const desertRow = Array.from({ length: 1 }, (_, i) => ({
-    //   model: desert2,
-    //   scale: [30, 30, 30],
-    //   position: [-400 + i * 180, -50, -4000],
-    //   rotation: [0, +Math.PI, 0],
-    // }));
-
-    // const buildingRow = Array.from({ length: 4 }, (_, i) => ({
-    //   model: building,
-    //   scale: [8, 8, 8],
-    //   position: [i * 180 - 180, 0.1, -400],
-    //   rotation: [0, -Math.PI / 2, 0],
-    // }));
-
-    // const apartmentRow = Array.from({ length: 4 }, (_, i) => ({
-    //   model: apartment,
-    //   scale: [5, 5, 5],
-    //   position: [i * 180 - 180, 0.1, 400],
-    //   rotation: [0, Math.PI, 0],
-    // }));
 
     const bunkerRow = Array.from({ length: 1 }, (_, i) => ({
       model: bunker,
@@ -154,27 +101,8 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
     this.guiRight.gui
       .add(cameraInfo, "hint")
       .name("📷 Change camera mode")
-      .onFinishChange(() => {}); // حتى ما يصير editable
+      .onFinishChange(() => {}); 
     //  this.ground.setGUI()
     // this.ground.setGUI()
   }
 }
-
-// function createStandardBuildingMaterial(textures, renderer) {
-//   const { map, normalMap, specularMap } = textures;
-
-//   [map, normalMap, specularMap].forEach((tex) => {
-//     if (tex) {
-//       tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-//       tex.anisotropy = renderer.capabilities.getMaxAnisotropy?.() || 1;
-//       tex.repeat.set(1, 1);
-//     }
-//   });
-
-//   return new THREE.MeshPhongMaterial({
-//     map,
-//     normalMap,
-//     specularMap,
-//     shininess: 60,
-//   });
-// }

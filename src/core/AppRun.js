@@ -51,8 +51,8 @@ export default class AppRun {
     guiLeft.domElement.style.position = "absolute";
     guiLeft.domElement.style.left = "0px";
     guiLeft.domElement.style.top = "0px";
-    guiLeft.domElement.style.zIndex = "999"; // اجعلها فوق كل شيء
-    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)"; // اختياري
+    guiLeft.domElement.style.zIndex = "999"; 
+    guiLeft.domElement.style.backgroundColor = "rgba(0,0,0,0.5)"; 
 
     this.guiRight = new GuiController(guiRight);
     this.guiLeft = new GuiController(guiLeft);
@@ -88,26 +88,13 @@ export default class AppRun {
           },
           repeat: { x: 30, y: 30 },
         },
-        // {
-        //   name: "brownstone",
-        //   maps: {
-        //     map: "/textures/BuildingColorMap.png",
-        //     normalMap: "/textures/BuildingNormalMap.png",
-        //     specularMap: "/textures/BuildingSpecularMap.png"
-        //   },
-        //   repeat: { x: 1, y: 1 }
-        // },
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
         desert2: "/models/desert7.glb",
         rocket_lancher: "/models/rocket_laucher_pad.glb",
-        // tree: "/models/birch_tree.glb",
-        // house: "models/build.glb",
-        // apartment: "models/EEB_015.glb",
         bunker: "models/Bunker.glb",
-        // city: "models/NEW+CİTY.1blend.glb",
-        // brownstone: "/models/BrownStoneWithRestaurant.glb",
+      
       },
       sounds: {
         explosion: {

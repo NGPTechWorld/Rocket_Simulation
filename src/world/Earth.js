@@ -36,37 +36,30 @@ export default class Earth {
 
     this.scene.add(this.mesh);
 
-
-    // const axesHelper = new THREE.AxesHelper(7);
-    // this.scene.add(axesHelper);
-
-    // ضوء نقطة قوي مع ظلال
-    const pointLight = new THREE.PointLight(0xffffff, 2); // زودت شدة الضوء 2 بدل 1
+    const pointLight = new THREE.PointLight(0xffffff, 2);
     pointLight.position.set(10, 10, 10);
     pointLight.castShadow = true;
     this.scene.add(pointLight);
 
-    // ضوء اتجاهي قوي مع ظلال
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // شدة أعلى
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); 
     directionalLight.position.set(-10, 10, 5);
     directionalLight.castShadow = true;
     this.scene.add(directionalLight);
 
-    // ضروري تفعيل الظلال في الرندر
-    // this.app.renderer.shadowMap.enabled = true;
-    // this.app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
   }
 
 drawAtmosphereLayers() {
   const KM_TO_UNITS = 1000;
 
   const layerMaterials = [
-    { color: 0x6ca0f6, opacity: 0.12 }, // Troposphere - أزرق فاتح متوسط
-    { color: 0x3b5998, opacity: 0.10 }, // Stratosphere - أزرق متوسط
-    { color: 0x2d4373, opacity: 0.08 }, // Mesosphere - أزرق داكن
-    { color: 0x1f2d4d, opacity: 0.06 }, // Thermosphere - أزرق داكن جداً
-    { color: 0x141a33, opacity: 0.05 }, // Ionosphere - أزرق مائل للأسود
-    { color: 0x0d1124, opacity: 0.04 }, // Exosphere - أزرق أسود
+    { color: 0x6ca0f6, opacity: 0.12 }, 
+    { color: 0x3b5998, opacity: 0.10 }, 
+    { color: 0x2d4373, opacity: 0.08 }, 
+    { color: 0x1f2d4d, opacity: 0.06 }, 
+    { color: 0x141a33, opacity: 0.05 },
+    { color: 0x0d1124, opacity: 0.04 },
   ];
 
   ATMOSPHERE_LAYERS.forEach((layer, i) => {

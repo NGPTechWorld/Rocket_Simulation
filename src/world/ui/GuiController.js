@@ -10,18 +10,11 @@ export default class GuiController {
     this.gui = guiInstance || new GUI();
     this.folders = {};
   }
-  /**
-   * إضافة تحكم عادي مثل: this.gui.add(obj, 'prop', [...])
-   */
+
   add(...args) {
     return this.gui.add(...args);
   }
 
-  /**
-   * إضافة تحكم لمجسم (position, scale, rotation)
-   * @param {string} name - اسم القسم داخل الواجهة
-   * @param {THREE.Object3D} object - المجسم المستهدف
-   */
   addObjectControls(name, object) {
     const folder = this.gui.addFolder(name);
 
@@ -54,21 +47,12 @@ export default class GuiController {
     this.folders[name] = folder;
   }
 
-  /**
-   * يضيف أزرار تحكم لإطلاق أو إيقاف الصاروخ من واجهة المستخدم.
-   *
-   * @param {import('../Rocket').default} rocket
-   */
+
   addLaunchStopControls(rocket) {
     this.gui.add({ launch: () => rocket.launch() }, "launch").name("🚀 Launch");
     this.gui.add({ stop: () => rocket.stop() }, "stop").name("⏸️ Stop");
   }
 
-  /**
-   * إضافة مراقبة نصية لقيمة معينة (مثل ارتفاع)
-   * @param {string} label الاسم الظاهر في الواجهة
-   * @param {() => any} getValue دالة لإرجاع القيمة
-   */
   addTextMonitor(label, getValue) {
     const obj = { [label]: getValue() };
 
@@ -139,13 +123,11 @@ export default class GuiController {
   addVector3WithMagnitude(label, getVectorFunc, unit = "") {
     const vector = { x: 0, y: 0, z: 0 };
     const folder = this.gui.addFolder(label);
-    folder.close(); // يغلق المجلد مبدئيًا
-
+    folder.close(); 
     folder.add(vector, "x").name("X").listen();
     folder.add(vector, "y").name("Y").listen();
     folder.add(vector, "z").name("Z").listen();
 
-    // عنصر العنوان
     const titleElement = folder.domElement.querySelector(".title");
 
     function getMagnitude(vec) {

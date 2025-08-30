@@ -50,27 +50,6 @@ export default class AtmosphereLayer {
     this.updateModeTransition()
   }
 
-  // loadCloudModel() {
-  //   this.gltfLoader.load(this.glbPath, (gltf) => {
-  //     const model = gltf.scene;
-  //     model.scale.set(0.5, 0.5, 0.5);
-  //     model.position.set(0, -4.5, 0);
-
-  //     model.traverse(child => {
-  //       if (child.isMesh) {
-  //         child.castShadow = true;
-  //         child.receiveShadow = true;
-  //         if (child.material) {
-  //           child.material.color.set(0xf0f0f0);
-  //           child.material.transparent = true;
-  //           child.material.opacity = 0.9;
-  //         }
-  //       }
-  //     });
-
-  //     this.scene.add(model);
-  //   });
-  // }
 
   initLight() {
     this.nightLight = new THREE.AmbientLight(0x222244, 0);

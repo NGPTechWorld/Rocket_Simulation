@@ -60,28 +60,7 @@ export default class Rocket {
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
-  // launch() {
-  //   if (this.isLaunching) return;
 
-  //   this.isLaunching = true;
-
-  //   const moveUp = () => {
-  //     if (!this.isLaunching) return;
-
-  //     this.model.position.y += this.ascentSpeed;
-
-  //     requestAnimationFrame(moveUp);
-  //   };
-  //   this.startCameraShake()
-  //   moveUp();
-  // }
-  // resetGuiRightToDefaults() {
-  //   this.userSettings = { ...this.defaultSettings };
-  //   this.guiRight.gui.destroy();
-  //   this.guiRight.gui = new GUI();
-  //   this.guiRight = new GuiController(this.guiRight.gui);
-  //   this.setGuiRight();
-  // }
 
   //! Right GUI
   setGuiRight() {
@@ -474,6 +453,8 @@ export default class Rocket {
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 1;
         this.model.position.y = this.world.physics.rocket.position.y / 1;
+        if( this.world.camera.currentMode =="follow")
+        this.world.camera.instance.position.y= 50 +this.world.physics.rocket.position.y / 1;
         this.model.position.z = this.world.physics.rocket.position.z / 1;
         if (this.model.position.y < this.groundLevel) {
           this.explosion();

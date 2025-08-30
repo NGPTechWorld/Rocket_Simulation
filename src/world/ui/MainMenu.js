@@ -15,7 +15,7 @@ export default class MainMenu {
     this.container.style.flexDirection = 'column'
     this.container.style.justifyContent = 'center'
     this.container.style.alignItems = 'center'
-    this.container.style.background = 'linear-gradient(rgba(92, 8, 86, 0.7), rgba(58, 3, 105, 0.9))' // قابل للتخصيص لاحقًا
+    this.container.style.background = 'linear-gradient(rgba(92, 8, 86, 0.7), rgba(58, 3, 105, 0.9))' 
     this.container.style.zIndex = '10'
     this.container.style.gap = '20px'
     this.container.style.fontFamily = 'sans-serif'

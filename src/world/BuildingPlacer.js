@@ -32,42 +32,4 @@ export default class BuildingPlacer {
       this.scene.add(building);
     });
   }
-
-// addCities(cityModel, count = 7, scale = [20, 20, 20]) {
-//   const centerY = this.world.ground.positionY + this.world.ground.thickness / 2;
-
-//   const maxRadius = this.world.ground.radius - 600; 
-//   this.cityInstances = [];
-
-//   for (let i = 0; i < count; i++) {
-//     const angle = (i / count) * Math.PI * 2;
-    
-//     const x = Math.cos(angle) * maxRadius;
-//     const z = Math.sin(angle) * maxRadius;
-
-//     const city = cityModel.clone();
-//     city.position.set(x, centerY, z);
-//     city.rotation.y = -angle + Math.PI / 2;
-//     city.scale.set(...scale);
-//     city.visible = false;
-
-//     this.scene.add(city);
-//     this.cityInstances.push(city);
-//   }
-// }
-
-  // updateVisibleCities() {
-  //   const frustum = new THREE.Frustum();
-  //   const matrix = new THREE.Matrix4();
-
-  //   this.camera.updateMatrixWorld();
-  //   this.camera.updateProjectionMatrix();
-  //   matrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse);
-  //   frustum.setFromProjectionMatrix(matrix);
-
-  //   this.cityInstances.forEach((city) => {
-  //     const box = new THREE.Box3().setFromObject(city);
-  //     city.visible = frustum.intersectsBox(box);
-  //   });
-  // }
 }

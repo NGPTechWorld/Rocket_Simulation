@@ -13,14 +13,7 @@ export default class SoundManager {
     this.sounds = {}
   }
 
-  /**
-   * تحميل صوت جديد باستخدام await
-   * @param {string} name - اسم تعريفي للصوت
-   * @param {string} path - مسار ملف الصوت
-   * @param {boolean} loop - هل يتكرر؟
-   * @param {number} volume - مستوى الصوت من 0 إلى 1
-   * @returns {Promise<THREE.Audio>}
-   */
+
   async load(name, path, loop = false, volume = 1) {
     const sound = new THREE.Audio(this.listener)
 
