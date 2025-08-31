@@ -91,8 +91,9 @@ export default class Camera {
           this.switchMode("orbit");
           return;
         }
+        
         const offset = this.followOffsets[this.followOffsetIndex].clone();
-        offset.applyQuaternion(this.followTargetObj.quaternion);
+        // offset.applyQuaternion(this.followTargetObj.quaternion);
         const targetPos = this.followTargetObj.position.clone().add(offset);
         this.instance.position.copy(targetPos);
         this.instance.lookAt(this.followTargetObj.position);

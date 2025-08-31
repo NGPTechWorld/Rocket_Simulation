@@ -25,19 +25,12 @@ export default class LiftForce extends Force {
 
     const liftDir = new Vector3(-velocityDir.y, velocityDir.x, 0).normalize();
 
-    const aoaClamped = Math.max(
-      0,
-      Math.min(this.rocket.angle_of_attack, Math.PI / 2)
-    );
-    const aoaFactor = Math.max(0, Math.sin(2 * aoaClamped));
-
     const liftMagnitude =
       this.rocket.liftCoefficient *
       this.rocket.crossSectionalArea *
       0.5 *
       this.environment.airDensity *
-      Math.pow(speed, 2) *
-      aoaFactor;
+      Math.pow(speed, 2);
 
     const liftForce = liftDir.clone().multiplyScalar(liftMagnitude);
 
