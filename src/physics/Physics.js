@@ -1,4 +1,6 @@
-import { Vector3 } from "three";
+import * as THREE from "three";
+const { Vector3 } = THREE;
+
 import WeightForce from "./WeightForce";
 import DragForce from "./DragForce";
 import LiftForce from "./LiftForce";
