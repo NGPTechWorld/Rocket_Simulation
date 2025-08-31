@@ -78,6 +78,31 @@ export default class AppRun {
           repeat: { x: 1, y: 1 },
         },
         {
+          name: "iteFront",
+          maps: { map: "/textures/ite/ite_front.png" },
+          repeat: { x: 1, y: 1 },
+        },
+        {
+          name: "ite_left",
+          maps: { map: "/textures/ite/ite_left.png" },
+          repeat: { x: 1, y: 1 },
+        },
+        {
+          name: "ite_back",
+          maps: { map: "/textures/ite/ite_back.png" },
+          repeat: { x: 1, y: 1 },
+        },
+        {
+          name: "ite_title",
+          maps: { map: "/textures/ite/ite_title.png" },
+          repeat: { x: 1, y: 1 },
+        },
+        {
+          name: "ite_up",
+          maps: { map: "/textures/ite/ite_up.jpg" },
+          repeat: { x: 1, y: 1 },
+        },
+        {
           name: "ground",
           maps: {
             map: "/textures/Ground080_2K-JPG_Color.jpg",
