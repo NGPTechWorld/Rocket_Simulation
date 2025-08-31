@@ -54,7 +54,7 @@ export default class ExplosionEffect {
           });
         }
       }
-    }, 3000)
+    }, 500)
 
 
      
