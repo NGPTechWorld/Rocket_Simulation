@@ -60,8 +60,6 @@ export default class Rocket {
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
-
-
   //! Right GUI
   setGuiRight() {
     // Rocket
@@ -175,6 +173,26 @@ export default class Rocket {
       getVectorFunc: () => getPhysicsParameters().acceleration,
       unit: "m·s⁻²",
     });
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "angular",
+      getVectorFunc: () => getPhysicsParameters().angular,
+      unit: "rad",
+    });
+
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "angularVelocity",
+      getVectorFunc: () => getPhysicsParameters().angularVelocity,
+      unit: "rad·s⁻¹",
+    });
+    this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
+      label: "angularAcceleration",
+      getVectorFunc: () => getPhysicsParameters().angularAcceleration,
+      unit: "rad·s⁻²",
+    });
+    this.guiLeft.addTextMonitor("angle_of_attack", () =>
+      getPhysicsParameters().angle_of_attack.toFixed(2)
+    );
 
     this.guiLeft.addVector3WithMagnitudeWithExtraMonitors({
       label: "Total Force",
@@ -303,6 +321,10 @@ export default class Rocket {
         {
           label: "Now Fuel Mass",
           getValue: () => getPhysicsParameters().fuelMass.toFixed(2) + " kg",
+        },
+        {
+          label: "Diameter",
+          getValue: () => getPhysicsParameters().diameter.toFixed(2) + " m",
         },
         {
           label: "Rocket Dry Mass",
@@ -453,8 +475,9 @@ export default class Rocket {
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 1;
         this.model.position.y = this.world.physics.rocket.position.y / 1;
-        if( this.world.camera.currentMode =="follow")
-        this.world.camera.instance.position.y= 50 +this.world.physics.rocket.position.y / 1;
+        if (this.world.camera.currentMode == "follow")
+          this.world.camera.instance.position.y =
+            50 + this.world.physics.rocket.position.y / 1;
         this.model.position.z = this.world.physics.rocket.position.z / 1;
         if (this.model.position.y < this.groundLevel) {
           this.explosion();
