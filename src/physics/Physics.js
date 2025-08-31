@@ -73,11 +73,60 @@ export default class Physics {
     return new Vector3(this.rocket.position.x, this.rocket.position.y, 0);
   }
 
+  // حساب العزم الدوراني وتأثيره على الموقع وزاوية الهجوم
+  torque() {
+    // مجموع القوى الهوائية (Drag + Lift)
+    const totalAerodynamicForce = new Vector3().addVectors(
+      this.forces.drag.force,
+      this.forces.lift.force
+    );
+
+    if (this.environment.airDensity <= 1e-5) return;
+
+    this.rocket.angle_of_attack = totalAerodynamicForce.angleTo(
+      new Vector3(0, 1, 0)
+    );
+
+    const rotationMatrixY = new THREE.Matrix4().makeRotationY(
+      -this.rocket.angle_of_attack
+    );
+
+    this.rocket.position.applyMatrix4(rotationMatrixY);
+  }
+
+  // الحركة الدورانية
+  angularMotion() {
+    // التسارع الزاوي = التسارع الخطي / نصف القطر
+    this.rocket.angularAcceleration
+      .copy(this.rocket.acceleration)
+      .divideScalar(this.rocket.diameter / 2);
+
+    this.sanitizeVector(this.rocket.angularAcceleration);
+
+    // حساب السرعة الدورانية
+    this.rocket.angularVelocity.addScaledVector(
+      this.rocket.angularAcceleration,
+      this.deltaTime
+    );
+
+    this.sanitizeVector(this.rocket.angularVelocity);
+
+    // حساب الزاوية
+    this.rocket.angular.addScaledVector(
+      this.rocket.angularVelocity,
+      this.deltaTime
+    );
+
+    this.sanitizeVector(this.rocket.angular);
+  }
+
   update() {
     this.time_update();
     this.acceleration();
     this.velocity();
     this.position();
+    this.torque();
+    this.angularMotion();
     this.rocket.update();
     this.forces.weight.update();
     this.forces.drag.update();
@@ -151,8 +200,14 @@ export default class Physics {
     return {
       // Motion
       time: this.time,
+      // الحركة الخطية
       velocity: this.rocket.velocity.toArray(),
       acceleration: this.rocket.acceleration.toArray(),
+      // الحركة الزاوية
+      angular: this.rocket.angular.toArray(),
+      angularVelocity: this.rocket.angularVelocity.toArray(),
+      angularAcceleration: this.rocket.angularAcceleration.toArray(),
+      angle_of_attack: this.rocket.angle_of_attack,
       position: this.getPosition().toArray(),
 
       // Rocket
@@ -177,6 +232,7 @@ export default class Physics {
       exitArea: this.rocket.exitArea,
       A_throat: this.rocket.A_throat,
       burnDuration: this.rocket.engine.burnDuration,
+      diameter: this.rocket.diameter,
 
       // Environment
       airDensity: this.environment.airDensity,
