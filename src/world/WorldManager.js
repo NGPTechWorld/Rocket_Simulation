@@ -23,11 +23,11 @@ export default class WorldManager {
     this.camera = app.camera;
     this.guiRight = app.guiRight;
     this.guiLeft = app.guiLeft;
-    this.guiRight.gui.domElement.style.zIndex = '10';
-this.guiRight.gui.domElement.style.position = 'absolute';
+    this.guiRight.gui.domElement.style.zIndex = "10";
+    this.guiRight.gui.domElement.style.position = "absolute";
 
-this.guiLeft.gui.domElement.style.zIndex = '10';
-this.guiLeft.gui.domElement.style.position = 'absolute';
+    this.guiLeft.gui.domElement.style.zIndex = "10";
+    this.guiLeft.gui.domElement.style.position = "absolute";
     this.textureLoader = new TextureLoader();
     this.modelLoader = new ModelLoader();
     this.physics = new Physics();
@@ -35,7 +35,7 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
   }
 
   async init() {
-    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002); 
+    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002);
 
     // World
     this.scene.background = this.assetsLoader.getTextures()["space"].map;
@@ -66,15 +66,12 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
       rotation: [0, 0, 0],
     }));
 
-    this.buildings = new BuildingPlacer(this, [
-      ...bunkerRow,
-    ]);
+    this.buildings = new BuildingPlacer(this, [...bunkerRow]);
 
     this.setGUI();
     this.camera.followTarget(this.rocket.model);
     this.rocketFire = new RocketFire(this, this.rocket.model);
     this.rocketSmoke = new RocketSmoke(this, this.rocket.model);
-    
   }
 
   update() {
@@ -87,11 +84,11 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
   //!Osama here
   setGUI() {
     //this.rocket_lancher.setGUI()
-     this.rocket.setGuiRight()
-    this.rocket.setGuiLeft()
-    this.atmosphere.setGUI()
-    this.atmosphereTracker.setGUI()
-     this.guiRight.gui
+    this.rocket.setGuiRight();
+    this.rocket.setGuiLeft();
+    this.atmosphere.setGUI();
+    this.atmosphereTracker.setGUI();
+    this.guiRight.gui
       .add(this.camera, "currentMode", ["orbit", "first", "follow"])
       .name("Camera Mode");
     const cameraInfo = {
@@ -101,7 +98,7 @@ this.guiLeft.gui.domElement.style.position = 'absolute';
     this.guiRight.gui
       .add(cameraInfo, "hint")
       .name("📷 Change camera mode")
-      .onFinishChange(() => {}); 
+      .onFinishChange(() => {});
     //  this.ground.setGUI()
     // this.ground.setGUI()
   }
