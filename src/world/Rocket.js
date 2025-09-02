@@ -476,7 +476,10 @@ export default class Rocket {
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 1;
         this.model.position.y = this.world.physics.rocket.position.y / 1;
-        this.model.rotation.y += this.world.physics.rocket.angle_of_attack;
+        // this.model.rotation.y += this.world.physics.rocket.angle_of_attack;
+        this.model.rotation.y +=
+          this.world.physics.rocket.angularVelocity.y *
+          this.world.physics.deltaTime;
         this.model.position.z = this.world.physics.rocket.position.z / 1;
 
         if (this.world.camera.currentMode == "follow")
