@@ -38,7 +38,7 @@ export default class Fuel {
         // console.log(engine.rocket.nozzleCount );
         
         const dm = massFlowRate
-            * this.fuelType.getEfficiency()
+           // * this.fuelType.getEfficiency()
             * engine.rocket.nozzleCount 
             * deltaTime;
 
