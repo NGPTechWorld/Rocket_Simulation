@@ -1,33 +1,23 @@
 const FUEL_DATABASE = {
   "LH2/LOX": {
-    density: 71,
-    gamma: 1.22,
+    density: 71, // kg/m³
+    gamma: 1.2, // LH2 γ≈1.2
     universalGasConstant: 8.3144621,
-    chamberTemperature: 3470,
-    molecularWeight: 0.018015,
-    combustionEfficiency: 0.95,
-    chamberPressure: 7.0e6,
+    chamberTemperature: 3600, // K
+    molecularWeight: 0.0023, // H2/LOX منخفض جداً
+    combustionEfficiency: 0.98,
+    chamberPressure: 20.7e6, // Pa
   },
   "RP-1/LOX": {
-    density: 810, // كغ/م³
-    gamma: 1.2,
+    density: 810, // kg/m³
+    gamma: 1.22,
     universalGasConstant: 8.3144621,
-    chamberTemperature: 3700,
+    chamberTemperature: 3670, // K
     molecularWeight: 0.022,
     combustionEfficiency: 0.93,
-    chamberPressure: 7.0e6,
+    chamberPressure: 7.0e6, // Pa
   },
-  // 'RP-1/LOX': {
-  //     density: 810,
-  //     gamma: 1.20,
-  //     universalGasConstant: 8.3144621,
-  //     chamberTemperature: 3701,
-  //     molecularWeight: 0.022000,
-  //     combustionEfficiency: 0.93,
-  //     chamberPressure: 6.8e6
-  // }
 };
-
 export default class FuelType {
   constructor(name) {
     const spec = FUEL_DATABASE[name];
