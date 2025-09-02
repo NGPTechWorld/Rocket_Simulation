@@ -57,10 +57,12 @@ export default class Engine {
       gamma,
       specificGasConstant: R,
     } = ft;
+
     const term =
       (Pt / Math.sqrt(Tt)) *
       Math.sqrt(gamma / R) *
       Math.pow((gamma + 1) / 2, -(gamma + 1) / (2 * (gamma - 1)));
-    return this.rocket.A_throat * term;
+
+    return this.rocket.nozzleCount * this.rocket.A_throat * term;
   }
 }

@@ -35,7 +35,7 @@ export default class Fuel {
          
     update(deltaTime, engine) {
         const massFlowRate = engine.getMassFlowRate();
-
+        
         const dm = massFlowRate
             * this.fuelType.getEfficiency()
             * deltaTime;
