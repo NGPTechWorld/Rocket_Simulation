@@ -36,7 +36,6 @@ export default class LoadingScreen {
       overflow: hidden;
     `
 
-    // progress bar الداخلية
     this.progress = document.createElement('div')
     this.progress.style.cssText = `
       height: 100%;

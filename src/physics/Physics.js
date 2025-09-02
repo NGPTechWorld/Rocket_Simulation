@@ -26,7 +26,6 @@ export default class Physics {
       lift: new LiftForce(),
       thrust: new ThrustForce(this.rocket.engine),
     };
-    // this.rocket.engine.fuel._mass = 50000;
   }
 
   startEngine() {

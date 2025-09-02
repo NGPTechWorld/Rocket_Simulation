@@ -35,7 +35,6 @@ export default class WorldManager {
   }
 
   async init() {
-    // this.scene.fog = new THREE.FogExp2(0x000000, 0.002);
 
     // World
     this.scene.background = this.assetsLoader.getTextures()["space"].map;
@@ -79,11 +78,9 @@ export default class WorldManager {
     this.rocketFire?.update();
     this.rocketSmoke?.update();
     this.rocket?.update();
-    // this.buildings?.updateVisibleCities();
   }
   //!Osama here
   setGUI() {
-    //this.rocket_lancher.setGUI()
     this.rocket.setGuiRight();
     this.rocket.setGuiLeft();
     this.atmosphere.setGUI();
@@ -99,7 +96,5 @@ export default class WorldManager {
       .add(cameraInfo, "hint")
       .name("📷 Change camera mode")
       .onFinishChange(() => {});
-    //  this.ground.setGUI()
-    // this.ground.setGUI()
   }
 }

@@ -1,10 +1,6 @@
 import GUI from "lil-gui";
 
 export default class GuiController {
-  // constructor() {
-  //   this.gui = new GUI()
-  //   this.folders = {}
-  // }
 
   constructor(guiInstance = null) {
     this.gui = guiInstance || new GUI();
@@ -86,40 +82,6 @@ export default class GuiController {
     update();
   }
 
-  // // يعرض المتجه ومقداره في عنوان المجلد:
-  // addVector3WithMagnitude(label, getVectorFunc) {
-  //   const vector = { x: 0, y: 0, z: 0 };
-  //   const folder = this.gui.addFolder(label);
-
-  //   folder.add(vector, "x").name("X").listen();
-  //   folder.add(vector, "y").name("Y").listen();
-  //   folder.add(vector, "z").name("Z").listen();
-
-  //   // اجلب عنصر عنوان المجلد لتحديثه لاحقًا
-  //   const titleElement = folder.domElement.querySelector(".title");
-
-  //   function getMagnitude(vec) {
-  //     return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2);
-  //   }
-
-  //   function update() {
-  //     const v = getVectorFunc();
-  //     vector.x = v[0]?.toFixed(2) ?? 0;
-  //     vector.y = v[1]?.toFixed(2) ?? 0;
-  //     vector.z = v[2]?.toFixed(2) ?? 0;
-
-  //     if (titleElement) {
-  //       titleElement.textContent = `${label} F: ${getMagnitude(v).toFixed(
-  //         2
-  //       )} N`;
-  //     }
-
-  //     requestAnimationFrame(update);
-  //   }
-
-  //   update();
-  // }
-
   addVector3WithMagnitude(label, getVectorFunc, unit = "") {
     const vector = { x: 0, y: 0, z: 0 };
     const folder = this.gui.addFolder(label);
@@ -151,73 +113,6 @@ export default class GuiController {
     update();
   }
 
-  // addVector3WithMagnitudeWithExtraMonitors({
-  //   label,
-  //   getVectorFunc = null,
-  //   unit = "",
-  //   extraMonitors = [],
-  // }) {
-  //   const folder = this.gui.addFolder(label);
-  //   folder.close(); // إغلاق المجلد افتراضيًا
-
-  //   const hasVector = typeof getVectorFunc === "function";
-
-  //   // الوصول إلى عنوان المجلد لتحديثه لاحقًا
-  //   const titleElement = folder.domElement.querySelector(".title");
-
-  //   // فقط إذا تم تمرير getVectorFunc، نقوم بإنشاء vector والمتغيرات المرتبطة به
-  //   let vector = null;
-  //   if (hasVector) {
-  //     vector = { x: 0, y: 0, z: 0 };
-  //     folder.add(vector, "x").name("X").listen();
-  //     folder.add(vector, "y").name("Y").listen();
-  //     folder.add(vector, "z").name("Z").listen();
-  //   }
-
-  //   // القيم الإضافية داخل المجلد
-  //   const extraValues = {};
-  //   const controllers = [];
-
-  //   for (const { label: extraLabel, getValue } of extraMonitors) {
-  //     extraValues[extraLabel] = getValue();
-  //     const ctrl = folder.add(extraValues, extraLabel).listen();
-  //     controllers.push({ ctrl, getValue, label: extraLabel });
-  //   }
-
-  //   // دالة لحساب مقدار المتجه
-  //   function getMagnitude(vec) {
-  //     return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2);
-  //   }
-
-  //   // التحديث المستمر
-  //   function update() {
-  //     let v = [0, 0, 0];
-
-  //     if (hasVector) {
-  //       v = getVectorFunc() || [0, 0, 0];
-  //       vector.x = v[0]?.toFixed(2) ?? 0;
-  //       vector.y = v[1]?.toFixed(2) ?? 0;
-  //       vector.z = v[2]?.toFixed(2) ?? 0;
-
-  //       // تحديث العنوان بالمقدار
-  //       if (titleElement) {
-  //         const magnitude = getMagnitude(v).toFixed(2);
-  //         titleElement.innerHTML = `${label}<span style="float:right;">${magnitude} ${unit}</span>`;
-  //       }
-  //     }
-
-  //     // تحديث القيم الإضافية
-  //     for (const { ctrl, getValue, label } of controllers) {
-  //       extraValues[label] = getValue();
-  //       ctrl.setValue(extraValues[label]);
-  //     }
-
-  //     requestAnimationFrame(update);
-  //   }
-
-  //   update();
-  // }
-
   addVector3WithMagnitudeWithExtraMonitors({
     label,
     getVectorFunc = null,
@@ -225,12 +120,11 @@ export default class GuiController {
     extraMonitors = [],
   }) {
     const folder = this.gui.addFolder(label);
-    folder.close(); // إغلاق المجلد افتراضيًا
+    folder.close(); 
 
     const hasVector = typeof getVectorFunc === "function";
     const titleElement = folder.domElement.querySelector(".title");
 
-    // فقط إذا تم تمرير getVectorFunc، نقوم بإنشاء vector والمتغيرات المرتبطة به
     let vector = null;
     if (hasVector) {
       vector = { x: 0, y: 0, z: 0 };
@@ -248,11 +142,10 @@ export default class GuiController {
       controllers.push({ ctrl, getValue, label: extraLabel });
     }
 
-    // دالة لحساب مقدار المتجه
     function getMagnitude(vec) {
       return Math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2);
     }
-    //   السهم بناءً على الاتجاه الأقوى
+
     function getVectorMainArrow([x, y, z], threshold = 0.01) {
       const absX = Math.abs(x);
       const absY = Math.abs(y);
@@ -292,12 +185,6 @@ export default class GuiController {
     update();
   }
 
-  /**
-   * إضافة شريط بصري ملون لعرض نسبة الوقود
-   * @param {string} label - عنوان الشريط
-   * @param {() => number} getCurrentFuelMass - دالة تعيد كتلة الوقود الحالية
-   * @param {() => number} getTotalFuelMass - دالة تعيد كتلة الوقود الكلية
-   */
   addFuelProgressBar(label, getCurrentFuelMass, getTotalFuelMass) {
     const folder = this.gui.addFolder(label);
     folder.open();
@@ -334,16 +221,16 @@ export default class GuiController {
     if (childrenContainer) {
       childrenContainer.appendChild(container);
     } else {
-      folder.domElement.appendChild(container); // fallback
+      folder.domElement.appendChild(container); 
     }
 
     function getColorByRatio(ratio) {
-      if (ratio > 0.6) return "#4caf50"; // أخضر
-      if (ratio > 0.3) return "#ffb300"; // أصفر
-      return "#f44336"; // أحمر
+      if (ratio > 0.6) return "#4caf50"; 
+      if (ratio > 0.3) return "#ffb300"; 
+      return "#f44336";
     }
 
-    // تحديث مستمر
+
     function update() {
       const current = getCurrentFuelMass();
       const total = getTotalFuelMass();
@@ -361,9 +248,6 @@ export default class GuiController {
     update();
   }
 
-  /**
-   * إزالة مجلد تحكم
-   */
   remove(name) {
     if (this.folders[name]) {
       this.gui.removeFolder(this.folders[name]);

@@ -25,7 +25,7 @@ export default class RocketSmoke {
 
     const sprite = new THREE.Sprite(material);
     const offset = new THREE.Vector3(
-      (Math.random() - 0.5) * 4.5, 
+      (Math.random() - 0.5) * 4.5,
       -6.0,
       (Math.random() - 0.5) * 4.5
     );
@@ -39,48 +39,49 @@ export default class RocketSmoke {
     this.particles.push({
       sprite,
       velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.01, 
-        -0.002 + Math.random() * -0.002, 
+        (Math.random() - 0.5) * 0.01,
+        -0.002 + Math.random() * -0.002,
         (Math.random() - 0.5) * 0.01
       ),
       life: 1.2,
     });
   }
 
- update() {
-  if (this.world.rocket.isLaunching && this.world.physics.getPhysicsParameters().fuelMass > 0) {
-    const now = Date.now();
-    if (now - this.lastSpawnTime > this.spawnInterval) {
-      this.spawnParticle();
-      this.lastSpawnTime = now;
-    }
-
-    this.particles.forEach((p, i) => {
-      p.sprite.position.add(p.velocity);
-      p.life -= 0.01;
-      p.sprite.material.opacity = p.life * 0.5;
-      p.sprite.scale.multiplyScalar(1.02);
-
-      if (p.life <= 0) {
-        this.rocket.remove(p.sprite);
-        this.particles.splice(i, 1);
+  update() {
+    if (
+      this.world.rocket.isLaunching &&
+      this.world.physics.getPhysicsParameters().fuelMass > 0
+    ) {
+      const now = Date.now();
+      if (now - this.lastSpawnTime > this.spawnInterval) {
+        this.spawnParticle();
+        this.lastSpawnTime = now;
       }
-    });
 
-    clearTimeout(this.clearTimeoutID);
-    this.clearTimeoutID = null;
+      this.particles.forEach((p, i) => {
+        p.sprite.position.add(p.velocity);
+        p.life -= 0.01;
+        p.sprite.material.opacity = p.life * 0.5;
+        p.sprite.scale.multiplyScalar(1.02);
 
-  } else {
-    if (!this.clearTimeoutID) {
-      this.clearTimeoutID = setTimeout(() => {
-        this.particles.forEach((p) => {
+        if (p.life <= 0) {
           this.rocket.remove(p.sprite);
-        });
-        this.particles = [];
-        this.clearTimeoutID = null;
-      }, 20000);
+          this.particles.splice(i, 1);
+        }
+      });
+
+      clearTimeout(this.clearTimeoutID);
+      this.clearTimeoutID = null;
+    } else {
+      if (!this.clearTimeoutID) {
+        this.clearTimeoutID = setTimeout(() => {
+          this.particles.forEach((p) => {
+            this.rocket.remove(p.sprite);
+          });
+          this.particles = [];
+          this.clearTimeoutID = null;
+        }, 20000);
+      }
     }
   }
-}
-
 }

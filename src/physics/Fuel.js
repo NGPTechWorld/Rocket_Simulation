@@ -21,17 +21,6 @@ export default class Fuel {
     _consumeFuel(dm) {
         this._mass = Math.max(0, this._mass - dm);
     }
-
-    /* getAdjustedBurnRate(nominalBurnRate) {
-         return nominalBurnRate * this.fuelType.getEfficiency();
-     }
-
-     update(deltaTime, nominalBurnRate, engine) {
-         const dm = this.getAdjustedBurnRate(nominalBurnRate) * deltaTime;
-         this._consumeFuel(dm);
-         if (this._mass === 0 && engine.isBurning()) engine.stop();
-     }*/
-
          
     update(deltaTime, engine) {
         const massFlowRate = engine.getMassFlowRate();
@@ -49,10 +38,5 @@ export default class Fuel {
         }
     }
     
-    // update(deltaTime, nominalBurnRate, engine) {
-    //     const dm = this.getAdjustedBurnRate(nominalBurnRate) * deltaTime;
-    //     this._consumeFuel(dm);
-    //     if (this._mass === 0 && engine.isBurning()) engine.stop();
-    // }
 
 }

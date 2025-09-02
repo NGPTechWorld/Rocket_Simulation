@@ -4,18 +4,16 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import gsap from "gsap";
 
 export default class AtmosphereLayer {
-   /**
+  /**
    * @param {import('./WorldManager').default} world
-  */
+   */
   constructor(world, exrPath, radius = 4.8) {
     this.scene = world.scene;
     this.exrPath = exrPath;
-    // this.glbPath = glbPath;
     this.radius = radius;
-      this.guiRight =world.guiRight
+    this.guiRight = world.guiRight;
     this.exrLoader = new EXRLoader();
-    // this.gltfLoader = new GLTFLoader();
-    this.skytexture= world.assetsLoader.getTextures()['sky'].map
+    this.skytexture = world.assetsLoader.getTextures()["sky"].map;
     this.material = null;
     this.mesh = null;
     this.nightLight = null;
@@ -25,14 +23,13 @@ export default class AtmosphereLayer {
     };
 
     this.setSphere();
-    // this.loadCloudModel();
     this.initLight();
   }
 
   setSphere() {
-    this.skytexture.mapping = THREE.EquirectangularReflectionMapping
+    this.skytexture.mapping = THREE.EquirectangularReflectionMapping;
 
-    const geometry = new THREE.SphereGeometry(this.radius, 64, 64)
+    const geometry = new THREE.SphereGeometry(this.radius, 64, 64);
 
     this.material = new THREE.MeshBasicMaterial({
       map: this.skytexture,
@@ -40,16 +37,15 @@ export default class AtmosphereLayer {
       side: THREE.BackSide,
       transparent: true,
       opacity: 1,
-      depthWrite: false
-    })
+      depthWrite: false,
+    });
 
-    this.mesh = new THREE.Mesh(geometry, this.material)
-    this.mesh.position.set(0, -5, 0)
-    this.scene.add(this.mesh)
+    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh.position.set(0, -5, 0);
+    this.scene.add(this.mesh);
 
-    this.updateModeTransition()
+    this.updateModeTransition();
   }
-
 
   initLight() {
     this.nightLight = new THREE.AmbientLight(0x222244, 0);

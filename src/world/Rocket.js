@@ -56,8 +56,6 @@ export default class Rocket {
 
   get height() {
     const metersPerUnit = 1;
-    //  const heightInMeters = (this.model.position.y - this.groundLevel) * metersPerUnit;
-    //   return heightInMeters / 1000;
     return (this.model.position.y - this.groundLevel) * metersPerUnit;
   }
 
@@ -100,10 +98,7 @@ export default class Rocket {
       .add(this.userSettings, "A_throat", 0, 10)
       .step(0.1)
       .name("Throat Area");
-    // rocketFolder
-    //   .add(this.userSettings, "burnDuration", 0, 10000)
-    //   .step(10)
-    //   .name("Burn Duration");
+
 
     // Enivronment
     const environmentFolder = this.guiRight.gui.addFolder(
@@ -139,9 +134,6 @@ export default class Rocket {
       .name("Simulation Speed");
 
     this.guiRight.addLaunchStopControls(this);
-    // rocketFolder
-    //   .add({ reset: () => this.resetGuiRightToDefaults() }, "reset")
-    //   .name("🔄 استعادة الإعدادات");
   }
 
   //! Left GUI
@@ -359,10 +351,6 @@ export default class Rocket {
           label: "Throat Area",
           getValue: () => getPhysicsParameters().A_throat + " m²",
         },
-        // {
-        //   label: "Burn Duration",
-        //   getValue: () => getPhysicsParameters().burnDuration.toFixed(2) + " s",
-        // },
       ],
     });
 
@@ -405,9 +393,7 @@ export default class Rocket {
   launch() {
     if (this.isLaunching) return;
     this.isLaunching = true;
-    // this.world.camera.switchMode('follow')
     this.applyUserSettings();
-    // this.guiRight.gui.destroy();
     //!Effects
     this.world.assetsLoader.soundManager.play("launch");
     this.startCameraShake();
@@ -471,12 +457,11 @@ export default class Rocket {
     if (this.isLaunching) {
       if (this.startLiftOff) {
         this.world.physics.update();
-        //this.model.position.y += 0.5;
-        // console.log(); this.world.physics.getPhysicsParameters().fuelMass
         this.startEngine();
         this.model.position.x = this.world.physics.rocket.position.x / 1;
         this.model.position.y = this.world.physics.rocket.position.y / 1;
         // this.model.rotation.y += this.world.physics.rocket.angle_of_attack;
+
         this.model.rotation.y +=
           this.world.physics.rocket.angularVelocity.y *
           this.world.physics.deltaTime;
@@ -502,19 +487,12 @@ export default class Rocket {
     const stopMessage = document.getElementById("stop-message");
     if (stopMessage) {
       stopMessage.style.display = "flex";
-
-      // ربط زر إعادة المحاكاة (نزيل أي listener سابق لتجنب التكرار)
       const retryBtn = document.getElementById("retry-btn");
       if (retryBtn) {
-        // إزالة أي مستمع موجود
         retryBtn.replaceWith(retryBtn.cloneNode(true));
         const freshBtn = document.getElementById("retry-btn");
-
         freshBtn.addEventListener("click", () => {
-          // إخفاء الرسالة فوراً
           stopMessage.style.display = "none";
-
-          // إذا عندك دالة تعيد تهيئة المحاكاة، نستخدمها، وإلا نعيد تحميل الصفحة
           if (typeof initSimulation === "function") {
             initSimulation();
           } else {
@@ -539,7 +517,5 @@ export default class Rocket {
 
   stopCameraShake() {
     clearInterval(this.shakeInterval);
-    //this.world.camera.instance.position.copy(this.originalCamPos);
-    //this.world.camera.switchMode('orbit')
   }
 }

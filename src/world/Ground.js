@@ -7,7 +7,6 @@ export default class Ground {
   constructor(world, textures, options = {}) {
     this.scene = world.scene;
     this.textures = textures;
-    //this.tree = tree;
     this.guiRight = world.guiRight;
     this.radius = options.radius || 25;
     this.thickness = options.thickness || 0.5;
@@ -84,7 +83,7 @@ export default class Ground {
       transparent: true, 
       opacity: 1.0,
     });
-     //const material = new THREE.MeshBasicMaterial({  });
+
     const wall = new THREE.Mesh(geometry, material);
     wall.position.set(-200+90, 50, -125);
       this.mesh.add(wall);

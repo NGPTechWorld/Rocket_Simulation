@@ -9,7 +9,6 @@ export default class Earth {
   constructor(world) {
     this.scene = world.scene;
     this.textures = world.assetsLoader.getTextures()['earth']
-    // this.radius = 6378; //km
     this.radius = 6000; //km/
            
     this.setMesh();

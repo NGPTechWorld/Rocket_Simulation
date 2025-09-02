@@ -44,7 +44,4 @@ export default class FuelType {
     this.specificGasConstant = this.universalGasConstant / this.molecularWeight;
   }
 
-  // getEfficiency() {
-  //   return this.combustionEfficiency;
-  // }
 }
