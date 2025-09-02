@@ -63,6 +63,6 @@ export default class Engine {
       Math.sqrt(gamma / R) *
       Math.pow((gamma + 1) / 2, -(gamma + 1) / (2 * (gamma - 1)));
 
-    return this.rocket.nozzleCount * this.rocket.A_throat * term;
+    return this.rocket.A_throat * term;
   }
 }
