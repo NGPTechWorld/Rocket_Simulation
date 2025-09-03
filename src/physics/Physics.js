@@ -102,13 +102,25 @@ export default class Physics {
       .copy(this.rocket.acceleration)
       .divideScalar(this.rocket.diameter / 2);
 
-    this.sanitizeVector(this.rocket.angularAcceleration);
+    const dampingFactor = 1;
+    const damping = this.rocket.angularVelocity
+      .clone()
+      .multiplyScalar(-dampingFactor);
+
+    this.rocket.angularAcceleration.add(damping);
+
+    if (this.rocket.angularVelocity.length() >= 3.14) {
+      this.rocket.angularAcceleration.set(0, 0, 0);
+    }
+
+    this.sanitizeVector(this.rocket.angularAcceleration, 1e-3);
 
     // حساب السرعة الدورانية
     this.rocket.angularVelocity.addScaledVector(
       this.rocket.angularAcceleration,
       this.deltaTime
     );
+    this.rocket.angularVelocity.clampLength(0, 3.14);
 
     this.sanitizeVector(this.rocket.angularVelocity);
 
