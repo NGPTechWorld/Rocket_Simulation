@@ -114,10 +114,8 @@ export default class AppRun {
       ],
       models: {
         rocket: "/models/saturn_V_syria.glb",
-        desert2: "/models/desert7.glb",
+        desert2: "/models/untitled2.glb",
         rocket_lancher: "/models/rocket_laucher_pad.glb",
-        // bunker: "models/Bunker.glb",
-      
       },
       sounds: {
         explosion: {
