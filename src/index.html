@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rocket Simulation</title>
-    <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rocket Simulation</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-    <canvas class="webgl"></canvas>
-    <script type="module" src="./main.js"></script>
+  <canvas class="webgl"></canvas>
+
+  <div id="end-simulation-message" class="glass-success-card">
+    <h1>🚀 المحاكاة انتهت</h1>
+    <p>لقد وصل الصاروخ إلى الفضاء الخارجي</p>
+    <button id="retry-end" class="btn-retry">إعادة المحاكاة</button>
+  </div>
+  
+  <div id="crash-message" class="glass-crash-card">
+    <img src="../assets/textures/Broken-Screen-PNG-Background-Image.png" alt="Broken Screen"
+         class="broken-overlay" />
+        
+    <h1>💥 نكسر يا حرام</h1>
+    <p>!الصاروخ انفجر عند اصطدامه بالأرض</p>
+    <button id="retry-crash" class="btn-retry">إعادة المحاكاة</button>
+  </div>
+
+
+  <div id="stop-message">
+    <h1>🚫 تم إيقاف الصاروخ</h1>
+    <p>الصاروخ توقف عن الإقلاع</p>
+    <button id="retry-btn">إعادة المحاكاة</button>
+  </div>  
+
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
