@@ -1,6 +1,18 @@
 import restart from "vite-plugin-restart";
 
 export default {
+  build: {
+    outDir: "../dist",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ["three"],
+          gsap: ["gsap"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // increase warning threshold
+  },
   root: "src/", // Sources files (typically where index.html is)
   publicDir: "../assets/", // Path from "root" to static assets (files that are served as they are)
   server: {
