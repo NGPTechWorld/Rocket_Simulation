@@ -6,7 +6,7 @@ export default class ExplosionEffect {
     this.position = position.clone();
 
     this.createFlash();
-    // this.createSmokeParticles()
+    this.createSmokeParticles()
     this.shakeCamera();
     this.playSound();
   }

@@ -11,7 +11,6 @@ export default class SceneManager {
     this.camera=app.camera;
     this.setLights();
     this.setWorld(app);
-    // لاحقًا: this.setWorld(), this.setPhysics()
   }
 
   setLights() {
@@ -24,7 +23,6 @@ export default class SceneManager {
 
   setWorld(app) {
     this.world = new WorldManager(app);
-    //  this.camera.switchMode('follow');
   }
 
   update() {

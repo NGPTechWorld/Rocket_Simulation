@@ -23,8 +23,6 @@ export default class AppRun {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
 
-    // this.mainMenu = new MainMenu();
-
     this.setupGUI();
 
     this.sizes = new Sizes();
@@ -136,7 +134,6 @@ export default class AppRun {
     });
 
     this.loadingScreen.hide();
-    //this.mainMenu.show();
     this.sceneManager = new SceneManager(this);
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyV") {
@@ -162,6 +159,5 @@ export default class AppRun {
     this.camera.update();
     this.sceneManager?.update();
     this.renderer.update();
-    // this.physics.update();
   }
 }

@@ -7,8 +7,6 @@ export default class SoundManager {
    */
   constructor(app) {
     this.listener = new THREE.AudioListener()
-    // app.camera.add(this.listener)
-
     this.loader = new THREE.AudioLoader()
     this.sounds = {}
   }

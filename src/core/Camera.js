@@ -110,25 +110,17 @@ export default class Camera {
         }
 
         const rocket = this.followTargetObj;
-
-        // اتجاه للخلف من الصاروخ
         const backward = new THREE.Vector3(0, 0, -1).applyQuaternion(
           rocket.quaternion
         );
         const up = new THREE.Vector3(0, 1, 0).applyQuaternion(
           rocket.quaternion
         );
-
-        // موضع الكاميرا خلف وفوق الصاروخ
         const cameraPos = rocket.position
           .clone()
           .addScaledVector(backward, 30)
           .addScaledVector(up, 10);
-
-        // حركة ناعمة
         this.instance.position.lerp(cameraPos, 0.1);
-
-        // نظر الكاميرا للأمام بنفس اتجاه الصاروخ
         const lookAt = rocket.position.clone().addScaledVector(backward, -10);
         this.instance.lookAt(lookAt);
         break;

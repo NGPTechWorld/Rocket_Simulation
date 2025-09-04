@@ -1,4 +1,4 @@
-// src/utils/Sizes.js
+
 import EventEmitter from "./EventEmitter.js";
 
 export default class Sizes extends EventEmitter {
