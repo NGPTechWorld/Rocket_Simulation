@@ -56,16 +56,16 @@ export default class WorldManager {
       positionY: -5.25,
     });
 
-    const bunker = this.assetsLoader.getModels().bunker;
+    // const bunker = this.assetsLoader.getModels().bunker;
 
-    const bunkerRow = Array.from({ length: 1 }, (_, i) => ({
-      model: bunker,
-      scale: [4, 4, 4],
-      position: [400 - i * 180, 0.1, 0],
-      rotation: [0, 0, 0],
-    }));
+    // const bunkerRow = Array.from({ length: 1 }, (_, i) => ({
+    //   model: bunker,
+    //   scale: [4, 4, 4],
+    //   position: [400 - i * 180, 0.1, 0],
+    //   rotation: [0, 0, 0],
+    // }));
 
-    this.buildings = new BuildingPlacer(this, [...bunkerRow]);
+    // this.buildings = new BuildingPlacer(this, [...bunkerRow]);
 
     this.setGUI();
     this.camera.followTarget(this.rocket.model);
