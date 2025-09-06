@@ -63,7 +63,7 @@ Welcome to **Rocket Simulation**!, a real-time 3D rocket simulation developed to
 
     * 🪐 Atmospheric Layers (Troposphere, Stratosphere, Mesosphere/Thermosphere)
 
-    * 🛰 Special Models (ITE Facutly Model, Custom Syrian Rocket Model)
+    * 🛰 Special Models (ITE Faculty Model, Custom Syrian Rocket Model)
 
 - **Real-Time Data Display**: Shows speed, acceleration, mass, fuel level, thrust, and all acting forces.
 
@@ -172,7 +172,7 @@ You can clone the repository using **two options**:
    cd Rocket_Simulation
    ```
 3. **Download the models separately from [here](https://t.me/c/2765126981/7)**.
-4. **Extract the downloaded folder and it to the same level or src**:
+4. **Extract the downloaded folder and place it at the same level as `src`**:
    ![assets](./screenshots/assets.png)
 5. **Install Dependencies**:
 
@@ -231,4 +231,5 @@ Thanks to all the amazing people who contributed to this project:
 ## License 📜
 
 This project is licensed under the **MIT License**.
+
 
