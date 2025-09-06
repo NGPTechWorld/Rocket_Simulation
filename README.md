@@ -201,6 +201,10 @@ npm run build
 
 The project is also deployed and accessible online at [https://rocket-simulation-nhoka.vercel.app/](https://rocket-simulation-nhoka.vercel.app/).
 
+## Video 📽️
+
+Check out the project promo here: [https://www.facebook.com/share/v/16zUFuza6W/](https://www.facebook.com/share/v/16zUFuza6W/).
+
 ## Report 📄
 
 The full project report is available [here](https://t.me/c/2765126981/8). It includes detailed information about the physics, and technical design of the rocket simulation.
@@ -231,5 +235,6 @@ Thanks to all the amazing people who contributed to this project:
 ## License 📜
 
 This project is licensed under the **MIT License**.
+
 
 
