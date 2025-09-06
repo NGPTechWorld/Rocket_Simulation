@@ -173,7 +173,7 @@ You can clone the repository using **two options**:
    ```
 3. **Download the models separately from [here](https://t.me/c/2765126981/7)**.
 4. **Extract the downloaded folder and it to the same level or src**:
-   <img src="./screenshots/assets.png" alt="Asset Folder" width="375" height="300" style="border-radius: 8px;">
+   ![assets](./screenshots/assets.png)
 5. **Install Dependencies**:
 
    ```bash
@@ -214,6 +214,19 @@ We welcome contributions! Here’s how you can contribute:
 3. **Commit your changes** (`git commit -m 'Add new feature'`).
 4. **Push to the branch** (`git push origin feature-name`).
 5. **Open a pull request**.
+
+## Contributors 👥
+Thanks to all the amazing people who contributed to this project:
+
+[![Hasan Zaeter](https://img.shields.io/badge/Hasan_Zaeter-UI-purpl?style=for-the-badge&logo=github)](https://github.com/HasanZaeter)
+
+[![Mohamad Ali Alnuaimi](https://img.shields.io/badge/Mohamad_Ali_Alnuaimi-UI-purpl?style=for-the-badge&logo=github)](https://github.com/NGPTechWorld)
+
+[![Osama Zerkawi](https://img.shields.io/badge/Osama_Zerkawi-Link-red?style=for-the-badge&logo=github)](https://github.com/OsamaZerkawi)
+
+[![Kareem Bizreh](https://img.shields.io/badge/Kareem_Bizreh-Physics-blue?style=for-the-badge&logo=github)](https://github.com/Kareem-Bizreh)
+
+[![OnlyAbdullh](https://img.shields.io/badge/Only_Abdullh-Physics-blue?style=for-the-badge&logo=github)](https://github.com/OnlyAbdullh)
 
 ## License 📜
 
