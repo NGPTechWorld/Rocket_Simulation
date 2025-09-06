@@ -4,14 +4,14 @@
 <div align="center">
 
 <!-- Project status -->
-![GitHub License](https://img.shields.io/github/license/NGPTechWorld/Rocket_Simulation)
+![GitHub License](https://img.shields.io/github/license/NGPTechWorld/Rocket_Simulation?cacheSeconds=600)
 ![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-blue)
 [![Live Demo](https://img.shields.io/badge/demo-online-green)](https://rocket-simulation-nhoka.vercel.app/)
 
 ---
 
 <!-- Repo activity -->
-![GitHub Stars](https://img.shields.io/github/stars/NGPTechWorld/Rocket_Simulation)
+![GitHub Stars](https://img.shields.io/github/stars/NGPTechWorld/Rocket_Simulation?cacheSeconds=600)
 ![GitHub Forks](https://img.shields.io/github/forks/NGPTechWorld/Rocket_Simulation)
 ![GitHub Watchers](https://img.shields.io/github/watchers/NGPTechWorld/Rocket_Simulation)
 ![GitHub Contributors](https://img.shields.io/github/contributors/NGPTechWorld/Rocket_Simulation)
@@ -231,3 +231,4 @@ Thanks to all the amazing people who contributed to this project:
 ## License 📜
 
 This project is licensed under the **MIT License**.
+
